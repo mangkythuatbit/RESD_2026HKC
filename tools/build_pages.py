@@ -1,0 +1,1391 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Bộ sinh trang tĩnh cho cổng thông tin R.E.S.D.
+
+Vì sao có file này: navbar ba cấp và footer lặp lại ở tám trang HTML. Sửa tay
+tám chỗ rất dễ lệch. Toàn bộ nội dung ban và mảng khai báo ở CONTENT bên dưới,
+chạy một lệnh là sinh lại tất cả:
+
+    python3 tools/build_pages.py
+
+Website chạy được mà KHÔNG cần file này. Đây chỉ là công cụ bảo trì.
+
+CẢNH BÁO: nếu bạn sửa trực tiếp file .html rồi chạy lại script, thay đổi đó sẽ
+bị ghi đè. Muốn đổi nội dung thì sửa trong CONTENT rồi chạy lại.
+"""
+
+import html
+import os
+import re
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+BS_CSS = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+BS_JS = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+FONTS = ("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800"
+         "&family=Space+Grotesk:wght@500;700&display=swap")
+
+DRAFT = ('<span class="draft-badge" title="Nội dung mẫu, chờ Ban chuyên môn duyệt">'
+         'Nội dung mẫu · chờ duyệt</span>')
+
+# Tên giữ chỗ. Lời nhắn nào còn mang tên này nghĩa là nội dung mẫu do máy viết.
+PLACEHOLDER_NAME = "Chờ cập nhật"
+
+
+def draft_flag(voices):
+    """Trả về nhãn 'chờ duyệt' nếu còn ít nhất một lời nhắn chưa có tên thật.
+
+    Nhờ vậy khi Ban chuyên môn thay hết bằng phát ngôn thật, nhãn tự biến mất
+    mà không phải đi xoá thủ công. Xem docs/content-guide.md.
+    """
+    if any((v.get("who") or "").strip() in ("", PLACEHOLDER_NAME) for v in voices):
+        return DRAFT
+    return ""
+
+
+def e(text):
+    return html.escape(str(text), quote=True)
+
+
+# =============================================================================
+# NỘI DUNG
+# =============================================================================
+
+BANS = [
+    {
+        "id": "tcxd",
+        "slug": "ban-to-chuc-xay-dung",
+        "stamp": "tcxd",
+        "gem": "Sapphire",
+        "color": "#6fa8ff",
+        "soft": "#6fa8ff22",
+        "name": "Ban Tổ chức - Xây dựng",
+        "short": "TC-XD",
+        "tagline": "Một chương trình bắt đầu từ trước khi có khán giả đầu tiên. "
+                   "Tổ chức - Xây dựng là nơi dựng phần đó: con người, nguồn lực và sân khấu.",
+        "mission": [
+            "Sapphire là ban quản lý và gắn kết nhân sự; đồng thời xây dựng, duy trì mối quan hệ "
+            "với nhà tài trợ và các Câu lạc bộ, Đội, Nhóm khác.",
+            "Ba mảng Nhân sự, Đối ngoại và Kỹ thuật cùng tạo nên nền vận hành cho các hoạt động "
+            "của Đoàn - Hội khoa.",
+        ],
+        "duties": [
+            "<b>Quản lý và gắn kết nhân sự</b>: dữ liệu sinh viên và cộng tác viên, phân bổ công việc, hồ sơ.",
+            "<b>Thiết lập và duy trì quan hệ hợp tác</b> với nhà tài trợ và đơn vị đối tác.",
+            "<b>Tổ chức hoạt động nội bộ</b>: lễ kỷ niệm, sinh nhật và training kỹ năng.",
+            "<b>Quản lý và phát triển sản phẩm số</b>: website Đoàn - Hội khoa BIT và các công cụ nội bộ.",
+            "<b>Training chuyên môn nội bộ</b>: chia sẻ kinh nghiệm học phần cơ sở ngành và kỹ thuật chương trình.",
+        ],
+        "programs": [
+            {"name": "Chào đón Tân sinh viên", "meta": "Gắn kết",
+             "desc": "Cầu nối giúp sinh viên khóa mới làm quen môi trường học tập, tìm hiểu chuyên ngành và khám phá hoạt động Đoàn - Hội."},
+            {"name": "Hoạt động nội bộ", "meta": "Nhân sự",
+             "desc": "Lễ kỷ niệm, sinh nhật và các buổi training kỹ năng dành cho thành viên."},
+            {"name": "Sản phẩm số Đoàn - Hội BIT", "meta": "Kỹ thuật",
+             "desc": "Quản lý và phát triển các sản phẩm số, website Đoàn - Hội khoa BIT."},
+        ],
+        "must": ["Giao tiếp tốt", "Chủ động trong công việc", "Làm việc nhóm", "Tinh thần trách nhiệm cao"],
+        "plus": ["Viết email", "Mail merge / Mailchimp", "Từng vận động gây quỹ", "Hiểu cơ bản cấu thành trang web"],
+        "stats": [("3", "mảng chuyên môn"), ("3", "nhóm nhiệm vụ chính"), ("Sapphire", "viên đá đại diện")],
+        "voices": [
+            {"q": "Mình vào ban vì nghĩ tổ chức sự kiện là chạy quanh sân khấu. Hoá ra phần khó nhất "
+                  "là ngồi trước một file phân công và tưởng tượng ra hết những gì có thể hỏng.",
+             "who": "Chờ cập nhật", "role": "Thành viên Ban Tổ chức - Xây dựng"},
+            {"q": "Cảm giác đứng cuối hội trường nhìn chương trình chạy đúng kịch bản mình dựng, "
+                  "không ai biết mình là ai, mà vẫn thấy đáng.",
+             "who": "Chờ cập nhật", "role": "Thành viên Ban Tổ chức - Xây dựng"},
+        ],
+        "people": [("", "Trưởng ban"), ("", "Phó ban"), ("", "Phó ban")],
+        "mangs": [
+            {
+                "code": "NS", "id": "ns", "name": "Nhân sự",
+                "lede": "Mảng lo phần con người: ai vào đội, ai làm gì, và làm sao để không ai "
+                        "biến mất giữa chừng.",
+                "duties": [
+                    "Quản lý dữ liệu sinh viên và cộng tác viên.",
+                    "Phân bổ công việc và quản lý hồ sơ.",
+                    "Tổ chức các hoạt động nội bộ như lễ kỷ niệm, sinh nhật và training kỹ năng.",
+                ],
+                "programs": [
+                    {"name": "Kỳ tuyển và onboarding", "meta": "Đầu mỗi học kỳ",
+                     "desc": "Từ mở đơn tới buổi gặp mặt đầu tiên của thành viên mới."},
+                    {"name": "Training kỹ năng nội bộ", "meta": "Định kỳ",
+                     "desc": "Các buổi chia sẻ ngắn về tổ chức sự kiện, giao tiếp và làm việc nhóm."},
+                    {"name": "Teambuilding giữa kỳ", "meta": "Gắn kết",
+                     "desc": "Giữ lửa cho đội khi lịch học và lịch hoạt động bắt đầu chồng nhau."},
+                ],
+                "must": ["Giao tiếp rõ ràng", "Giữ bí mật thông tin cá nhân", "Công bằng", "Chủ động hỏi han"],
+                "plus": ["Từng làm lớp trưởng / ban cán sự", "Quen Google Sheets", "Tổ chức trò chơi tập thể"],
+                "voices": [
+                    {"q": "Việc khó nhất không phải xếp lịch, mà là nhắn cho một bạn đã im lặng hai tuần "
+                          "và hỏi bạn ấy có ổn không.",
+                     "who": "Chờ cập nhật", "role": "Thành viên mảng Nhân sự"},
+                ],
+                "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
+            },
+            {
+                "code": "ĐN", "id": "dn", "name": "Đối ngoại",
+                "lede": "Mảng đi ra ngoài: tìm tài trợ, giữ quan hệ đối tác và đại diện cho "
+                        "Đoàn - Hội khi làm việc với bên thứ ba.",
+                "duties": [
+                    "Tìm kiếm và tiếp cận các doanh nghiệp tiềm năng.",
+                    "Trao đổi trực tiếp và duy trì mối quan hệ với doanh nghiệp, đối tác.",
+                    "Xây dựng và duy trì mối quan hệ với các Khoa, Viện, Câu lạc bộ, Đội, Nhóm khác.",
+                ],
+                "programs": [
+                    {"name": "Hồ sơ tài trợ chương trình lớn", "meta": "Theo mùa sự kiện",
+                     "desc": "Xây bộ hồ sơ từ ý tưởng chương trình thành đề xuất mà doanh nghiệp đọc được."},
+                    {"name": "Kết nối doanh nghiệp và cựu sinh viên", "meta": "Dài hạn",
+                     "desc": "Mời khách mời cho workshop, toạ đàm và ngày hội việc làm của khoa."},
+                    {"name": "Hậu kiểm quyền lợi tài trợ", "meta": "Sau mỗi chương trình",
+                     "desc": "Tổng hợp minh chứng và gửi báo cáo lại cho đối tác."},
+                ],
+                "must": ["Không ngại mở lời trước", "Viết email lịch sự", "Giữ lời hứa", "Kiên trì theo đuổi"],
+                "plus": ["Tiếng Anh giao tiếp", "Biết làm proposal", "Từng đi xin tài trợ", "Mạng lưới quan hệ rộng"],
+                "voices": [
+                    {"q": "Mình gửi hai mươi thư ngỏ và nhận về hai lời hẹn. Lúc đó mới hiểu "
+                          "vì sao mảng này cần lì hơn cần giỏi nói.",
+                     "who": "Chờ cập nhật", "role": "Thành viên mảng Đối ngoại"},
+                ],
+                "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
+            },
+            {
+                "code": "KT", "id": "kt", "name": "Kỹ thuật",
+                "lede": "Mảng lo phần công nghệ và chuyên môn nền của Đoàn - Hội khoa: sản phẩm số, "
+                        "website, và kiến thức cơ sở ngành để chương trình vận hành đúng kỹ thuật.",
+                "duties": [
+                    "Quản lý và phát triển các sản phẩm số, website Đoàn - Hội khoa BIT.",
+                    "Training nội bộ các công tác chuyên môn mảng và chia sẻ kinh nghiệm về học phần cơ sở ngành tại UEH.",
+                    "Phụ trách kỹ thuật các chương trình.",
+                ],
+                "programs": [
+                    {"name": "Website Đoàn - Hội khoa BIT", "meta": "Sản phẩm số",
+                     "desc": "Phát triển, cập nhật và bảo trì kênh thông tin số của Đoàn - Hội khoa."},
+                    {"name": "Training cơ sở ngành nội bộ", "meta": "Chuyên môn",
+                     "desc": "Chia sẻ kinh nghiệm về các học phần cơ sở ngành tại UEH cho thành viên trong ban."},
+                    {"name": "Hỗ trợ kỹ thuật chương trình", "meta": "Trực tiếp",
+                     "desc": "Phụ trách phần kỹ thuật khi các ban khác triển khai chương trình."},
+                ],
+                "must": ["Cẩn thận với công cụ và dữ liệu", "Chịu học công nghệ mới", "Đúng deadline", "Bình tĩnh xử lý sự cố kỹ thuật"],
+                "plus": ["Biết HTML/CSS/JS cơ bản", "Quen Google Workspace / Sheets", "Nắm chắc học phần cơ sở ngành", "Từng vận hành website hoặc công cụ nội bộ"],
+                "voices": [
+                    {"q": "Không ai để ý mảng Kỹ thuật cho tới khi trang web lỗi giữa đợt tuyển. "
+                          "Việc của mình là làm sao để không ai phải để ý tới điều đó.",
+                     "who": "Chờ cập nhật", "role": "Thành viên mảng Kỹ thuật"},
+                ],
+                "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
+            },
+        ],
+    },
+    {
+        "id": "pttn",
+        "slug": "ban-phong-trao-tinh-nguyen",
+        "stamp": "pttn",
+        "gem": "Diamond",
+        "color": "#b9f6ff",
+        "soft": "#b9f6ff1f",
+        "name": "Ban Phong trào - Tình nguyện",
+        "short": "PT-TN",
+        "tagline": "Phần đời sinh viên mà sau này người ta kể lại nhiều nhất thường nằm ở đây: "
+                   "một sân chơi, một chuyến đi, một buổi tối cả khoa cùng hát.",
+        "mission": [
+            "Diamond tạo ra không khí. Ban giữ cho đời sống sinh viên BIT không chỉ có lịch học, "
+            "bằng những sân chơi đủ vui để người ta rủ nhau đi.",
+            "Đồng thời ban đưa sinh viên ra khỏi giảng đường: các chiến dịch tình nguyện là chỗ "
+            "kỹ năng tổ chức được thử trong điều kiện thật, với hệ quả thật.",
+        ],
+        "duties": [
+            "<b>Tổ chức hoạt động phong trào</b>: thể thao, văn hoá, văn nghệ dành cho sinh viên.",
+            "<b>Đồng hành và hỗ trợ sinh viên</b> trong các hoạt động nâng cao nhận thức, chăm sóc sức khoẻ tinh thần.",
+            "<b>Phụ trách hoạt động tình nguyện</b>, phục vụ cộng đồng.",
+            "<b>Giữ an toàn</b> cho người tham gia trong mọi hoạt động ngoài trời.",
+            "<b>Gìn giữ tinh thần tập thể</b> giữa các khoá và các lớp.",
+        ],
+        "programs": [
+            {"name": "Hội trại Truyền thống", "meta": "Văn hoá - văn nghệ - thể thao",
+             "desc": "Sân chơi gắn kết giúp sinh viên khóa mới hòa nhập, thể hiện cá tính và sáng tạo."},
+            {"name": "Xuân tình nguyện", "meta": "Tình nguyện vì cộng đồng",
+             "desc": "Chiến dịch mang đến những hoạt động ý nghĩa, giúp đỡ các hoàn cảnh kém may mắn trong dịp xuân."},
+            {"name": "Mùa hè xanh", "meta": "Tình nguyện vì cộng đồng",
+             "desc": "Chiến dịch tình nguyện thường niên của Đoàn Thanh niên - Hội Sinh viên UEH."},
+        ],
+        "must": ["Nhiệt huyết, năng động", "Tư duy sáng tạo", "Lên kế hoạch", "Linh động xử lý tình huống"],
+        "plus": ["Giao tiếp tốt", "Làm việc nhóm", "Nắm bắt xu hướng", "Dễ hòa nhập và sẻ chia"],
+        "stats": [("2", "mảng chuyên môn"), ("Quanh năm", "lịch hoạt động"), ("Ngoài trời", "phần lớn thời gian")],
+        "voices": [
+            {"q": "Vui thì có vui, nhưng đằng sau một trận bóng là bảng phân trọng tài, "
+                  "nước uống, băng gạc và một người phải nhớ hết.",
+             "who": "Chờ cập nhật", "role": "Thành viên Ban Phong trào - Tình nguyện"},
+            {"q": "Chuyến tình nguyện đầu tiên dạy mình rằng nhiệt tình mà không có kế hoạch "
+                  "thì chỉ làm phiền người ở địa phương.",
+             "who": "Chờ cập nhật", "role": "Thành viên Ban Phong trào - Tình nguyện"},
+        ],
+        "people": [("", "Trưởng ban"), ("", "Phó ban")],
+        "mangs": [
+            {
+                "code": "PT", "id": "pt", "name": "Phong trào",
+                "lede": "Mảng giữ nhịp vui của khoa: giải đấu, cuộc thi, đêm hội và mọi thứ "
+                        "khiến sinh viên muốn ở lại trường thêm một buổi tối.",
+                "duties": [
+                    "Lên ý tưởng và thể lệ cho các sân chơi, giải đấu trong khoa.",
+                    "Điều phối đội tuyển và lực lượng tham gia hoạt động cấp trường.",
+                    "Dàn dựng, tổng duyệt và chạy chương trình trong các đêm diễn.",
+                    "Xử lý tình huống phát sinh trực tiếp tại sân khấu hoặc sân đấu.",
+                ],
+                "programs": [
+                    {"name": "Hội trại Truyền thống", "meta": "Văn hoá - văn nghệ - thể thao",
+                     "desc": "Sân chơi giúp sinh viên khóa mới hòa nhập, thể hiện cá tính và xây dựng tinh thần đoàn kết."},
+                    {"name": "Việt Phục 2025: Hành trình xuyên thời gian", "meta": "Văn hoá",
+                     "desc": "Chương trình giúp sinh viên tìm hiểu lịch sử, nguồn gốc Việt phục và sự sáng tạo trong trang phục truyền thống."},
+                    {"name": "UEH League", "meta": "Thể thao",
+                     "desc": "Hoạt động thể thao trong nhóm chương trình văn hóa - văn nghệ - thể thao của ban."},
+                ],
+                "must": ["Dám đứng trước đám đông", "Xoay xở khi kịch bản vỡ", "Sức bền", "Tinh thần fair play"],
+                "plus": ["Kinh nghiệm MC", "Biết dựng tiết mục", "Hiểu luật thi đấu", "Quay dựng cơ bản"],
+                "voices": [
+                    {"q": "Kịch bản của tụi mình vỡ đúng mười lăm phút trước giờ diễn. "
+                          "Cả đội đứng thành vòng tròn, đổi thứ tự tiết mục, rồi chạy tiếp.",
+                     "who": "Chờ cập nhật", "role": "Thành viên mảng Phong trào"},
+                ],
+                "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
+            },
+            {
+                "code": "TN", "id": "tn", "name": "Tình nguyện",
+                "lede": "Mảng đưa sinh viên ra khỏi giảng đường, tới nơi mà việc mình làm "
+                        "có người thật được hưởng.",
+                "duties": [
+                    "Khảo sát địa bàn, xác định nhu cầu thật trước khi thiết kế hoạt động.",
+                    "Lập kế hoạch hậu cần, an toàn và phương án y tế cho từng chuyến đi.",
+                    "Vận động nguồn lực và quà tặng phù hợp với nhu cầu đã khảo sát.",
+                    "Tổng kết, báo cáo minh bạch và giữ liên lạc với địa phương.",
+                ],
+                "programs": [
+                    {"name": "Xuân tình nguyện", "meta": "Theo mùa",
+                     "desc": "Chiến dịch hỗ trợ các hoàn cảnh kém may mắn, mang đến một mùa xuân ấm áp."},
+                    {"name": "Vui hội Trăng Rằm", "meta": "Theo mùa",
+                     "desc": "Hoạt động tình nguyện dịp Trung thu, tổ chức cho trẻ em có hoàn cảnh khó khăn một mùa Trung thu trọn vẹn."},
+                    {"name": "Mùa hè xanh", "meta": "Thường niên",
+                     "desc": "Chiến dịch tình nguyện Sinh viên Kinh tế của Đoàn Thanh niên - Hội Sinh viên UEH."},
+                ],
+                "must": ["Sức khoẻ tốt", "Tôn trọng người địa phương", "Kiên nhẫn", "Trung thực với nguồn lực"],
+                "plus": ["Sơ cấp cứu cơ bản", "Biết nấu ăn số lượng lớn", "Từng đi chiến dịch", "Chịu được điều kiện sinh hoạt giản dị"],
+                "voices": [
+                    {"q": "Điều địa phương cần không phải lúc nào cũng là thứ mình muốn mang tới. "
+                          "Đi khảo sát trước là bài học đắt nhất mà tụi mình học được.",
+                     "who": "Chờ cập nhật", "role": "Thành viên mảng Tình nguyện"},
+                ],
+                "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
+            },
+        ],
+    },
+    {
+        "id": "tt",
+        "slug": "ban-truyen-thong",
+        "stamp": "tt",
+        "gem": "Ruby",
+        "color": "#ff799b",
+        "soft": "#ff799b22",
+        "name": "Ban Truyền thông",
+        "short": "TT",
+        "tagline": "Một hoạt động không được kể lại thì chỉ tồn tại với những người có mặt. "
+                   "Truyền thông là nơi biến nó thành thứ người khác muốn tham gia lần sau.",
+        "mission": [
+            "Ruby giữ giọng nói và gương mặt của Đoàn - Hội BIT. Từ một dòng caption tới một "
+            "bộ ấn phẩm, ban quyết định người ngoài nhìn thấy gì khi họ gặp khoa lần đầu.",
+            "Ban cũng là nơi lưu lại ký ức: mỗi tấm ảnh, mỗi thước phim là tài sản của khoá này "
+            "để lại cho khoá sau.",
+        ],
+        "duties": [
+            "<b>Sáng tạo hình ảnh, nội dung</b> cho các chương trình của Đoàn - Hội khoa.",
+            "<b>Phối hợp, hỗ trợ</b> hoạt động và sự kiện cùng các ban chuyên môn khác.",
+            "<b>Giữ nhận diện</b>: màu sắc, kiểu chữ, giọng văn thống nhất trên mọi kênh.",
+            "<b>Vận hành kênh</b>: lên lịch đăng, theo dõi tương tác, trả lời bình luận và tin nhắn.",
+            "<b>Lưu trữ tư liệu</b>: kho ảnh, kho thiết kế và bộ nhận diện dùng lại được.",
+        ],
+        "programs": [
+            {"name": "Chiến dịch truyền thông tuyển thành viên", "meta": "Toàn ban",
+             "desc": "Từ teaser tới bài công bố kết quả, chạy đồng bộ trên fanpage và các kênh khác."},
+            {"name": "Bộ nhận diện cho chương trình lớn", "meta": "DEP",
+             "desc": "Key visual, poster, backdrop, standee và ấn phẩm số cho toàn bộ chương trình."},
+            {"name": "Tuyến bài về đời sống sinh viên BIT", "meta": "Content",
+             "desc": "Phỏng vấn, chân dung và những câu chuyện làm nên không khí của khoa."},
+        ],
+        "must": ["Chịu được deadline gấp", "Nhận góp ý mà không tự ái", "Chỉn chu chính tả", "Đúng hẹn giao bài"],
+        "plus": ["Canva / Adobe", "Viết tốt", "Chụp ảnh", "Dựng video", "Hiểu thuật toán mạng xã hội"],
+        "stats": [("2", "mảng chuyên môn"), ("Hằng tuần", "nhịp sản xuất"), ("1 bộ", "nhận diện thống nhất")],
+        "voices": [
+            {"q": "Bản thiết kế thứ tám thường là bản được duyệt. Mình học cách coi góp ý "
+                  "là dữ liệu chứ không phải lời chê.",
+             "who": "Chờ cập nhật", "role": "Thành viên Ban Truyền thông"},
+            {"q": "Viết cho fanpage khác viết văn. Câu đầu tiên mà không giữ được người đọc "
+                  "thì mười câu sau vô nghĩa.",
+             "who": "Chờ cập nhật", "role": "Thành viên Ban Truyền thông"},
+        ],
+        "people": [("", "Trưởng ban"), ("", "Phó ban")],
+        "mangs": [
+            {
+                "code": "CONTENT", "id": "content", "name": "Nội dung",
+                "lede": "Mảng viết: bài đăng, caption, kịch bản, thông cáo và mọi con chữ "
+                        "mang tên Đoàn - Hội BIT.",
+                "duties": [
+                    "Sáng tạo nội dung cho các chương trình, hoạt động của khoa.",
+                    "Quản lý timeline truyền thông cho các hoạt động của khoa.",
+                    "Thu âm cho các video chương trình, hoạt động.",
+                ],
+                "programs": [
+                    {"name": "Tuyến bài chân dung thành viên", "meta": "Định kỳ",
+                     "desc": "Phỏng vấn và viết lại câu chuyện của người trong khoa."},
+                    {"name": "Kịch bản video giới thiệu ban", "meta": "Phối hợp DEP",
+                     "desc": "Từ outline tới lời thoại cuối cùng trước khi quay."},
+                    {"name": "Bộ nội dung mùa tuyển", "meta": "Cao điểm",
+                     "desc": "Chuỗi bài giải đáp, teaser và hướng dẫn nộp đơn."},
+                ],
+                "must": ["Viết đúng chính tả", "Đọc kỹ đề bài", "Giao bài đúng hạn", "Chịu sửa nhiều vòng"],
+                "plus": ["Từng viết cho page hoặc báo trường", "Biết SEO cơ bản", "Viết được tiếng Anh", "Có gu đọc rộng"],
+                "voices": [
+                    {"q": "Câu mình tâm đắc nhất thường là câu bị cắt đầu tiên. "
+                          "Viết cho người đọc chứ không viết cho mình.",
+                     "who": "Chờ cập nhật", "role": "Thành viên mảng Content"},
+                ],
+                "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
+            },
+            {
+                "code": "DEP", "id": "dep", "name": "Thiết kế - Hình ảnh",
+                "lede": "Mảng làm hình: poster, ấn phẩm, ảnh và video. Thứ người ta nhìn thấy "
+                        "trước khi đọc bất kỳ chữ nào.",
+                "duties": [
+                    "Thiết kế poster, ấn phẩm số và ấn phẩm in cho từng chương trình.",
+                    "Edit video, xử lý âm thanh cho các clip của chương trình.",
+                    "Chụp ảnh cho các hoạt động, dự án của khoa.",
+                ],
+                "programs": [
+                    {"name": "Key visual chương trình thường niên", "meta": "Nhận diện",
+                     "desc": "Bộ hình chủ đạo áp dụng cho toàn bộ ấn phẩm của chương trình."},
+                    {"name": "Recap sau sự kiện", "meta": "Hậu kỳ",
+                     "desc": "Video và album ảnh giao trong vài ngày sau chương trình."},
+                    {"name": "Chuẩn hoá kho tư liệu", "meta": "Nội bộ",
+                     "desc": "Sắp xếp file gốc, font, logo và template để bàn giao giữa các khoá."},
+                ],
+                "must": ["Biết ít nhất một công cụ thiết kế", "Giữ file gốc gọn gàng", "Nhận feedback tốt", "Đúng deadline"],
+                "plus": ["Photoshop / Illustrator", "Premiere / CapCut", "Có máy ảnh", "Biết motion graphics", "Có portfolio"],
+                "voices": [
+                    {"q": "Cái khó không phải làm đẹp, mà làm đẹp trong đúng bộ màu và đúng "
+                          "kích thước mà mỗi kênh yêu cầu.",
+                     "who": "Chờ cập nhật", "role": "Thành viên mảng DEP"},
+                ],
+                "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
+            },
+        ],
+    },
+    {
+        "id": "htnckh",
+        "slug": "ban-hoc-tap-nckh",
+        "stamp": "htnckh",
+        "gem": "Emerald",
+        "color": "#6ce8ae",
+        "soft": "#6ce8ae22",
+        "name": "Ban Học tập - Nghiên cứu khoa học",
+        "short": "HT-NCKH",
+        "tagline": "Sinh viên vào đại học để học. Emerald bảo đảm phần đó không bị bỏ lại "
+                   "phía sau các hoạt động phong trào.",
+        "mission": [
+            "Emerald biến kiến thức rời rạc thành thứ dùng được: tài liệu ôn tập, workshop kỹ năng, "
+            "và những buổi chia sẻ từ người đã đi trước.",
+            "Ban cũng là cửa vào nghiên cứu khoa học cho sinh viên BIT — nơi một câu hỏi tò mò "
+            "có thể lớn thành một đề tài thật, có cố vấn và có hội đồng.",
+        ],
+        "duties": [
+            "<b>Tổ chức và quản lý</b> các giải thưởng, cuộc thi học thuật - NCKH.",
+            "<b>Tổ chức hoạt động hỗ trợ</b> học tập - NCKH cho sinh viên.",
+            "<b>Khuyến khích, giám sát và hỗ trợ</b> Chi đoàn - Chi hội, CLB ET, CLB DSC tổ chức các chương trình học tập - NCKH.",
+            "<b>Lên kế hoạch</b> chương trình tuyên dương và trao giải cho sinh viên.",
+        ],
+        "programs": [
+            {"name": "Hội thi rèn nghề", "meta": "Học tập",
+             "desc": "Sân chơi học thuật giúp sinh viên rèn kỹ năng nghề nghiệp cốt lõi."},
+            {"name": "Chuỗi Định hướng nghề nghiệp", "meta": "Học tập",
+             "desc": "Chuỗi chia sẻ giúp sinh viên hình dung rõ hơn con đường sự nghiệp sau này."},
+            {"name": "BIT Genesis Research Award", "meta": "NCKH",
+             "desc": "Giải thưởng nghiên cứu khoa học của khoa, có lễ tổng kết và trao giải riêng."},
+        ],
+        "must": ["Học lực ổn định", "Đọc hiểu tài liệu dài", "Cẩn thận với nguồn", "Sẵn sàng giải thích cho người khác"],
+        "plus": ["Đã tham gia NCKH", "Biết dùng công cụ thống kê", "Đọc được tài liệu tiếng Anh", "Kỹ năng thuyết trình"],
+        "stats": [("2", "mảng chuyên môn"), ("Theo học kỳ", "nhịp hoạt động"), ("Có cố vấn", "cho đề tài NCKH")],
+        "voices": [
+            {"q": "Mình từng nghĩ ban học tập là đi phát đề cương. Thực ra phần lớn thời gian "
+                  "là ngồi đọc và kiểm xem tài liệu có sai chỗ nào không.",
+             "who": "Chờ cập nhật", "role": "Thành viên Ban Học tập - NCKH"},
+            {"q": "Đề tài đầu tiên của tụi mình bị nhận xét là quá rộng. Sửa bốn lần mới ra "
+                  "một câu hỏi đủ hẹp để trả lời được.",
+             "who": "Chờ cập nhật", "role": "Thành viên Ban Học tập - NCKH"},
+        ],
+        "people": [("", "Trưởng ban"), ("", "Phó ban")],
+        "mangs": [
+            {
+                "code": "HT", "id": "ht", "name": "Học tập",
+                "lede": "Mảng lo phần học hằng ngày của sinh viên khoa: tài liệu, workshop "
+                        "và thông tin học vụ.",
+                "duties": [
+                    "Tổ chức Hội thi rèn nghề và Chuỗi Định hướng nghề nghiệp.",
+                    "Tổ chức chặng cấp khoa của Cuộc thi Tranh biện Sinh viên Kinh tế UEH Debate.",
+                    "Tổ chức chặng cấp khoa của Chuỗi Bình luận Sự kiện Kinh tế.",
+                    "Đồng tổ chức cuộc thi MIS Talent quy mô toàn quốc.",
+                ],
+                "programs": [
+                    {"name": "Hội thi rèn nghề", "meta": "Học kỳ",
+                     "desc": "Cuộc thi rèn kỹ năng nghề nghiệp cho sinh viên khoa."},
+                    {"name": "Chuỗi Định hướng nghề nghiệp", "meta": "Trong học kỳ",
+                     "desc": "Chia sẻ từ người đi trước để sinh viên hình dung rõ hơn con đường sự nghiệp."},
+                    {"name": "UEH Debate & Chuỗi bình luận kinh tế", "meta": "Học thuật",
+                     "desc": "Cuộc thi tranh biện sinh viên kinh tế và chuỗi bình luận các vấn đề kinh tế thời sự."},
+                ],
+                "must": ["Nắm chương trình học", "Giải thích dễ hiểu", "Ngăn nắp", "Tôn trọng bản quyền tài liệu"],
+                "plus": ["Điểm số tốt ở môn cốt lõi", "Từng làm trợ giảng", "Biết dựng slide", "Tổ chức lớp học nhóm"],
+                "voices": [
+                    {"q": "Giải được bài là một chuyện. Giải sao cho bạn ngồi cạnh hiểu "
+                          "lại là một kỹ năng hoàn toàn khác.",
+                     "who": "Chờ cập nhật", "role": "Thành viên mảng Học tập"},
+                ],
+                "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
+            },
+            {
+                "code": "NCKH", "id": "nckh", "name": "Nghiên cứu khoa học",
+                "lede": "Mảng đồng hành cùng sinh viên làm nghiên cứu: từ một câu hỏi tò mò "
+                        "tới một đề tài có thể bảo vệ.",
+                "duties": [
+                    "Tổ chức Cuộc thi Nghiên cứu khoa học Khoa Công nghệ thông tin kinh doanh.",
+                    "Tổ chức lớp phương pháp Nghiên cứu khoa học.",
+                    "Tổ chức Lễ tổng kết và trao giải BIT Genesis Research Award.",
+                ],
+                "programs": [
+                    {"name": "Giải thưởng Nghiên cứu khoa học", "meta": "Học kỳ",
+                     "desc": "Giải thưởng NCKH thường niên dành cho sinh viên khoa."},
+                    {"name": "Lớp phương pháp Nghiên cứu", "meta": "Nhập môn",
+                     "desc": "Trang bị phương pháp luận cơ bản trước khi bắt tay vào một đề tài."},
+                    {"name": "BIT Genesis Research Award", "meta": "Lễ tổng kết",
+                     "desc": "Lễ tổng kết và trao giải nghiên cứu khoa học của khoa."},
+                ],
+                "must": ["Kiên nhẫn với dữ liệu", "Trung thực học thuật", "Đọc hiểu tài liệu chuyên ngành", "Làm việc có phương pháp"],
+                "plus": ["SPSS / R / Python", "Đọc paper tiếng Anh", "Biết trích dẫn chuẩn", "Từng dự thi NCKH"],
+                "voices": [
+                    {"q": "Nghiên cứu không hào nhoáng. Nhưng lần đầu số liệu của mình "
+                          "nói ra một điều mình chưa từng nghĩ tới thì rất đáng.",
+                     "who": "Chờ cập nhật", "role": "Thành viên mảng NCKH"},
+                ],
+                "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
+            },
+        ],
+    },
+]
+
+BAN_BY_ID = {b["id"]: b for b in BANS}
+
+
+def mang_slug(ban, m):
+    """Tên file trang riêng của một mảng, ví dụ 'ban-to-chuc-xay-dung-ns'."""
+    return f"{ban['slug']}-{m['id']}"
+
+
+ALL_MANGS = [(ban, m) for ban in BANS for m in ban["mangs"]]
+
+
+# =============================================================================
+# KHUNG TRANG
+# =============================================================================
+
+def head(title, desc, css_vars="", extra_js=()):
+    scripts = "\n".join(
+        '  <script defer src="js/%s"></script>' % s for s in ("config.js", "site.js") + tuple(extra_js)
+    )
+    style = ('\n  <style>:root { %s }</style>' % css_vars) if css_vars else ""
+    return f"""<!doctype html>
+<html lang="vi" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{e(desc)}">
+  <meta name="theme-color" content="#071323">
+  <title>{e(title)}</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="{FONTS}">
+  <link rel="stylesheet" href="{BS_CSS}" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">{style}
+  <script defer src="{BS_JS}" crossorigin="anonymous"></script>
+{scripts}
+</head>"""
+
+
+def navbar(active):
+    def link(href, label, key):
+        cls = "nav-link active" if key == active else "nav-link"
+        cur = ' aria-current="page"' if key == active else ""
+        return f'<li class="nav-item"><a class="{cls}" href="{href}"{cur}>{label}</a></li>'
+
+    groups = []
+    for ban in BANS:
+        subs = [f'<li><a class="dropdown-item" href="{ban["slug"]}.html">Tổng quan ban</a></li>']
+        for m in ban["mangs"]:
+            subs.append(
+                f'<li><a class="dropdown-item" href="{mang_slug(ban, m)}.html">'
+                f'{e(m["code"])} · {e(m["name"])}</a></li>'
+            )
+        groups.append(
+            '<li class="nav-l3">'
+            f'<a class="dropdown-item" href="{ban["slug"]}.html" role="button" aria-haspopup="true">'
+            f'<span><span class="gem-dot" style="--dot:{ban["color"]}"></span>{e(ban["gem"])} · {e(ban["short"])}</span></a>'
+            f'<ul class="dropdown-menu">{"".join(subs)}</ul>'
+            "</li>"
+        )
+
+    ban_active = " active" if active in BAN_BY_ID else ""
+    return f"""  <header class="site-header">
+    <div class="read-bar" aria-hidden="true"></div>
+    <nav class="navbar navbar-expand-lg container" aria-label="Điều hướng chính">
+      <a class="navbar-brand brand" href="index.html" aria-label="R.E.S.D — Trang chủ"><span class="brand-mark" aria-hidden="true">✦</span> R.E.S.D<span class="brand-caption">ĐOÀN - HỘI BIT</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Mở menu điều hướng"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="main-nav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          {link("index.html", "Trang chủ", "home")}
+          {link("gioi-thieu.html", "R.E.S.D là gì", "gioi-thieu")}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle{ban_active}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ban chuyên môn</a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><h6 class="dropdown-header">Bốn hành tinh, chín mảng</h6></li>
+              {"".join(groups)}
+            </ul>
+          </li>
+          {link("test-dinh-huong.html", "Test định hướng", "test")}
+          {link("lien-he.html", "Liên hệ", "lien-he")}
+          <li class="nav-item"><button class="nav-tool" type="button" data-palette-open aria-label="Tìm kiếm nhanh trên toàn bộ cổng thông tin">Tìm nhanh <kbd>Ctrl</kbd><kbd>K</kbd></button></li>
+        </ul>
+      </div>
+    </nav>
+  </header>"""
+
+
+def palette():
+    return """  <div class="palette" data-palette hidden role="dialog" aria-modal="true" aria-label="Tìm kiếm nhanh">
+    <div class="palette-box">
+      <input type="text" placeholder="Tìm ban, mảng hoặc trang…" aria-label="Từ khoá tìm kiếm" autocomplete="off">
+      <ul class="palette-results"></ul>
+      <p class="palette-empty" hidden>Không tìm thấy mục nào khớp. Thử từ khoá ngắn hơn, ví dụ "nhân sự" hoặc "thiết kế".</p>
+      <div class="palette-foot"><span>↑ ↓ di chuyển</span><span>Enter mở</span><span>Esc đóng</span></div>
+    </div>
+  </div>"""
+
+
+def footer():
+    ban_links = "".join(
+        f'<li><a href="{b["slug"]}.html">{e(b["gem"])} · {e(b["name"])}</a></li>' for b in BANS
+    )
+    return f"""  <footer class="site-footer">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-4">
+          <a class="navbar-brand brand footer-brand" href="index.html"><span class="brand-mark" aria-hidden="true">✦</span><span class="brand-title">R.E.S.D</span><span class="brand-caption">ĐOÀN - HỘI BIT</span></a>
+          <p class="mt-3">Cổng thông tin chương trình R.E.S.D của Đoàn - Hội khoa Công nghệ thông tin kinh doanh, Đại học Kinh tế TP.HCM.</p>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h4>Bốn hành tinh</h4>
+          <ul>{ban_links}</ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h4>Hành trình</h4>
+          <ul>
+            <li><a href="gioi-thieu.html">R.E.S.D là gì</a></li>
+            <li><a href="gioi-thieu.html#so-sanh">So sánh bốn ban</a></li>
+            <li><a href="test-dinh-huong.html">Test định hướng</a></li>
+            <li><a href="lien-he.html">Câu hỏi thường gặp</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4>Kết nối</h4>
+          <ul>
+            <li><a data-config-link="fanpageUrl">Fanpage Đoàn - Hội BIT</a></li>
+            <li><a data-config-link="bookletUrl">Booklet R.E.S.D</a></li>
+            <li><a data-config-link="formOpenUrl">Đơn đăng ký</a></li>
+            <li><a href="lien-he.html">Liên hệ trực tiếp</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>R.E.S.D · Đoàn - Hội khoa Công nghệ thông tin kinh doanh, UEH</span>
+        <span>Website tĩnh, không thu thập dữ liệu người dùng.</span>
+      </div>
+    </div>
+  </footer>
+  <button class="to-top" type="button" aria-label="Lên đầu trang">↑</button>"""
+
+
+def page(title, desc, active, stamp, body, css_vars="", extra_js=()):
+    return "\n".join([
+        head(title, desc, css_vars, extra_js),
+        f'<body data-stamp="{stamp}">',
+        '  <a class="skip-link" href="#main-content">Đến nội dung chính</a>',
+        navbar(active),
+        '  <main id="main-content" tabindex="-1">',
+        body,
+        "  </main>",
+        footer(),
+        palette(),
+        "</body>",
+        "</html>",
+        "",
+    ])
+
+
+# =============================================================================
+# KHỐI NỘI DUNG DÙNG LẠI
+# =============================================================================
+
+def section_head(kicker, title, sub=""):
+    p = f"<p>{sub}</p>" if sub else ""
+    return (f'<div class="section-head reveal"><p class="kicker">{e(kicker)}</p>'
+            f"<h2>{title}</h2>{p}</div>")
+
+
+def gem_list(items):
+    return '<ul class="gem-list">' + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
+
+
+def program_initials(name):
+    letters = [w[0] for w in re.findall(r"[^\W\d_]+", name, flags=re.UNICODE)[:2]]
+    return "".join(letters).upper() or "•"
+
+
+def programs_grid(items):
+    """Lưới chương trình nổi bật: khung ảnh khổ dọc + tên luôn hiện, hover/focus
+    mới lộ mô tả. Chưa có ảnh thật nên khung hiện chữ cái đầu làm chỗ giữ chỗ —
+    không bịa ảnh, chỉ đánh dấu rõ đây là nơi ảnh sẽ nằm."""
+    cards = "".join(f"""<article class="program-card reveal" tabindex="0" aria-label="{e(p['name'])}. {e(p['desc'])}">
+          <div class="program-media" aria-hidden="true">
+            <span class="program-ph">{e(program_initials(p['name']))}</span>
+            <span class="program-ph-note">Ảnh minh hoạ · chờ cập nhật</span>
+          </div>
+          <div class="program-caption"><p class="meta">{e(p['meta'])}</p><h4>{e(p['name'])}</h4></div>
+          <div class="program-desc"><p>{e(p['desc'])}</p></div>
+        </article>""" for p in items)
+    return f'<div class="card-grid grid-3 reveal">{cards}</div>'
+
+
+def skills_block(must, plus):
+    m = "".join(f'<span class="chip is-gem">{e(s)}</span>' for s in must)
+    p = "".join(f'<span class="chip">{e(s)}</span>' for s in plus)
+    return f"""<div class="skill-split reveal">
+        <div class="skill-box is-must">
+          <h4>Cần có</h4>
+          <p class="hint">Đây là phần chúng tôi thật sự nhìn vào khi phỏng vấn.</p>
+          <div class="chip-row">{m}</div>
+        </div>
+        <div class="skill-box">
+          <h4>Có thì càng tốt</h4>
+          <p class="hint">Không có cũng không sao. Vào rồi học cũng kịp.</p>
+          <div class="chip-row">{p}</div>
+        </div>
+      </div>"""
+
+
+def voices_block(items):
+    cards = "".join(
+        f'<figure class="voice"><blockquote>{e(v["q"])}</blockquote>'
+        f'<figcaption><span class="avatar" aria-hidden="true">?</span>'
+        f'<span><span class="who d-block">{e(v["who"])}</span>'
+        f'<span class="role">{e(v["role"])}</span></span></figcaption></figure>'
+        for v in items
+    )
+    return f'<div class="card-grid grid-2 reveal">{cards}</div>'
+
+
+def people_block(items):
+    cards = []
+    for name, pos in items:
+        if name:
+            initials = "".join(w[0] for w in name.split()[-2:]).upper()
+            cards.append(f'<div class="person"><span class="initials" aria-hidden="true">{e(initials)}</span>'
+                         f'<span class="name">{e(name)}</span><span class="pos">{e(pos)}</span></div>')
+        else:
+            cards.append('<div class="person is-empty"><span class="initials" aria-hidden="true">+</span>'
+                         f'<span class="name">Đang cập nhật</span><span class="pos">{e(pos)}</span></div>')
+    return f'<div class="people reveal">{"".join(cards)}</div>'
+
+
+# =============================================================================
+# TRANG BAN CHUYÊN MÔN
+# =============================================================================
+
+def mang_cards(ban):
+    """Lưới thẻ tóm tắt các mảng trên trang tổng quan ban, dẫn sang trang riêng của từng mảng."""
+    cards = "".join(f"""<a class="mang-card reveal" href="{mang_slug(ban, m)}.html" style="--gem:{ban['color']}">
+          <span class="code">{e(m['code'])}</span>
+          <h3>Mảng {e(m['name'])}</h3>
+          <p>{e(m['lede'])}</p>
+          <span class="go">Xem trang mảng ↗</span>
+        </a>""" for m in ban["mangs"])
+    return f'<div class="card-grid grid-{min(len(ban["mangs"]), 3)} reveal">{cards}</div>'
+
+
+def mang_siblings(ban, current):
+    """Thanh chuyển nhanh sang mảng khác cùng ban, hiện ở đầu trang mảng."""
+    items = "".join(
+        f'<a href="{mang_slug(ban, m)}.html"{" aria-current=\"page\" class=\"is-current\"" if m is current else ""}>'
+        f'{e(m["code"])} · {e(m["name"])}</a>'
+        for m in ban["mangs"]
+    )
+    return f'<nav class="mang-jump" aria-label="Các mảng khác của {e(ban["short"])}">{items}</nav>'
+
+
+def build_mang(ban, m):
+    """Trang riêng của một mảng chuyên môn. Mỗi mảng có URL và nội dung độc lập,
+    không còn là anchor bên trong trang ban (xem docs/progress.md)."""
+    body = f"""    <section class="page-hero">
+      <div class="container">
+        <p class="crumbs"><a href="index.html">Trang chủ</a> › <a href="{ban['slug']}.html">{e(ban['short'])}</a> › Mảng {e(m['name'])}</p>
+        <p class="gem-label"><span class="gem-dot" style="--dot:{ban['color']}"></span>{e(ban['gem'])} · {e(ban['short'])} · {e(m['code'])}</p>
+        <h1>Mảng {e(m['name'])}</h1>
+        <p class="tagline">{e(m['lede'])}</p>
+        {mang_siblings(ban, m)}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Nhiệm vụ", "Việc mảng này làm hằng tuần")}
+        <div class="row gy-4">
+          <div class="col-lg-7 reveal">{gem_list([e(d) for d in m['duties']])}</div>
+          <div class="col-lg-5">
+            <div class="panel reveal">
+              <h3>Thuộc ban</h3>
+              <p>Mảng {e(m['name'])} nằm trong <a href="{ban['slug']}.html">{e(ban['name'])}</a> ({e(ban['gem'])}).
+              Đọc thêm về sứ mệnh chung của cả ban trước khi quyết định nguyện vọng.</p>
+              <p class="mt-3"><a class="btn-ghost" href="{ban['slug']}.html">Xem tổng quan {e(ban['short'])}</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Chương trình nổi bật", f"Những gì mảng {e(m['name'])} đã và đang làm",
+                      "Danh sách mang tính đại diện. Tên và quy mô chương trình cập nhật theo từng năm học.")}
+        {programs_grid(m['programs'])}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Yêu cầu và kỹ năng", "Mảng tìm người như thế nào")}
+        {skills_block(m['must'], m['plus'])}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Lời nhắn từ thành viên", f"Người trong mảng nói gì {draft_flag(m['voices'])}")}
+        {voices_block(m['voices'])}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Nhân sự", f"Phụ trách mảng {e(m['code'])}",
+                      "Danh sách cập nhật vào đầu mỗi nhiệm kỳ.")}
+        {people_block(m['people'])}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="panel reveal">
+          <h3>Chưa chắc {e(m['code'])} có phải chỗ của bạn?</h3>
+          <p>Làm bài kiểm tra định hướng 24 câu để xem bạn nghiêng về mảng nào trong chín mảng của R.E.S.D, rồi quay lại đọc kỹ mảng phù hợp nhất.</p>
+          <div class="hero-actions mt-3">
+            <a class="btn-gem" href="test-dinh-huong.html">Làm bài kiểm tra định hướng</a>
+            <a class="btn-ghost" href="{ban['slug']}.html">Xem các mảng khác của {e(ban['short'])}</a>
+          </div>
+        </div>
+      </div>
+    </section>"""
+
+    css_vars = f"--gem: {ban['color']}; --gem-soft: {ban['soft']};"
+    return page(
+        f"Mảng {m['name']} · {ban['short']} | R.E.S.D",
+        m["lede"][:155],
+        ban["id"], ban["stamp"], body, css_vars,
+    )
+
+
+def build_ban(ban):
+    stats = "".join(f"<li><b>{e(v)}</b>{e(l)}</li>" for v, l in ban["stats"])
+    jumps = "".join(
+        f'<a href="{mang_slug(ban, m)}.html">{e(m["code"])} · {e(m["name"])}</a>' for m in ban["mangs"]
+    )
+    mission = "".join(f"<p>{e(p)}</p>" for p in ban["mission"])
+
+    body = f"""    <section class="page-hero">
+      <div class="container">
+        <p class="crumbs"><a href="index.html">Trang chủ</a> › <a href="gioi-thieu.html">Ban chuyên môn</a> › {e(ban['short'])}</p>
+        <p class="gem-label"><span class="gem-dot" style="--dot:{ban['color']}"></span>{e(ban['gem'])} · {e(ban['short'])}</p>
+        <h1>{e(ban['name'])}</h1>
+        <p class="tagline">{e(ban['tagline'])}</p>
+        <ul class="hero-stats">{stats}</ul>
+        <nav class="mang-jump" aria-label="Các mảng của {e(ban['short'])}">{jumps}</nav>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Sứ mệnh", "Ban này tồn tại để làm gì")}
+        <div class="row gy-4">
+          <div class="col-lg-7 reveal">{mission}</div>
+          <div class="col-lg-5">
+            <div class="panel reveal">
+              <h3>Nhiệm vụ chính</h3>
+              {gem_list(ban['duties'])}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Chương trình nổi bật", "Những gì ban đã và đang làm",
+                      "Danh sách mang tính đại diện. Tên và quy mô chương trình cập nhật theo từng năm học.")}
+        {programs_grid(ban['programs'])}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Yêu cầu chung", "Ban tìm người như thế nào")}
+        {skills_block(ban['must'], ban['plus'])}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Lời nhắn nhủ", f"Người trong ban nói gì {draft_flag(ban['voices'])}")}
+        {voices_block(ban['voices'])}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Nhân sự", "Ban điều hành",
+                      "Danh sách cập nhật vào đầu mỗi nhiệm kỳ.")}
+        {people_block(ban['people'])}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Các mảng", f"{len(ban['mangs'])} mảng chuyên môn, mỗi mảng một trang riêng",
+                      "Mỗi mảng có nhiệm vụ, chương trình và bộ kỹ năng riêng. Bạn đăng ký theo mảng, không đăng ký chung chung — bấm vào thẻ để đọc đầy đủ.")}
+        {mang_cards(ban)}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="panel reveal">
+          <h3>Chưa chắc {e(ban['short'])} có phải chỗ của bạn?</h3>
+          <p>Làm bài kiểm tra định hướng 24 câu để xem bạn nghiêng về mảng nào trong chín mảng của R.E.S.D, rồi quay lại đọc kỹ mảng đó.</p>
+          <div class="hero-actions mt-3">
+            <a class="btn-gem" href="test-dinh-huong.html">Làm bài kiểm tra định hướng</a>
+            <a class="btn-ghost" href="gioi-thieu.html#so-sanh">So sánh bốn ban</a>
+          </div>
+        </div>
+      </div>
+    </section>"""
+
+    css_vars = f"--gem: {ban['color']}; --gem-soft: {ban['soft']};"
+    return page(
+        f"{ban['name']} ({ban['short']}) | R.E.S.D",
+        ban["tagline"][:155],
+        ban["id"], ban["stamp"], body, css_vars,
+    )
+
+
+# =============================================================================
+# TRANG CHỦ
+# =============================================================================
+
+def build_home():
+    cards = "".join(
+        f'''<a class="planet-card reveal" href="{b['slug']}.html" style="--gem:{b['color']}">
+          <span class="gem-name">{e(b['gem'])}</span>
+          <h3>{e(b['name'])}</h3>
+          <p>{e(b['tagline'].split('.')[0])}.</p>
+          <div class="mang-tags">{"".join(f"<span>{e(m['code'])}</span>" for m in b['mangs'])}</div>
+          <span class="go">Vào hành tinh này</span>
+        </a>''' for b in BANS
+    )
+
+    body = f"""    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="container position-relative">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-6 hero-copy">
+            <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> CỔNG THÔNG TIN CHƯƠNG TRÌNH</p>
+            <h1 id="hero-title">R.E.S.D<span class="title-star" aria-hidden="true">✦</span></h1>
+            <p class="hero-slogan">Mỗi sắc màu.<br>Một hành trình <span>toả sáng.</span></p>
+            <p class="hero-description">Đây là cổng thông tin dành riêng cho chương trình R.E.S.D: bốn ban chuyên môn, chín mảng, một bài kiểm tra định hướng và đường dẫn tới đơn đăng ký. Đi theo thứ tự, bạn sẽ biết mình thuộc về đâu.</p>
+            <div class="hero-actions">
+              <a class="btn-gem" href="test-dinh-huong.html">Bắt đầu: test định hướng</a>
+              <a class="btn-ghost explore-target" href="#resd-planet" id="explore-button">Khám phá hành tinh <span aria-hidden="true">↗</span></a>
+            </div>
+            <p class="hero-note">Bốn viên đá quý. Chung một tinh thần BIT.</p>
+          </div>
+          <div class="col-lg-6">
+            <div class="planet-scene" id="resd-planet" tabindex="-1" role="img" aria-label="Hành tinh R.E.S.D cùng bốn viên đá quý: Sapphire, Diamond, Emerald và Ruby.">
+              <div class="orbit orbit-outer" aria-hidden="true"></div>
+              <div class="orbit orbit-inner" aria-hidden="true"></div>
+              <div class="planet" aria-hidden="true"><span class="planet-wordmark">R.E.S.D</span><span class="planet-caption">THE BIT UNIVERSE</span></div>
+              <div class="planet-ring" aria-hidden="true"></div>
+              <a class="gem gem-sapphire" href="ban-to-chuc-xay-dung.html" aria-label="Sapphire — Ban Tổ chức - Xây dựng"><i aria-hidden="true"></i><span>SAPPHIRE</span></a>
+              <a class="gem gem-diamond" href="ban-phong-trao-tinh-nguyen.html" aria-label="Diamond — Ban Phong trào - Tình nguyện"><i aria-hidden="true"></i><span>DIAMOND</span></a>
+              <a class="gem gem-emerald" href="ban-hoc-tap-nckh.html" aria-label="Emerald — Ban Học tập - Nghiên cứu khoa học"><i aria-hidden="true"></i><span>EMERALD</span></a>
+              <a class="gem gem-ruby" href="ban-truyen-thong.html" aria-label="Ruby — Ban Truyền thông"><i aria-hidden="true"></i><span>RUBY</span></a>
+              <span class="scene-spark spark-one" aria-hidden="true">✦</span>
+              <span class="scene-spark spark-two" aria-hidden="true">✧</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-bottom" aria-hidden="true"><span>TRẠM ĐIỀU PHỐI R.E.S.D</span><span>KHỞI ĐẦU HÀNH TRÌNH <span class="bottom-star">✦</span></span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="row gy-4 align-items-stretch">
+          <div class="col-lg-6">
+            <div class="countdown reveal">
+              <h3>Điểm hẹn gần nhất</h3>
+              <p class="when" data-event-title>Hạn chót nhận đơn ứng tuyển</p>
+              <div class="clock" data-countdown>
+                <div><b data-unit="d">–</b><span>ngày</span></div>
+                <div><b data-unit="h">–</b><span>giờ</span></div>
+                <div><b data-unit="m">–</b><span>phút</span></div>
+                <div><b data-unit="s">–</b><span>giây</span></div>
+              </div>
+              <p data-countdown-done hidden>Sự kiện đã diễn ra. Bạn vẫn có thể làm bài kiểm tra bất cứ lúc nào.</p>
+              <p class="disclaimer">Vòng CV: 16/09–30/09/2026 · Phỏng vấn: 04/10–11/10/2026 · Công bố kết quả: 18/10/2026.</p>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="panel reveal h-100">
+              <h3>Một điểm đến, một việc duy nhất</h3>
+              <p>Cổng thông tin này được dựng riêng cho R.E.S.D: đi từ chỗ chưa biết gì về bốn ban chuyên môn tới chỗ nộp được một lá đơn đúng mảng, gói gọn trong vài bước.</p>
+              <p>Không có bản tin, không có lịch họp, không có thư viện ảnh — chỉ có bốn hành tinh, chín mảng, một bài kiểm tra định hướng và một biểu mẫu đăng ký.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Lộ trình", "Bốn bước, theo đúng thứ tự này")}
+        <div class="row gy-4">
+          <div class="col-lg-7">
+            <ol class="journey reveal">
+              <li><span class="dot">1</span><h4>Hiểu R.E.S.D là gì</h4><p>Đọc phần giới thiệu để biết chương trình này giải quyết chuyện gì và bạn sẽ nhận lại được gì. <a href="gioi-thieu.html">Đọc phần giới thiệu</a></p></li>
+              <li><span class="dot">2</span><h4>Định vị bản thân</h4><p>Làm bài kiểm tra 24 câu về thói quen làm việc, thế mạnh và cách bạn tạo giá trị. Kết quả gợi ý ban và mảng phù hợp. <a href="test-dinh-huong.html">Làm bài kiểm tra</a></p></li>
+              <li><span class="dot">3</span><h4>Đọc kỹ mảng được gợi ý</h4><p>Mỗi mảng có một trang riêng với nhiệm vụ, chương trình và bộ kỹ năng. Đọc xong hãy tự hỏi mình có muốn làm những việc đó hằng tuần không.</p></li>
+              <li><span class="dot">4</span><h4>Điền đơn đăng ký</h4><p>Biểu mẫu nằm ngay cuối trang kết quả, cùng đường dẫn tới booklet đầy đủ.</p></li>
+            </ol>
+          </div>
+          <div class="col-lg-5">
+            <div class="passport reveal" data-passport>
+              <div class="passport-ring">
+                <svg width="156" height="156" viewBox="0 0 156 156" aria-hidden="true">
+                  <circle class="track" cx="78" cy="78" r="66"></circle>
+                  <circle class="bar" cx="78" cy="78" r="66" stroke-dasharray="414" stroke-dashoffset="414"></circle>
+                </svg>
+                <div class="value"><b data-passport-count>0/8</b><span>trạm đã ghé</span></div>
+              </div>
+              <div class="passport-body">
+                <h3>Hộ chiếu vũ trụ</h3>
+                <p data-passport-note>Mỗi trang bạn mở sẽ tự đóng thêm một dấu.</p>
+                <ul class="stamps" data-passport-stamps></ul>
+                <div class="passport-actions">
+                  <button class="btn-ghost" type="button" data-passport-reset>Xoá hộ chiếu</button>
+                </div>
+                <p class="mt-3" style="font-size:.78rem;color:var(--resd-dim)">Hộ chiếu lưu trong trình duyệt của bạn, không gửi đi đâu và không ai xem được.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Bốn hành tinh", "Chọn nơi bạn muốn hạ cánh",
+                      "Mỗi ban là một hành tinh riêng, có mảng riêng và cách làm việc riêng. Bấm vào để xem trang đầy đủ.")}
+        <div class="card-grid grid-4">{cards}</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="panel reveal">
+          <h3>Sẵn sàng định vị toạ độ của mình?</h3>
+          <p>Bài kiểm tra mất khoảng sáu phút. Không có câu trả lời đúng hay sai, và bạn có thể tải kết quả về dưới dạng ảnh.</p>
+          <div class="hero-actions mt-3">
+            <a class="btn-gem" href="test-dinh-huong.html">Làm bài kiểm tra định hướng</a>
+            <a class="btn-ghost" data-config-link="bookletUrl">Xem booklet R.E.S.D</a>
+          </div>
+        </div>
+      </div>
+    </section>"""
+
+    return page(
+        "R.E.S.D | Cổng thông tin chương trình — Đoàn - Hội BIT",
+        "Cổng thông tin chương trình R.E.S.D: bốn ban chuyên môn, chín mảng, bài kiểm tra định hướng và đơn đăng ký.",
+        "home", "home", body, extra_js=("main.js",),
+    )
+
+
+# =============================================================================
+# TRANG GIỚI THIỆU
+# =============================================================================
+
+def build_intro():
+    rows = [
+        ("Việc chính hằng tuần", ["Dựng kế hoạch, phân công, lo nguồn lực và thiết bị",
+                                  "Tổ chức sân chơi, giải đấu và các chuyến tình nguyện",
+                                  "Viết bài, thiết kế, chụp ảnh, dựng video",
+                                  "Làm workshop, tổng hợp tài liệu, hỗ trợ đề tài"]),
+        ("Nhịp việc", ["Dồn vào trước và trong sự kiện",
+                       "Theo mùa hoạt động, nhiều việc ngoài trời",
+                       "Đều đặn hằng tuần, cao điểm trước sự kiện",
+                       "Theo học kỳ, bám lịch thi và lịch đăng ký đề tài"]),
+        ("Bạn sẽ giỏi lên ở", ["Quản lý dự án, thương lượng, vận hành",
+                               "Dẫn dắt đám đông, xử lý tình huống, làm việc cộng đồng",
+                               "Viết, thiết kế, sản xuất nội dung",
+                               "Nghiên cứu, phân tích, truyền đạt kiến thức"]),
+        ("Hợp với bạn nếu", ["Bạn thấy an tâm khi mọi thứ có checklist",
+                             "Bạn không ngồi yên được và thích ở giữa đám đông",
+                             "Bạn có gu và muốn làm ra sản phẩm nhìn thấy được",
+                             "Bạn thích đọc sâu và giải thích lại cho người khác"]),
+        ("Sản phẩm để lại", ["Kế hoạch, hồ sơ tài trợ, sân khấu đã dựng",
+                             "Giải đấu, đêm hội, chuyến đi có người thật được hưởng",
+                             "Bộ nhận diện, bài viết, ảnh và video",
+                             "Tài liệu, workshop, đề tài nghiên cứu"]),
+    ]
+    thead = "".join(
+        f'<th scope="col" class="col-gem" style="--c:{b["color"]}">{e(b["gem"])}<br>{e(b["short"])}</th>'
+        for b in BANS
+    )
+    tbody = "".join(
+        f'<tr><th scope="row">{e(label)}</th>' + "".join(f"<td>{e(v)}</td>" for v in values) + "</tr>"
+        for label, values in rows
+    )
+
+    body = f"""    <section class="page-hero">
+      <div class="container">
+        <p class="crumbs"><a href="index.html">Trang chủ</a> › R.E.S.D là gì</p>
+        <p class="gem-label"><span class="gem-dot" aria-hidden="true"></span>Giới thiệu chương trình</p>
+        <h1>R.E.S.D là gì</h1>
+        <p class="tagline">Một chương trình để sinh viên BIT bước vào Đoàn - Hội khoa qua đúng cánh cửa của mình, thay vì đăng ký đại rồi bỏ giữa chừng.</p>
+        <ul class="hero-stats">
+          <li><b>4</b>ban chuyên môn</li>
+          <li><b>9</b>mảng để chọn</li>
+          <li><b>24</b>câu định hướng</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Ý tưởng", "Bốn viên đá quý, một vũ trụ")}
+        <div class="row gy-4">
+          <div class="col-lg-7 reveal">
+            <p>R.E.S.D mượn hình ảnh vũ trụ để nói một chuyện rất đời thường: mỗi người hợp với một chỗ khác nhau. Bốn ban chuyên môn của Đoàn - Hội BIT được đặt thành bốn viên đá quý, mỗi viên một màu, một tính cách, một kiểu công việc.</p>
+            <p>Điều chương trình muốn tránh là tình trạng sinh viên đăng ký vì thấy bạn bè đăng ký, rồi ba tháng sau nhận ra mình không hợp. Cho nên toàn bộ cổng thông tin này được thiết kế quanh một câu hỏi: bạn hợp với mảng nào, và vì sao.</p>
+          </div>
+          <div class="col-lg-5">
+            <div class="panel reveal">
+              <h3>Bạn nhận được gì</h3>
+              {gem_list([
+                "<b>Mở rộng kiến thức chuyên môn</b> theo từng ban tham gia.",
+                "<b>Training kỹ năng, workshop học thuật và teambuilding</b> dành cho cộng tác viên, thành viên.",
+                "<b>Môi trường chuyên nghiệp, hòa đồng</b>, nơi các thành viên hỗ trợ lẫn nhau.",
+                "<b>Trau dồi kỹ năng</b> quản lý công việc, dự án, hoạt động và sự kiện.",
+              ])}
+            </div>
+          </div>
+        </div>
+        <div class="hero-actions mt-4 reveal">
+          <button class="btn-ghost" type="button" data-random-mang>🎲 Bốc ngẫu nhiên một mảng để đọc thử</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="so-sanh">
+      <div class="container">
+        {section_head("So sánh", "Bốn ban đặt cạnh nhau",
+                      "Bảng này để bạn thấy khác biệt thật giữa các ban trước khi quyết định. Cuộn ngang để xem hết trên điện thoại.")}
+        <div class="compare-wrap reveal">
+          <table class="compare">
+            <thead><tr><th scope="col">Tiêu chí</th>{thead}</tr></thead>
+            <tbody>{tbody}</tbody>
+          </table>
+        </div>
+        <div class="hero-actions mt-4 reveal">
+          <a class="btn-gem" href="test-dinh-huong.html">Chưa rõ? Làm bài kiểm tra</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Nhận diện", "Vì sao lại là đá quý")}
+        <div class="card-grid grid-4">
+          {"".join(f'''<article class="panel reveal" style="--gem:{b['color']}">
+            <h3 style="color:{b['color']}">{e(b['gem'])}</h3>
+            <p><b>{e(b['name'])}</b></p>
+            <p>{e(b['tagline'])}</p>
+          </article>''' for b in BANS)}
+        </div>
+      </div>
+    </section>"""
+
+    return page(
+        "R.E.S.D là gì | Cổng thông tin R.E.S.D",
+        "Giới thiệu chương trình R.E.S.D, giá trị nhận được và bảng so sánh bốn ban chuyên môn của Đoàn - Hội BIT.",
+        "gioi-thieu", "gioi-thieu", body,
+    )
+
+
+# =============================================================================
+# TRANG TEST ĐỊNH HƯỚNG
+# =============================================================================
+
+def build_test():
+    body = f"""    <section class="page-hero">
+      <div class="container">
+        <p class="crumbs"><a href="index.html">Trang chủ</a> › Test định hướng</p>
+        <p class="gem-label"><span class="gem-dot" aria-hidden="true"></span>Bài kiểm tra định hướng</p>
+        <h1>Bạn thuộc về hành tinh nào</h1>
+        <p class="tagline">24 câu về thói quen làm việc, nguồn năng lượng và cách bạn tạo ra giá trị. Kết quả là một mã bốn chữ cái và mức độ phù hợp với từng ban, từng mảng của R.E.S.D.</p>
+        <ul class="hero-stats">
+          <li><b>24</b>câu hỏi</li>
+          <li><b>~6</b>phút</li>
+          <li><b>4</b>trục tính cách</li>
+          <li><b>9</b>mảng được chấm điểm</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="quiz-shell" data-quiz>
+
+          <!-- Màn hình mở đầu -->
+          <div data-screen="intro" hidden>
+            <div class="section-head">
+              <p class="kicker">Trước khi bắt đầu</p>
+              <h2>Bài này đo cái gì</h2>
+              <p>Không phải đo bạn giỏi hay dở. Bài đo thiên hướng làm việc của bạn trên bốn trục độc lập, rồi đối chiếu với hồ sơ của chín mảng chuyên môn.</p>
+            </div>
+            <div class="quiz-intro-points">
+              <div class="panel"><h3>Nhịp làm việc</h3><p>Bạn cần kế hoạch trước, hay bật lên khi mọi thứ thay đổi?</p></div>
+              <div class="panel"><h3>Nguồn năng lượng</h3><p>Bạn nạp năng lượng từ người khác, hay từ khoảng lặng một mình?</p></div>
+              <div class="panel"><h3>Cách tạo giá trị</h3><p>Bạn thuyết phục bằng hình ảnh và câu chuyện, hay bằng số liệu và lập luận?</p></div>
+              <div class="panel"><h3>Vị trí trong đội</h3><p>Bạn muốn đứng trước khán giả, hay giữ cho bộ máy chạy từ phía sau?</p></div>
+            </div>
+            {gem_list([
+              "Chọn theo <b>con người thật của bạn</b>, không phải con người bạn nghĩ ban tuyển đang tìm.",
+              "Không có câu đúng hay sai. Câu \"lưng chừng\" là lựa chọn hợp lệ.",
+              "Toàn bộ tính toán chạy trong trình duyệt. <b>Không có dữ liệu nào được gửi đi.</b>",
+              "Kết quả là gợi ý để bạn đọc tiếp, <b>không thay cho buổi phỏng vấn</b>.",
+            ])}
+            <div class="quiz-nav">
+              <span></span>
+              <button class="btn-gem" type="button" data-quiz-start>Bắt đầu, 24 câu</button>
+            </div>
+          </div>
+
+          <!-- Màn hình làm bài -->
+          <div data-screen="quiz" hidden>
+            <div class="quiz-progress">
+              <div class="bar"><i data-quiz-bar></i></div>
+              <div class="meta"><span data-quiz-step>Câu 1 / 24</span><span data-quiz-axis>Đã trả lời 0 câu</span></div>
+            </div>
+            <div class="question" data-question aria-live="polite"></div>
+            <div class="quiz-nav">
+              <button class="btn-ghost" type="button" data-quiz-prev>Câu trước</button>
+              <button class="btn-gem" type="button" data-quiz-next>Câu tiếp theo</button>
+            </div>
+            <p class="mt-3" style="font-size:.78rem;color:var(--resd-dim)">Mẹo: bấm phím 1 đến 5 để chọn nhanh, mũi tên trái phải để chuyển câu.</p>
+          </div>
+
+          <!-- Màn hình kết quả -->
+          <div data-screen="result" hidden>
+            <div class="result-head">
+              <div class="result-canvas-wrap">
+                <canvas data-result-canvas width="1080" height="1350" role="img" aria-label="Thẻ kết quả định hướng R.E.S.D của bạn"></canvas>
+              </div>
+              <div>
+                <p class="kicker" style="color:var(--resd-cyan);font-size:.74rem;font-weight:600;margin:0 0 6px">Mã định hướng của bạn</p>
+                <strong class="code-badge" data-result-code>----</strong>
+                <h2 class="result-title" data-result-name>Đang tính…</h2>
+                <p class="result-summary" data-result-line></p>
+                <h3 class="sub-head">Thế mạnh nổi bật</h3>
+                <div class="chip-row" data-result-strong></div>
+                <h3 class="sub-head">Điểm nên luyện thêm</h3>
+                <p class="result-summary" data-result-grow></p>
+                <div class="result-actions mt-4">
+                  <button class="btn-gem" type="button" data-result-download>Tải ảnh kết quả</button>
+                  <button class="btn-ghost" type="button" data-result-csv>Tải kết quả (CSV)</button>
+                  <button class="btn-ghost" type="button" data-result-copy>Sao chép kết quả</button>
+                  <button class="btn-ghost" type="button" data-result-retake>Làm lại</button>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="sub-head mt-5">Bốn trục của bạn</h3>
+            <div class="axis-chart" data-result-axes></div>
+
+            <h3 class="sub-head mt-5">Mức độ phù hợp với bốn ban</h3>
+            <ul class="fit-list" data-result-bans></ul>
+            <p class="lede mt-4" data-result-mang></p>
+
+            <div class="section-head mt-5">
+              <p class="kicker">Bước tiếp theo</p>
+              <h2>Điền đơn đăng ký</h2>
+              <p>Biểu mẫu nằm ngay bên dưới. Bạn có thể mở booklet ở tab khác để đối chiếu trong lúc điền.</p>
+            </div>
+            <div class="result-actions mb-4">
+              <a class="btn-ghost" data-config-link="bookletUrl">Mở booklet R.E.S.D</a>
+              <a class="btn-ghost" data-config-link="formOpenUrl">Mở biểu mẫu ở tab mới</a>
+              <a class="btn-ghost" data-config-link="fanpageUrl">Hỏi qua fanpage</a>
+            </div>
+            <div class="form-embed" data-form-embed>
+              <div class="form-fallback">
+                <h3>Biểu mẫu chưa được gắn</h3>
+                <p>Ban chuyên môn dán link Google Form vào <code>formEmbedUrl</code> trong <code>js/config.js</code> (dạng <code>.../viewform?embedded=true</code>) là biểu mẫu sẽ hiện ngay tại đây.</p>
+                <p>Trong lúc chờ, bạn có thể đăng ký qua fanpage Đoàn - Hội khoa.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>"""
+
+    return page(
+        "Test định hướng | Cổng thông tin R.E.S.D",
+        "Bài kiểm tra định hướng 24 câu của R.E.S.D: bốn trục thiên hướng làm việc, gợi ý ban và mảng chuyên môn phù hợp.",
+        "test", "test", body, extra_js=("test-dinh-huong.js",),
+    )
+
+
+# =============================================================================
+# TRANG LIÊN HỆ
+# =============================================================================
+
+FAQ = [
+    ("Sinh viên năm mấy thì đăng ký được?",
+     "Đợt R.E.S.D 2026 hướng tới sinh viên khóa 51 và 52 có nguyện vọng tham gia Ban chuyên môn."),
+    ("Một người đăng ký được mấy mảng?",
+     "Bạn nên chọn một mảng làm nguyện vọng chính và một mảng làm nguyện vọng phụ. "
+     "Đăng ký dàn trải khiến ban khó xếp bạn vào đúng chỗ."),
+    ("Không có kinh nghiệm thì có được nhận không?",
+     "Có. Phần \"Cần có\" trên mỗi trang mảng là thái độ và thói quen làm việc, không phải kỹ năng chuyên môn. "
+     "Phần \"Có thì càng tốt\" mới là kỹ năng, và phần lớn học được sau khi vào."),
+    ("Mỗi tuần phải dành bao nhiêu thời gian?",
+     "Tuỳ mảng và tuỳ mùa. Ngoài mùa sự kiện thường nhẹ, vào cao điểm chương trình thì nặng hơn đáng kể. "
+     "Hãy hỏi thẳng điều này trong buổi phỏng vấn."),
+    ("Kết quả bài kiểm tra định hướng có ảnh hưởng tới việc xét tuyển không?",
+     "Không. Bài kiểm tra chạy hoàn toàn trong trình duyệt của bạn và không gửi dữ liệu đi đâu. "
+     "Đây là công cụ để bạn tự định hướng, không phải vòng loại."),
+    ("Bài kiểm tra có chính xác như MBTI không?",
+     "Bài này lấy cảm hứng từ cách trình bày của các bài trắc nghiệm tính cách, nhưng được xây riêng cho chín mảng của R.E.S.D "
+     "và không phải một công cụ tâm lý đã được kiểm định. Hãy coi kết quả là gợi ý để đọc tiếp, không phải kết luận về con người bạn."),
+]
+
+def build_contact():
+    faq = "".join(
+        f'''<div class="accordion-item">
+          <h3 class="accordion-header"><button class="accordion-button{"" if i == 0 else " collapsed"}" type="button" data-bs-toggle="collapse" data-bs-target="#faq{i}" aria-expanded="{"true" if i == 0 else "false"}" aria-controls="faq{i}">{e(q)}</button></h3>
+          <div id="faq{i}" class="accordion-collapse collapse{" show" if i == 0 else ""}"><div class="accordion-body">{e(a)}</div></div>
+        </div>''' for i, (q, a) in enumerate(FAQ)
+    )
+
+    body = f"""    <section class="page-hero">
+      <div class="container">
+        <p class="crumbs"><a href="index.html">Trang chủ</a> › Liên hệ</p>
+        <p class="gem-label"><span class="gem-dot" aria-hidden="true"></span>Kênh liên lạc</p>
+        <h1>Còn câu hỏi nào chưa được trả lời?</h1>
+        <p class="tagline">Đọc trước phần câu hỏi thường gặp bên dưới. Nếu vẫn chưa rõ, nhắn thẳng cho fanpage Đoàn - Hội khoa, thường có người trực trong giờ hành chính.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="card-grid grid-3">
+          <article class="panel reveal">
+            <h3>Fanpage Đoàn - Hội BIT</h3>
+            <p>Kênh chính thức. Nhắn tin trực tiếp để hỏi về đợt tuyển, mảng chuyên môn hoặc lịch phỏng vấn.</p>
+            <p class="mt-3"><a class="btn-ghost" data-config-link="fanpageUrl">Mở fanpage</a></p>
+          </article>
+          <article class="panel reveal">
+            <h3>Booklet R.E.S.D</h3>
+            <p>Tài liệu đầy đủ về chương trình, nhận diện và các ban. Cổng này là bản rút gọn để đọc nhanh trên điện thoại.</p>
+            <p class="mt-3"><a class="btn-ghost" data-config-link="bookletUrl">Mở booklet</a></p>
+          </article>
+          <article class="panel reveal">
+            <h3>Đơn đăng ký</h3>
+            <p>Nên làm bài kiểm tra định hướng trước khi điền, để chọn nguyện vọng có cơ sở hơn.</p>
+            <p class="mt-3"><a class="btn-ghost" href="test-dinh-huong.html">Tới bài kiểm tra</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        {section_head("Câu hỏi thường gặp", "Sáu điều được hỏi nhiều nhất")}
+        <div class="accordion reveal" id="faq">{faq}</div>
+      </div>
+    </section>
+
+    """
+
+    return page(
+        "Liên hệ | Cổng thông tin R.E.S.D",
+        "Kênh liên hệ của chương trình R.E.S.D và câu hỏi thường gặp về các ban chuyên môn, đợt tuyển và bài kiểm tra định hướng.",
+        "lien-he", "lien-he", body,
+    )
+
+
+# =============================================================================
+# CHẠY
+# =============================================================================
+
+def write(name, content):
+    path = os.path.join(ROOT, name)
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(content)
+    print("  đã ghi  %-36s %6d byte" % (name, len(content.encode("utf-8"))))
+
+
+def main():
+    print("Sinh trang cho cổng thông tin R.E.S.D")
+    write("index.html", build_home())
+    write("gioi-thieu.html", build_intro())
+    for ban in BANS:
+        write(ban["slug"] + ".html", build_ban(ban))
+        for m in ban["mangs"]:
+            write(mang_slug(ban, m) + ".html", build_mang(ban, m))
+    write("test-dinh-huong.html", build_test())
+    write("lien-he.html", build_contact())
+    print("Xong. Mở index.html bằng Live Server để kiểm tra.")
+
+
+if __name__ == "__main__":
+    main()
