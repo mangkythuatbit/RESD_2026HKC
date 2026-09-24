@@ -3,8 +3,8 @@
 """
 Bộ sinh trang tĩnh cho cổng thông tin R.E.S.D.
 
-Vì sao có file này: navbar ba cấp và footer lặp lại ở tám trang HTML. Sửa tay
-tám chỗ rất dễ lệch. Toàn bộ nội dung ban và mảng khai báo ở CONTENT bên dưới,
+Vì sao có file này: navbar và footer lặp lại ở 15 trang HTML. Sửa tay từng
+trang rất dễ lệch. Toàn bộ nội dung ban và mảng khai báo ở BANS bên dưới,
 chạy một lệnh là sinh lại tất cả:
 
     python3 tools/build_pages.py
@@ -205,14 +205,20 @@ BANS = [
         "programs": [
             {"name": "Hội trại Truyền thống", "meta": "Văn hoá - văn nghệ - thể thao",
              "desc": "Sân chơi gắn kết giúp sinh viên khóa mới hòa nhập, thể hiện cá tính và sáng tạo."},
+            {"name": "Việt Phục 2025: Hành trình xuyên thời gian", "meta": "Văn hoá",
+             "desc": "Chương trình giúp sinh viên tìm hiểu lịch sử, nguồn gốc Việt phục và sự sáng tạo trong trang phục truyền thống."},
+            {"name": "UEH League", "meta": "Thể thao",
+             "desc": "Hoạt động thể thao trong nhóm chương trình văn hóa - văn nghệ - thể thao của ban."},
             {"name": "Xuân tình nguyện", "meta": "Tình nguyện vì cộng đồng",
              "desc": "Chiến dịch mang đến những hoạt động ý nghĩa, giúp đỡ các hoàn cảnh kém may mắn trong dịp xuân."},
+            {"name": "Vui hội Trăng Rằm", "meta": "Tình nguyện vì cộng đồng",
+             "desc": "Hoạt động dịp Trung thu dành cho trẻ em có hoàn cảnh khó khăn, hướng tới một mùa Trung thu trọn vẹn."},
             {"name": "Mùa hè xanh", "meta": "Tình nguyện vì cộng đồng",
              "desc": "Chiến dịch tình nguyện thường niên của Đoàn Thanh niên - Hội Sinh viên UEH."},
         ],
         "must": ["Nhiệt huyết, năng động", "Tư duy sáng tạo", "Lên kế hoạch", "Linh động xử lý tình huống"],
         "plus": ["Giao tiếp tốt", "Làm việc nhóm", "Nắm bắt xu hướng", "Dễ hòa nhập và sẻ chia"],
-        "stats": [("2", "mảng chuyên môn"), ("Quanh năm", "lịch hoạt động"), ("Ngoài trời", "phần lớn thời gian")],
+        "stats": [("1", "ban thống nhất"), ("Quanh năm", "lịch hoạt động"), ("Đa dạng", "không gian hoạt động")],
         "voices": [
             {"q": "Vui thì có vui, nhưng đằng sau một trận bóng là bảng phân trọng tài, "
                   "nước uống, băng gạc và một người phải nhớ hết.",
@@ -222,62 +228,8 @@ BANS = [
              "who": "Chờ cập nhật", "role": "Thành viên Ban Phong trào - Tình nguyện"},
         ],
         "people": [("", "Trưởng ban"), ("", "Phó ban")],
-        "mangs": [
-            {
-                "code": "PT", "id": "pt", "name": "Phong trào",
-                "lede": "Mảng giữ nhịp vui của khoa: giải đấu, cuộc thi, đêm hội và mọi thứ "
-                        "khiến sinh viên muốn ở lại trường thêm một buổi tối.",
-                "duties": [
-                    "Lên ý tưởng và thể lệ cho các sân chơi, giải đấu trong khoa.",
-                    "Điều phối đội tuyển và lực lượng tham gia hoạt động cấp trường.",
-                    "Dàn dựng, tổng duyệt và chạy chương trình trong các đêm diễn.",
-                    "Xử lý tình huống phát sinh trực tiếp tại sân khấu hoặc sân đấu.",
-                ],
-                "programs": [
-                    {"name": "Hội trại Truyền thống", "meta": "Văn hoá - văn nghệ - thể thao",
-                     "desc": "Sân chơi giúp sinh viên khóa mới hòa nhập, thể hiện cá tính và xây dựng tinh thần đoàn kết."},
-                    {"name": "Việt Phục 2025: Hành trình xuyên thời gian", "meta": "Văn hoá",
-                     "desc": "Chương trình giúp sinh viên tìm hiểu lịch sử, nguồn gốc Việt phục và sự sáng tạo trong trang phục truyền thống."},
-                    {"name": "UEH League", "meta": "Thể thao",
-                     "desc": "Hoạt động thể thao trong nhóm chương trình văn hóa - văn nghệ - thể thao của ban."},
-                ],
-                "must": ["Dám đứng trước đám đông", "Xoay xở khi kịch bản vỡ", "Sức bền", "Tinh thần fair play"],
-                "plus": ["Kinh nghiệm MC", "Biết dựng tiết mục", "Hiểu luật thi đấu", "Quay dựng cơ bản"],
-                "voices": [
-                    {"q": "Kịch bản của tụi mình vỡ đúng mười lăm phút trước giờ diễn. "
-                          "Cả đội đứng thành vòng tròn, đổi thứ tự tiết mục, rồi chạy tiếp.",
-                     "who": "Chờ cập nhật", "role": "Thành viên mảng Phong trào"},
-                ],
-                "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
-            },
-            {
-                "code": "TN", "id": "tn", "name": "Tình nguyện",
-                "lede": "Mảng đưa sinh viên ra khỏi giảng đường, tới nơi mà việc mình làm "
-                        "có người thật được hưởng.",
-                "duties": [
-                    "Khảo sát địa bàn, xác định nhu cầu thật trước khi thiết kế hoạt động.",
-                    "Lập kế hoạch hậu cần, an toàn và phương án y tế cho từng chuyến đi.",
-                    "Vận động nguồn lực và quà tặng phù hợp với nhu cầu đã khảo sát.",
-                    "Tổng kết, báo cáo minh bạch và giữ liên lạc với địa phương.",
-                ],
-                "programs": [
-                    {"name": "Xuân tình nguyện", "meta": "Theo mùa",
-                     "desc": "Chiến dịch hỗ trợ các hoàn cảnh kém may mắn, mang đến một mùa xuân ấm áp."},
-                    {"name": "Vui hội Trăng Rằm", "meta": "Theo mùa",
-                     "desc": "Hoạt động tình nguyện dịp Trung thu, tổ chức cho trẻ em có hoàn cảnh khó khăn một mùa Trung thu trọn vẹn."},
-                    {"name": "Mùa hè xanh", "meta": "Thường niên",
-                     "desc": "Chiến dịch tình nguyện Sinh viên Kinh tế của Đoàn Thanh niên - Hội Sinh viên UEH."},
-                ],
-                "must": ["Sức khoẻ tốt", "Tôn trọng người địa phương", "Kiên nhẫn", "Trung thực với nguồn lực"],
-                "plus": ["Sơ cấp cứu cơ bản", "Biết nấu ăn số lượng lớn", "Từng đi chiến dịch", "Chịu được điều kiện sinh hoạt giản dị"],
-                "voices": [
-                    {"q": "Điều địa phương cần không phải lúc nào cũng là thứ mình muốn mang tới. "
-                          "Đi khảo sát trước là bài học đắt nhất mà tụi mình học được.",
-                     "who": "Chờ cập nhật", "role": "Thành viên mảng Tình nguyện"},
-                ],
-                "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
-            },
-        ],
+        # PT-TN là một ban thống nhất, không chia thành hai mảng Phong trào/Tình nguyện.
+        "mangs": [],
     },
     {
         "id": "tt",
@@ -308,7 +260,7 @@ BANS = [
              "desc": "Từ teaser tới bài công bố kết quả, chạy đồng bộ trên fanpage và các kênh khác."},
             {"name": "Bộ nhận diện cho chương trình lớn", "meta": "DEP",
              "desc": "Key visual, poster, backdrop, standee và ấn phẩm số cho toàn bộ chương trình."},
-            {"name": "Tuyến bài về đời sống sinh viên BIT", "meta": "Content",
+            {"name": "Tuyến bài về đời sống sinh viên BIT", "meta": "IDEA",
              "desc": "Phỏng vấn, chân dung và những câu chuyện làm nên không khí của khoa."},
         ],
         "must": ["Chịu được deadline gấp", "Nhận góp ý mà không tự ái", "Chỉn chu chính tả", "Đúng hẹn giao bài"],
@@ -325,13 +277,12 @@ BANS = [
         "people": [("", "Trưởng ban"), ("", "Phó ban")],
         "mangs": [
             {
-                "code": "CONTENT", "id": "content", "name": "Nội dung",
+                "code": "IDEA", "id": "content", "name": "Nội dung",
                 "lede": "Mảng viết: bài đăng, caption, kịch bản, thông cáo và mọi con chữ "
                         "mang tên Đoàn - Hội BIT.",
                 "duties": [
                     "Sáng tạo nội dung cho các chương trình, hoạt động của khoa.",
                     "Quản lý timeline truyền thông cho các hoạt động của khoa.",
-                    "Thu âm cho các video chương trình, hoạt động.",
                 ],
                 "programs": [
                     {"name": "Tuyến bài chân dung thành viên", "meta": "Định kỳ",
@@ -346,7 +297,7 @@ BANS = [
                 "voices": [
                     {"q": "Câu mình tâm đắc nhất thường là câu bị cắt đầu tiên. "
                           "Viết cho người đọc chứ không viết cho mình.",
-                     "who": "Chờ cập nhật", "role": "Thành viên mảng Content"},
+                     "who": "Chờ cập nhật", "role": "Thành viên mảng IDEA"},
                 ],
                 "people": [("", "Trưởng mảng"), ("", "Thành viên"), ("", "Thành viên")],
             },
@@ -357,6 +308,7 @@ BANS = [
                 "duties": [
                     "Thiết kế poster, ấn phẩm số và ấn phẩm in cho từng chương trình.",
                     "Edit video, xử lý âm thanh cho các clip của chương trình.",
+                    "Thu âm cho các video chương trình, hoạt động.",
                     "Chụp ảnh cho các hoạt động, dự án của khoa.",
                 ],
                 "programs": [
@@ -524,6 +476,10 @@ def navbar(active):
 
     groups = []
     for ban in BANS:
+        label = f'<span><span class="gem-dot" style="--dot:{ban["color"]}"></span>{e(ban["gem"])} · {e(ban["short"])}</span>'
+        if not ban["mangs"]:
+            groups.append(f'<li><a class="dropdown-item" href="{ban["slug"]}.html">{label}</a></li>')
+            continue
         subs = [f'<li><a class="dropdown-item" href="{ban["slug"]}.html">Tổng quan ban</a></li>']
         for m in ban["mangs"]:
             subs.append(
@@ -533,7 +489,7 @@ def navbar(active):
         groups.append(
             '<li class="nav-l3">'
             f'<a class="dropdown-item" href="{ban["slug"]}.html" role="button" aria-haspopup="true">'
-            f'<span><span class="gem-dot" style="--dot:{ban["color"]}"></span>{e(ban["gem"])} · {e(ban["short"])}</span></a>'
+            f'{label}</a>'
             f'<ul class="dropdown-menu">{"".join(subs)}</ul>'
             "</li>"
         )
@@ -542,7 +498,7 @@ def navbar(active):
     return f"""  <header class="site-header">
     <div class="read-bar" aria-hidden="true"></div>
     <nav class="navbar navbar-expand-lg container" aria-label="Điều hướng chính">
-      <a class="navbar-brand brand" href="index.html" aria-label="R.E.S.D — Trang chủ"><span class="brand-mark" aria-hidden="true">✦</span> R.E.S.D<span class="brand-caption">ĐOÀN - HỘI BIT</span></a>
+      <a class="navbar-brand brand header-brand" href="index.html" aria-label="Đoàn - Hội khoa Công nghệ thông tin kinh doanh | R.E.S.D — Trang chủ"><span class="header-bit"><img class="header-faculty-logo" src="assets/images/logo-khoa-trang.png" alt="" width="989" height="335"><span class="header-bit-copy"><small><span>ĐOÀN - HỘI KHOA CÔNG NGHỆ</span><span>THÔNG TIN KINH DOANH</span></small></span></span><span class="brand-divider" aria-hidden="true">|</span><span class="brand-resd">R.E.S.D</span></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Mở menu điều hướng"><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="main-nav">
         <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
@@ -551,7 +507,7 @@ def navbar(active):
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle{ban_active}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ban chuyên môn</a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><h6 class="dropdown-header">Bốn hành tinh, chín mảng</h6></li>
+              <li><h6 class="dropdown-header">Bốn viên đá, tám lựa chọn</h6></li>
               {"".join(groups)}
             </ul>
           </li>
@@ -583,11 +539,11 @@ def footer():
     <div class="container">
       <div class="row gy-4">
         <div class="col-lg-4">
-          <a class="navbar-brand brand footer-brand" href="index.html"><span class="brand-mark" aria-hidden="true">✦</span><span class="brand-title">R.E.S.D</span><span class="brand-caption">ĐOÀN - HỘI BIT</span></a>
+          <a class="navbar-brand brand footer-brand" href="index.html" aria-label="Đoàn - Hội khoa Công nghệ thông tin kinh doanh | R.E.S.D — Trang chủ"><span class="footer-faculty"><img class="footer-faculty-logo" src="assets/images/logo-khoa-trang.png" alt="" width="989" height="335"><span class="footer-faculty-copy"><span>ĐOÀN - HỘI KHOA CÔNG NGHỆ</span><span>THÔNG TIN KINH DOANH</span></span></span><span class="footer-divider" aria-hidden="true">|</span><span class="footer-resd">R.E.S.D</span></a>
           <p class="mt-3">Cổng thông tin chương trình R.E.S.D của Đoàn - Hội khoa Công nghệ thông tin kinh doanh, Đại học Kinh tế TP.HCM.</p>
         </div>
         <div class="col-6 col-lg-3">
-          <h4>Bốn hành tinh</h4>
+          <h4>Bốn viên đá</h4>
           <ul>{ban_links}</ul>
         </div>
         <div class="col-6 col-lg-2">
@@ -799,7 +755,7 @@ def build_mang(ban, m):
       <div class="container">
         <div class="panel reveal">
           <h3>Chưa chắc {e(m['code'])} có phải chỗ của bạn?</h3>
-          <p>Làm bài kiểm tra định hướng 24 câu để xem bạn nghiêng về mảng nào trong chín mảng của R.E.S.D, rồi quay lại đọc kỹ mảng phù hợp nhất.</p>
+          <p>Làm bài kiểm tra định hướng 24 câu để xem bạn nghiêng về lựa chọn nào trong tám lựa chọn chuyên môn của R.E.S.D, rồi quay lại đọc kỹ gợi ý đó.</p>
           <div class="hero-actions mt-3">
             <a class="btn-gem" href="test-dinh-huong.html">Làm bài kiểm tra định hướng</a>
             <a class="btn-ghost" href="{ban['slug']}.html">Xem các mảng khác của {e(ban['short'])}</a>
@@ -821,6 +777,18 @@ def build_ban(ban):
     jumps = "".join(
         f'<a href="{mang_slug(ban, m)}.html">{e(m["code"])} · {e(m["name"])}</a>' for m in ban["mangs"]
     )
+    mang_nav = (
+        f'        <nav class="mang-jump" aria-label="Các mảng của {e(ban["short"])}">{jumps}</nav>'
+        if jumps else ""
+    )
+    mang_section = f"""    <section class="section">
+      <div class="container">
+        {section_head("Các mảng", f"{len(ban['mangs'])} mảng chuyên môn, mỗi mảng một trang riêng",
+                      "Mỗi mảng có nhiệm vụ, chương trình và bộ kỹ năng riêng. Bạn đăng ký theo mảng, không đăng ký chung chung — bấm vào thẻ để đọc đầy đủ.")}
+        {mang_cards(ban)}
+      </div>
+    </section>
+""" if ban["mangs"] else ""
     mission = "".join(f"<p>{e(p)}</p>" for p in ban["mission"])
 
     body = f"""    <section class="page-hero">
@@ -830,7 +798,7 @@ def build_ban(ban):
         <h1>{e(ban['name'])}</h1>
         <p class="tagline">{e(ban['tagline'])}</p>
         <ul class="hero-stats">{stats}</ul>
-        <nav class="mang-jump" aria-label="Các mảng của {e(ban['short'])}">{jumps}</nav>
+{mang_nav}
       </div>
     </section>
 
@@ -879,19 +847,13 @@ def build_ban(ban):
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        {section_head("Các mảng", f"{len(ban['mangs'])} mảng chuyên môn, mỗi mảng một trang riêng",
-                      "Mỗi mảng có nhiệm vụ, chương trình và bộ kỹ năng riêng. Bạn đăng ký theo mảng, không đăng ký chung chung — bấm vào thẻ để đọc đầy đủ.")}
-        {mang_cards(ban)}
-      </div>
-    </section>
+{mang_section}
 
     <section class="section">
       <div class="container">
         <div class="panel reveal">
           <h3>Chưa chắc {e(ban['short'])} có phải chỗ của bạn?</h3>
-          <p>Làm bài kiểm tra định hướng 24 câu để xem bạn nghiêng về mảng nào trong chín mảng của R.E.S.D, rồi quay lại đọc kỹ mảng đó.</p>
+          <p>Làm bài kiểm tra định hướng 24 câu để xem bạn nghiêng về lựa chọn nào trong tám lựa chọn chuyên môn của R.E.S.D, rồi quay lại đọc kỹ gợi ý đó.</p>
           <div class="hero-actions mt-3">
             <a class="btn-gem" href="test-dinh-huong.html">Làm bài kiểm tra định hướng</a>
             <a class="btn-ghost" href="gioi-thieu.html#so-sanh">So sánh bốn ban</a>
@@ -918,8 +880,8 @@ def build_home():
           <span class="gem-name">{e(b['gem'])}</span>
           <h3>{e(b['name'])}</h3>
           <p>{e(b['tagline'].split('.')[0])}.</p>
-          <div class="mang-tags">{"".join(f"<span>{e(m['code'])}</span>" for m in b['mangs'])}</div>
-          <span class="go">Vào hành tinh này</span>
+          <div class="mang-tags">{"".join(f"<span>{e(m['code'])}</span>" for m in b['mangs']) or "<span>Ban thống nhất</span>"}</div>
+          <span class="go">Khám phá viên đá này</span>
         </a>''' for b in BANS
     )
 
@@ -930,15 +892,15 @@ def build_home():
             <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> CỔNG THÔNG TIN CHƯƠNG TRÌNH</p>
             <h1 id="hero-title">R.E.S.D<span class="title-star" aria-hidden="true">✦</span></h1>
             <p class="hero-slogan">Mỗi sắc màu.<br>Một hành trình <span>toả sáng.</span></p>
-            <p class="hero-description">Đây là cổng thông tin dành riêng cho chương trình R.E.S.D: bốn ban chuyên môn, chín mảng, một bài kiểm tra định hướng và đường dẫn tới đơn đăng ký. Đi theo thứ tự, bạn sẽ biết mình thuộc về đâu.</p>
+            <p class="hero-description">Đây là cổng thông tin dành riêng cho chương trình R.E.S.D: bốn ban chuyên môn, tám lựa chọn, một bài kiểm tra định hướng và đường dẫn tới đơn đăng ký. Đi theo thứ tự, bạn sẽ biết mình thuộc về đâu.</p>
             <div class="hero-actions">
               <a class="btn-gem" href="test-dinh-huong.html">Bắt đầu: test định hướng</a>
-              <a class="btn-ghost explore-target" href="#resd-planet" id="explore-button">Khám phá hành tinh <span aria-hidden="true">↗</span></a>
+              <a class="btn-ghost explore-target" href="#resd-planet" id="explore-button">Khám phá bốn viên đá <span aria-hidden="true">↗</span></a>
             </div>
             <p class="hero-note">Bốn viên đá quý. Chung một tinh thần BIT.</p>
           </div>
           <div class="col-lg-6">
-            <div class="planet-scene" id="resd-planet" tabindex="-1" role="img" aria-label="Hành tinh R.E.S.D cùng bốn viên đá quý: Sapphire, Diamond, Emerald và Ruby.">
+            <div class="planet-scene" id="resd-planet" tabindex="-1" role="img" aria-label="Bốn viên đá quý R.E.S.D: Sapphire, Diamond, Emerald và Ruby.">
               <div class="orbit orbit-outer" aria-hidden="true"></div>
               <div class="orbit orbit-inner" aria-hidden="true"></div>
               <div class="planet" aria-hidden="true"><span class="planet-wordmark">R.E.S.D</span><span class="planet-caption">THE BIT UNIVERSE</span></div>
@@ -969,15 +931,15 @@ def build_home():
                 <div><b data-unit="m">–</b><span>phút</span></div>
                 <div><b data-unit="s">–</b><span>giây</span></div>
               </div>
-              <p data-countdown-done hidden>Sự kiện đã diễn ra. Bạn vẫn có thể làm bài kiểm tra bất cứ lúc nào.</p>
+              <p data-countdown-done hidden>Đã hết thời gian nhận đơn. Bạn vẫn có thể làm bài kiểm tra bất cứ lúc nào.</p>
               <p class="disclaimer">Vòng CV: 16/09–30/09/2026 · Phỏng vấn: 04/10–11/10/2026 · Công bố kết quả: 18/10/2026.</p>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="panel reveal h-100">
               <h3>Một điểm đến, một việc duy nhất</h3>
-              <p>Cổng thông tin này được dựng riêng cho R.E.S.D: đi từ chỗ chưa biết gì về bốn ban chuyên môn tới chỗ nộp được một lá đơn đúng mảng, gói gọn trong vài bước.</p>
-              <p>Không có bản tin, không có lịch họp, không có thư viện ảnh — chỉ có bốn hành tinh, chín mảng, một bài kiểm tra định hướng và một biểu mẫu đăng ký.</p>
+              <p>Cổng thông tin này được dựng riêng cho R.E.S.D: đi từ chỗ chưa biết gì về bốn ban chuyên môn tới chỗ nộp được một lá đơn đúng ban hoặc mảng, gói gọn trong vài bước.</p>
+              <p>Không có bản tin, không có lịch họp, không có thư viện ảnh — chỉ có bốn viên đá, tám lựa chọn, một bài kiểm tra định hướng và một biểu mẫu đăng ký.</p>
             </div>
           </div>
         </div>
@@ -991,8 +953,8 @@ def build_home():
           <div class="col-lg-7">
             <ol class="journey reveal">
               <li><span class="dot">1</span><h4>Hiểu R.E.S.D là gì</h4><p>Đọc phần giới thiệu để biết chương trình này giải quyết chuyện gì và bạn sẽ nhận lại được gì. <a href="gioi-thieu.html">Đọc phần giới thiệu</a></p></li>
-              <li><span class="dot">2</span><h4>Định vị bản thân</h4><p>Làm bài kiểm tra 24 câu về thói quen làm việc, thế mạnh và cách bạn tạo giá trị. Kết quả gợi ý ban và mảng phù hợp. <a href="test-dinh-huong.html">Làm bài kiểm tra</a></p></li>
-              <li><span class="dot">3</span><h4>Đọc kỹ mảng được gợi ý</h4><p>Mỗi mảng có một trang riêng với nhiệm vụ, chương trình và bộ kỹ năng. Đọc xong hãy tự hỏi mình có muốn làm những việc đó hằng tuần không.</p></li>
+              <li><span class="dot">2</span><h4>Định vị bản thân</h4><p>Làm bài kiểm tra 24 câu về thói quen làm việc, thế mạnh và cách bạn tạo giá trị. Kết quả gợi ý ban hoặc mảng phù hợp. <a href="test-dinh-huong.html">Làm bài kiểm tra</a></p></li>
+              <li><span class="dot">3</span><h4>Đọc kỹ lựa chọn được gợi ý</h4><p>Mỗi lựa chọn có trang riêng với nhiệm vụ, chương trình và bộ kỹ năng. Đọc xong hãy tự hỏi mình có muốn làm những việc đó hằng tuần không.</p></li>
               <li><span class="dot">4</span><h4>Điền đơn đăng ký</h4><p>Biểu mẫu nằm ngay cuối trang kết quả, cùng đường dẫn tới booklet đầy đủ.</p></li>
             </ol>
           </div>
@@ -1022,8 +984,8 @@ def build_home():
 
     <section class="section">
       <div class="container">
-        {section_head("Bốn hành tinh", "Chọn nơi bạn muốn hạ cánh",
-                      "Mỗi ban là một hành tinh riêng, có mảng riêng và cách làm việc riêng. Bấm vào để xem trang đầy đủ.")}
+        {section_head("Bốn viên đá", "Chọn nơi bạn muốn bắt đầu",
+                      "Mỗi viên đá đại diện cho một ban với màu sắc và cách làm việc riêng. Bấm vào để xem trang đầy đủ.")}
         <div class="card-grid grid-4">{cards}</div>
       </div>
     </section>
@@ -1043,7 +1005,7 @@ def build_home():
 
     return page(
         "R.E.S.D | Cổng thông tin chương trình — Đoàn - Hội BIT",
-        "Cổng thông tin chương trình R.E.S.D: bốn ban chuyên môn, chín mảng, bài kiểm tra định hướng và đơn đăng ký.",
+        "Cổng thông tin chương trình R.E.S.D: bốn ban chuyên môn, tám lựa chọn, bài kiểm tra định hướng và đơn đăng ký.",
         "home", "home", body, extra_js=("main.js",),
     )
 
@@ -1089,10 +1051,10 @@ def build_intro():
         <p class="crumbs"><a href="index.html">Trang chủ</a> › R.E.S.D là gì</p>
         <p class="gem-label"><span class="gem-dot" aria-hidden="true"></span>Giới thiệu chương trình</p>
         <h1>R.E.S.D là gì</h1>
-        <p class="tagline">Một chương trình để sinh viên BIT bước vào Đoàn - Hội khoa qua đúng cánh cửa của mình, thay vì đăng ký đại rồi bỏ giữa chừng.</p>
+        <p class="tagline">Một chương trình để sinh viên BIT bước vào Đoàn - Hội khoa qua đúng cánh cửa của mình.</p>
         <ul class="hero-stats">
           <li><b>4</b>ban chuyên môn</li>
-          <li><b>9</b>mảng để chọn</li>
+          <li><b>8</b>lựa chọn chuyên môn</li>
           <li><b>24</b>câu định hướng</li>
         </ul>
       </div>
@@ -1104,7 +1066,7 @@ def build_intro():
         <div class="row gy-4">
           <div class="col-lg-7 reveal">
             <p>R.E.S.D mượn hình ảnh vũ trụ để nói một chuyện rất đời thường: mỗi người hợp với một chỗ khác nhau. Bốn ban chuyên môn của Đoàn - Hội BIT được đặt thành bốn viên đá quý, mỗi viên một màu, một tính cách, một kiểu công việc.</p>
-            <p>Điều chương trình muốn tránh là tình trạng sinh viên đăng ký vì thấy bạn bè đăng ký, rồi ba tháng sau nhận ra mình không hợp. Cho nên toàn bộ cổng thông tin này được thiết kế quanh một câu hỏi: bạn hợp với mảng nào, và vì sao.</p>
+            <p>Điều chương trình muốn tránh là tình trạng sinh viên đăng ký vì thấy bạn bè đăng ký, rồi ba tháng sau nhận ra mình không hợp. Cho nên toàn bộ cổng thông tin này được thiết kế quanh một câu hỏi: bạn hợp với ban hoặc mảng nào, và vì sao.</p>
           </div>
           <div class="col-lg-5">
             <div class="panel reveal">
@@ -1119,7 +1081,7 @@ def build_intro():
           </div>
         </div>
         <div class="hero-actions mt-4 reveal">
-          <button class="btn-ghost" type="button" data-random-mang>🎲 Bốc ngẫu nhiên một mảng để đọc thử</button>
+          <button class="btn-ghost" type="button" data-random-mang>🎲 Bốc ngẫu nhiên một lựa chọn để đọc thử</button>
         </div>
       </div>
     </section>
@@ -1169,13 +1131,13 @@ def build_test():
       <div class="container">
         <p class="crumbs"><a href="index.html">Trang chủ</a> › Test định hướng</p>
         <p class="gem-label"><span class="gem-dot" aria-hidden="true"></span>Bài kiểm tra định hướng</p>
-        <h1>Bạn thuộc về hành tinh nào</h1>
-        <p class="tagline">24 câu về thói quen làm việc, nguồn năng lượng và cách bạn tạo ra giá trị. Kết quả là một mã bốn chữ cái và mức độ phù hợp với từng ban, từng mảng của R.E.S.D.</p>
+        <h1>Viên đá nào gần với bạn?</h1>
+        <p class="tagline">24 câu về thói quen làm việc, nguồn năng lượng và cách bạn tạo ra giá trị. Kết quả gồm một mã bốn chữ cái và các gợi ý để bạn đọc tiếp về từng ban, từng mảng của R.E.S.D.</p>
         <ul class="hero-stats">
           <li><b>24</b>câu hỏi</li>
           <li><b>~6</b>phút</li>
           <li><b>4</b>trục tính cách</li>
-          <li><b>9</b>mảng được chấm điểm</li>
+          <li><b>8</b>lựa chọn được đối chiếu</li>
         </ul>
       </div>
     </section>
@@ -1189,7 +1151,7 @@ def build_test():
             <div class="section-head">
               <p class="kicker">Trước khi bắt đầu</p>
               <h2>Bài này đo cái gì</h2>
-              <p>Không phải đo bạn giỏi hay dở. Bài đo thiên hướng làm việc của bạn trên bốn trục độc lập, rồi đối chiếu với hồ sơ của chín mảng chuyên môn.</p>
+              <p>Không phải đo bạn giỏi hay dở. Bài đo thiên hướng làm việc của bạn trên bốn trục độc lập, rồi đối chiếu với hồ sơ của tám lựa chọn chuyên môn.</p>
             </div>
             <div class="quiz-intro-points">
               <div class="panel"><h3>Nhịp làm việc</h3><p>Bạn cần kế hoạch trước, hay bật lên khi mọi thứ thay đổi?</p></div>
@@ -1201,6 +1163,7 @@ def build_test():
               "Chọn theo <b>con người thật của bạn</b>, không phải con người bạn nghĩ ban tuyển đang tìm.",
               "Không có câu đúng hay sai. Câu \"lưng chừng\" là lựa chọn hợp lệ.",
               "Toàn bộ tính toán chạy trong trình duyệt. <b>Không có dữ liệu nào được gửi đi.</b>",
+              "Bài này <b>không phải công cụ tâm lý đã được kiểm định</b> và <b>không ảnh hưởng tới kết quả xét tuyển</b>.",
               "Kết quả là gợi ý để bạn đọc tiếp, <b>không thay cho buổi phỏng vấn</b>.",
             ])}
             <div class="quiz-nav">
@@ -1250,7 +1213,8 @@ def build_test():
             <h3 class="sub-head mt-5">Bốn trục của bạn</h3>
             <div class="axis-chart" data-result-axes></div>
 
-            <h3 class="sub-head mt-5">Mức độ phù hợp với bốn ban</h3>
+            <h3 class="sub-head mt-5">Gợi ý khám phá bốn ban</h3>
+            <p class="result-summary">Các chỉ số bên dưới chỉ thể hiện độ tương đồng tham khảo giữa câu trả lời của bạn và hồ sơ mẫu của từng ban; đây không phải xác suất phù hợp hay kết quả xét tuyển.</p>
             <ul class="fit-list" data-result-bans></ul>
             <p class="lede mt-4" data-result-mang></p>
 
@@ -1295,8 +1259,8 @@ FAQ = [
      "Bạn nên chọn một mảng làm nguyện vọng chính và một mảng làm nguyện vọng phụ. "
      "Đăng ký dàn trải khiến ban khó xếp bạn vào đúng chỗ."),
     ("Không có kinh nghiệm thì có được nhận không?",
-     "Có. Phần \"Cần có\" trên mỗi trang mảng là thái độ và thói quen làm việc, không phải kỹ năng chuyên môn. "
-     "Phần \"Có thì càng tốt\" mới là kỹ năng, và phần lớn học được sau khi vào."),
+     "Mức độ kinh nghiệm cần thiết khác nhau theo từng mảng. Phần \"Cần có\" gồm cả thái độ, thói quen và nền tảng công việc; "
+     "phần \"Có thì càng tốt\" là lợi thế bổ sung. Hãy đối chiếu booklet và trao đổi trực tiếp với Ban chuyên môn nếu bạn chưa chắc."),
     ("Mỗi tuần phải dành bao nhiêu thời gian?",
      "Tuỳ mảng và tuỳ mùa. Ngoài mùa sự kiện thường nhẹ, vào cao điểm chương trình thì nặng hơn đáng kể. "
      "Hãy hỏi thẳng điều này trong buổi phỏng vấn."),
@@ -1304,7 +1268,7 @@ FAQ = [
      "Không. Bài kiểm tra chạy hoàn toàn trong trình duyệt của bạn và không gửi dữ liệu đi đâu. "
      "Đây là công cụ để bạn tự định hướng, không phải vòng loại."),
     ("Bài kiểm tra có chính xác như MBTI không?",
-     "Bài này lấy cảm hứng từ cách trình bày của các bài trắc nghiệm tính cách, nhưng được xây riêng cho chín mảng của R.E.S.D "
+     "Bài này lấy cảm hứng từ cách trình bày của các bài trắc nghiệm tính cách, nhưng được xây riêng cho tám lựa chọn chuyên môn của R.E.S.D "
      "và không phải một công cụ tâm lý đã được kiểm định. Hãy coi kết quả là gợi ý để đọc tiếp, không phải kết luận về con người bạn."),
 ]
 

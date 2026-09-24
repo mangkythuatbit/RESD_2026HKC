@@ -11,7 +11,7 @@
  *   3. Cách tạo giá trị   E (biểu đạt, sáng tạo) <-> A (phân tích, lập luận)
  *   4. Vị trí trong đội   S (tiền tuyến) <-> O (vận hành hậu phương)
  *
- * Kết quả: mã 4 chữ cái + mức độ phù hợp với 4 ban và 9 mảng chuyên môn.
+ * Kết quả: mã 4 chữ cái + độ tương đồng tham khảo với 4 ban và 8 lựa chọn chuyên môn.
  * Toàn bộ tính toán chạy trong trình duyệt, không gửi dữ liệu đi đâu.
  */
 (async function () {
@@ -43,35 +43,35 @@
      `let` (không phải `const`) vì Ban chuyên môn có thể nạp bộ câu hỏi
      khác từ file CSV — xem khối "Nạp dữ liệu từ CSV" bên dưới. */
   let QUESTIONS = [
-    { a: 0, d: +1, q: "Trước một sự kiện, tôi muốn có kịch bản chi tiết và phân công rõ từng đầu việc." },
-    { a: 1, d: +1, q: "Sau một buổi họp nhóm đông người, tôi thấy phấn chấn hơn là mệt." },
-    { a: 2, d: +1, q: "Tôi hay nghĩ ra cách diễn đạt một ý tưởng sao cho người khác thấy thú vị." },
-    { a: 3, d: -1, q: "Tôi thấy vui khi chương trình diễn ra suôn sẻ, kể cả khi không ai biết tôi đã làm gì." },
+    { a: 0, d: +1, q: "Khi tham gia một chương trình, tôi muốn chia công việc thành các mốc rõ ràng trước khi bắt đầu." },
+    { a: 1, d: +1, q: "Tôi có thêm năng lượng khi được trao đổi và phối hợp thường xuyên với nhiều người." },
+    { a: 2, d: +1, q: "Tôi thích biến một thông tin khô thành câu chữ, hình ảnh hoặc cách trình bày thu hút hơn." },
+    { a: 3, d: -1, q: "Tôi thấy hài lòng khi phần việc phía sau vận hành ổn định, dù mình không xuất hiện trước mọi người." },
 
-    { a: 0, d: -1, q: "Kế hoạch đổi vào phút chót không làm tôi hoảng, tôi xoay được." },
-    { a: 1, d: -1, q: "Tôi cần một khoảng thời gian yên tĩnh trong ngày để làm việc cho ra hồn." },
-    { a: 2, d: -1, q: "Khi tranh luận, tôi muốn thấy số liệu hoặc dẫn chứng trước khi tin một kết luận." },
-    { a: 3, d: +1, q: "Tôi không ngại cầm micro nói trước một phòng đầy người lạ." },
+    { a: 0, d: -1, q: "Khi kế hoạch thay đổi đột ngột, tôi có thể nhanh chóng chọn lại việc cần ưu tiên." },
+    { a: 1, d: -1, q: "Tôi làm tốt các việc cần tập trung liên tục trong một khoảng thời gian dài." },
+    { a: 2, d: -1, q: "Trước khi tin một kết luận, tôi thường kiểm tra nguồn, dữ liệu hoặc tiêu chí được dùng." },
+    { a: 3, d: +1, q: "Tôi thoải mái đại diện cho nhóm để trình bày, kết nối hoặc trao đổi với người khác." },
 
-    { a: 0, d: +1, q: "Tôi thường làm xong việc sớm hơn hạn để còn thời gian rà soát lại." },
-    { a: 1, d: +1, q: "Tôi thích những việc phải gặp gỡ, thuyết phục và giữ mối quan hệ." },
-    { a: 2, d: +1, q: "Tôi để ý tới màu sắc, bố cục, câu chữ nhiều hơn mức người khác nghĩ là cần." },
-    { a: 3, d: -1, q: "Tôi thấy hợp với vai trò lo hậu cần, thiết bị, giấy tờ hơn là dẫn chương trình." },
+    { a: 0, d: +1, q: "Trước khi gửi một sản phẩm hoặc đưa một hoạt động vào vận hành, tôi muốn rà soát bằng checklist." },
+    { a: 1, d: +1, q: "Tôi chủ động bắt chuyện và duy trì liên hệ với thành viên mới, sinh viên hoặc đối tác." },
+    { a: 2, d: +1, q: "Khi nhận một chủ đề, tôi thường nghĩ ra nhiều cách mới để truyền tải hoặc tổ chức nó." },
+    { a: 3, d: -1, q: "Tôi hợp với việc quản lý dữ liệu, timeline hoặc công cụ hỗ trợ để cả đội làm việc thuận lợi." },
 
-    { a: 0, d: -1, q: "Tôi làm việc hiệu quả nhất khi có áp lực thời gian sát nút." },
-    { a: 1, d: -1, q: "Tôi thích được giao một phần việc rõ ràng để tự hoàn thành hơn là họp liên tục." },
-    { a: 2, d: -1, q: "Tôi hay là người đặt câu hỏi \"con số này lấy từ đâu\" trong nhóm." },
-    { a: 3, d: +1, q: "Tôi sẵn sàng làm người đại diện nhóm đi làm việc với thầy cô hoặc đối tác." },
+    { a: 0, d: -1, q: "Tôi thoải mái bắt đầu từ một định hướng ban đầu rồi điều chỉnh dần qua phản hồi." },
+    { a: 1, d: -1, q: "Tôi thích nhận một đầu việc rõ ràng, tự hoàn thiện phần lớn rồi mới trao đổi với nhóm." },
+    { a: 2, d: -1, q: "Tôi thường phát hiện điểm chưa hợp lý trong số liệu, quy trình hoặc sản phẩm kỹ thuật." },
+    { a: 3, d: +1, q: "Trong một hoạt động, tôi sẵn sàng làm người hướng dẫn, điều phối tại chỗ hoặc liên hệ chính." },
 
-    { a: 0, d: +1, q: "Tôi có thói quen ghi lại việc cần làm thay vì giữ hết trong đầu." },
-    { a: 1, d: +1, q: "Tôi thường là người chủ động bắt chuyện với thành viên mới trong nhóm." },
-    { a: 2, d: +1, q: "Tôi thấy thoả mãn khi tạo ra một sản phẩm người khác nhìn vào là hiểu ngay." },
-    { a: 3, d: -1, q: "Tôi thích nhìn một quy trình rối và sắp xếp lại cho gọn gàng." },
+    { a: 0, d: +1, q: "Khi có nhiều đầu việc cùng lúc, tôi thường ghi lại deadline và theo dõi tiến độ từng việc." },
+    { a: 1, d: +1, q: "Tôi thích những công việc cần trực tiếp lắng nghe, hỗ trợ và đồng hành cùng người khác." },
+    { a: 2, d: +1, q: "Tôi quan tâm đến việc thông điệp được thể hiện sao cho người xem dễ hiểu và muốn tương tác." },
+    { a: 3, d: -1, q: "Tôi thích xây dựng quy trình, tài liệu hoặc sản phẩm số để người khác sử dụng lâu dài." },
 
-    { a: 0, d: -1, q: "Tôi thoải mái bắt tay vào việc trước rồi vừa làm vừa điều chỉnh." },
-    { a: 1, d: -1, q: "Tôi có thể ngồi một mình nhiều giờ với một tài liệu dài mà không thấy chán." },
-    { a: 2, d: -1, q: "Tôi thích đọc báo cáo, khảo sát hoặc nghiên cứu hơn là xem nội dung giải trí." },
-    { a: 3, d: +1, q: "Trong nhóm, tôi thường là người đứng ra chốt và thông báo quyết định." },
+    { a: 0, d: -1, q: "Khi phát sinh sự cố, tôi vẫn có thể hành động dù chưa có đủ mọi thông tin." },
+    { a: 1, d: -1, q: "Tôi có thể dành nhiều thời gian làm độc lập với nội dung, thiết kế, dữ liệu hoặc công nghệ." },
+    { a: 2, d: -1, q: "Tôi hứng thú với việc phân tích nguyên nhân và tìm bằng chứng cho một vấn đề." },
+    { a: 3, d: +1, q: "Trong thảo luận nhóm, tôi sẵn sàng đề xuất phương án và thông báo quyết định chung." },
   ];
 
   const LIKERT = [
@@ -82,8 +82,9 @@
     { v: -2, label: "Hoàn toàn không đúng", key: "5" },
   ];
 
-  /* Bốn ban và các mảng. Vector t[] theo thứ tự trục ở AXES, giá trị -1..1.
-     Trị tuyệt đối càng lớn thì trục đó càng quan trọng với mảng đó. */
+  /* Bốn ban và các lựa chọn chuyên môn. Vector t[] theo thứ tự trục ở AXES,
+     giá trị -1..1. `direct` đánh dấu lựa chọn trực tiếp ở cấp ban (PT-TN).
+     Trị tuyệt đối càng lớn thì trục đó càng quan trọng với lựa chọn đó. */
   const BANS = [
     {
       id: "tcxd", gem: "Sapphire", color: "#6fa8ff", name: "Tổ chức - Xây dựng", short: "TC-XD",
@@ -103,10 +104,9 @@
       url: "ban-phong-trao-tinh-nguyen.html",
       why: "Nơi tạo ra không khí sinh viên và những chuyến đi để lại dấu vết thật.",
       mangs: [
-        { code: "PT", name: "Phong trào", url: "ban-phong-trao-tinh-nguyen-pt.html", t: [-0.5, 0.8, 0.5, 0.7],
-          why: "Bạn giữ được năng lượng cho cả đám đông và xoay xở tốt khi kịch bản vỡ." },
-        { code: "TN", name: "Tình nguyện", url: "ban-phong-trao-tinh-nguyen-tn.html", t: [0.25, 0.9, 0.0, 0.35],
-          why: "Bạn bền bỉ với việc cần nhiều tấm lòng và một kế hoạch cẩn thận." },
+        { code: "PTTN", name: "Phong trào - Tình nguyện", url: "ban-phong-trao-tinh-nguyen.html", direct: true,
+          t: [-0.125, 0.85, 0.25, 0.525],
+          why: "Bạn có năng lượng làm việc cùng người khác, biết ứng biến và muốn tạo ra hoạt động có ích cho sinh viên, cộng đồng." },
       ],
     },
     {
@@ -114,7 +114,7 @@
       url: "ban-truyen-thong.html",
       why: "Nơi mọi hoạt động của Đoàn - Hội được kể lại để người ngoài muốn bước vào.",
       mangs: [
-        { code: "CONTENT", name: "Nội dung", url: "ban-truyen-thong-content.html", t: [0.1, 0.0, 0.9, 0.2],
+        { code: "IDEA", name: "Nội dung", url: "ban-truyen-thong-content.html", t: [0.1, 0.0, 0.9, 0.2],
           why: "Bạn viết được thứ người khác đọc hết chứ không lướt qua." },
         { code: "DEP", name: "Thiết kế - Hình ảnh", url: "ban-truyen-thong-dep.html", t: [-0.1, -0.4, 0.9, -0.3],
           why: "Bạn nghĩ bằng hình trước khi nghĩ bằng chữ." },
@@ -123,7 +123,7 @@
     {
       id: "htnckh", gem: "Emerald", color: "#6ce8ae", name: "Học tập - Nghiên cứu khoa học", short: "HT-NCKH",
       url: "ban-hoc-tap-nckh.html",
-      why: "Nơi việc học của sinh viên BIT được hỗ trợ bằng tài liệu, workshop và đề tài thật.",
+      why: "Nơi đồng hành cùng sinh viên BIT qua tài liệu học tập, workshop kỹ năng và cơ hội tham gia đề tài thực tế.",
       mangs: [
         { code: "HT", name: "Học tập", url: "ban-hoc-tap-nckh-ht.html", t: [0.6, 0.4, -0.4, 0.3],
           why: "Bạn thích biến thứ mình hiểu thành thứ người khác học được." },
@@ -254,7 +254,7 @@
       if (r.motangan) target.why = r.motangan;
       applied += 1;
     });
-    if (!applied) return { ok: false, error: "Không khớp được mã mảng nào. Kiểm tra lại cột \"ma_mang\"." };
+    if (!applied) return { ok: false, error: "Không khớp được mã lựa chọn nào. Kiểm tra lại cột \"ma_mang\"." };
     return { ok: true, applied, unknown };
   }
 
@@ -289,7 +289,7 @@
       if (res.ok) QUESTIONS = res.data;
     }
     if (pText) {
-      loadProfilesFromCSV(pText); // ghi thẳng vào từng mảng trong BANS; lỗi thì bỏ qua trong im lặng
+      loadProfilesFromCSV(pText); // ghi thẳng vào từng lựa chọn trong BANS; lỗi thì bỏ qua trong im lặng
     }
   }
 
@@ -311,7 +311,7 @@
   }
 
   /**
-   * Độ phù hợp = tương đồng cosine giữa hồ sơ người làm và hồ sơ mảng.
+   * Độ tương đồng tham khảo = tương đồng cosine giữa hồ sơ người làm và hồ sơ mảng.
    *
    * Dùng cosine thay vì khoảng cách vì cosine không phụ thuộc độ lớn vector:
    * một mảng có thiên hướng nhẹ trên cả bốn trục sẽ không tự động thắng chỉ
@@ -504,20 +504,21 @@
     root.querySelector("[data-result-bans]").innerHTML = r.bans.map((ban, i) =>
       '<li class="fit-row' + (i === 0 ? " is-top" : "") + '" style="--c:' + ban.color + '">' +
       '<div class="top"><span class="who"><span class="gem-dot" style="--dot:' + ban.color + '"></span>' +
-      esc(ban.name) + "</span><span class=\"score\">" + ban.score + "%</span></div>" +
+      esc(ban.name) + "</span><span class=\"score\">" + ban.score + "% tương đồng</span></div>" +
       '<div class="track"><i style="width:' + ban.score + '%"></i></div>' +
       "<p>" + esc(ban.why) + "</p>" +
       '<div class="links"><a href="' + ban.url + '">Xem trang ban</a>' +
-      ban.mangs.map((m) => '<a href="' + m.url + '">' + esc(m.code) + " · " + m.score + "%</a>").join("") +
+      ban.mangs.filter((m) => !m.direct).map((m) => '<a href="' + m.url + '">' + esc(m.code) + " · " + m.score + "% tương đồng</a>").join("") +
       "</div></li>"
     ).join("");
 
     const flat = Math.max.apply(null, r.u.map(Math.abs)) < 0.12;
     root.querySelector("[data-result-mang]").innerHTML = flat
-      ? "Bạn chọn <b>lưng chừng ở gần như mọi câu</b>, nên cả bốn ban đều ra điểm ngang nhau và mã bốn chữ cái phía trên chưa nói lên điều gì. " +
+      ? "Bạn chọn <b>lưng chừng ở gần như mọi câu</b>, nên cả bốn ban đều có độ tương đồng gần nhau và mã bốn chữ cái phía trên chưa nói lên điều gì. " +
         "Hãy làm lại và chọn dứt khoát hơn, hoặc đọc thẳng bốn trang ban để tự so."
-      : "Mảng hợp nhất với bạn là <b>" + esc(topMang.code + " · " + topMang.name) +
-        "</b> thuộc ban " + esc(topMang.ban.name) + " (" + topMang.score + "%). " + esc(topMang.why);
+      : (topMang.direct ? "Ban" : "Mảng") + " được gợi ý để bạn đọc trước là <b>" + esc(topMang.code + " · " + topMang.name) +
+        "</b>" + (topMang.direct ? "" : " thuộc ban " + esc(topMang.ban.name)) +
+        " (" + topMang.score + "% tương đồng tham khảo). " + esc(topMang.why);
 
     lastResult = { r, type, topBan, topMang };
 
@@ -637,10 +638,10 @@
         y += 88;
       });
 
-      // Ban phù hợp
+      // Ban được gợi ý
       ctx.fillStyle = "#8296ad";
       ctx.font = font(24, 600);
-      ctx.fillText("BAN PHÙ HỢP NHẤT", 96, y + 40);
+      ctx.fillText("BAN ĐƯỢC GỢI Ý", 96, y + 40);
 
       ctx.fillStyle = topBan.color;
       ctx.font = font(52, 800);
@@ -648,7 +649,7 @@
 
       ctx.fillStyle = "#a8bacf";
       ctx.font = font(28, 400);
-      ctx.fillText("Mảng gợi ý: " + topMang.code + " · " + topMang.name + "  —  " + topMang.score + "% phù hợp", 96, y + 158);
+      ctx.fillText((topMang.direct ? "Ban" : "Mảng") + " gợi ý: " + topMang.code + " · " + topMang.name + "  —  " + topMang.score + "% tương đồng", 96, y + 158);
 
       // Chân thẻ
       ctx.strokeStyle = "#a0c5e533";
@@ -699,7 +700,7 @@
 
   /* --- Xuất kết quả dạng CSV --------------------------------------------
      Một file duy nhất gồm: toàn bộ câu hỏi kèm câu trả lời đã chọn, rồi tới
-     bảng % phù hợp của 9 mảng và 4 ban, rồi tới 4 trục — cùng khuôn dạng cột
+     bảng độ tương đồng tham khảo của 8 lựa chọn và 4 ban, rồi tới 4 trục — cùng khuôn dạng cột
      với hai file CSV trong assets/data/, để mở lại bằng Excel/Sheets như một
      "phiếu điểm" kiểu MBTI/DISC. */
   function csvField(v) {
@@ -730,12 +731,12 @@
       ]));
     });
     lines.push("");
-    lines.push(csvRow(["PHẦN TRĂM PHÙ HỢP THEO MẢNG (9 mảng)"]));
-    lines.push(csvRow(["ma_ban", "ten_ban", "ma_mang", "ten_mang", "phan_tram_phu_hop"]));
+    lines.push(csvRow(["ĐỘ TƯƠNG ĐỒNG THAM KHẢO THEO LỰA CHỌN (8 lựa chọn)"]));
+    lines.push(csvRow(["ma_ban", "ten_ban", "ma_mang", "ten_mang", "do_tuong_dong_tham_khao"]));
     r.mangs.forEach((m) => lines.push(csvRow([m.ban.short, m.ban.name, m.code, m.name, m.score + "%"])));
     lines.push("");
-    lines.push(csvRow(["PHẦN TRĂM PHÙ HỢP THEO BAN (tổng hợp)"]));
-    lines.push(csvRow(["ma_ban", "ten_ban", "phan_tram_phu_hop"]));
+    lines.push(csvRow(["ĐỘ TƯƠNG ĐỒNG THAM KHẢO THEO BAN (tổng hợp)"]));
+    lines.push(csvRow(["ma_ban", "ten_ban", "do_tuong_dong_tham_khao"]));
     r.bans.forEach((b) => lines.push(csvRow([b.short, b.name, b.score + "%"])));
     lines.push("");
     lines.push(csvRow(["BỐN TRỤC TÍNH CÁCH"]));
@@ -784,7 +785,8 @@
     const { r, type, topBan, topMang } = lastResult;
     const text =
       "Kết quả định hướng R.E.S.D của mình: " + r.code + " — " + type.name + ".\n" +
-      "Ban phù hợp nhất: " + topBan.name + " (" + topBan.score + "%), mảng " + topMang.code + " (" + topMang.score + "%).\n" +
+      "Ban được gợi ý: " + topBan.name + " (" + topBan.score + "% tương đồng tham khảo), " +
+      (topMang.direct ? "lựa chọn " : "mảng ") + topMang.code + " (" + topMang.score + "% tương đồng tham khảo).\n" +
       "Làm thử tại cổng thông tin R.E.S.D.";
     try {
       await navigator.clipboard.writeText(text);

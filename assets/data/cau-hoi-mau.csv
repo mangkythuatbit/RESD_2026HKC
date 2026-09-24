@@ -1,25 +1,25 @@
 ﻿ma_cau,truc,huong,noi_dung_cau_hoi
-C01,nhip,+1,"Trước một sự kiện, tôi muốn có kịch bản chi tiết và phân công rõ từng đầu việc."
-C02,nangluong,+1,"Sau một buổi họp nhóm đông người, tôi thấy phấn chấn hơn là mệt."
-C03,giatri,+1,Tôi hay nghĩ ra cách diễn đạt một ý tưởng sao cho người khác thấy thú vị.
-C04,vitri,-1,"Tôi thấy vui khi chương trình diễn ra suôn sẻ, kể cả khi không ai biết tôi đã làm gì."
-C05,nhip,-1,"Kế hoạch đổi vào phút chót không làm tôi hoảng, tôi xoay được."
-C06,nangluong,-1,Tôi cần một khoảng thời gian yên tĩnh trong ngày để làm việc cho ra hồn.
-C07,giatri,-1,"Khi tranh luận, tôi muốn thấy số liệu hoặc dẫn chứng trước khi tin một kết luận."
-C08,vitri,+1,Tôi không ngại cầm micro nói trước một phòng đầy người lạ.
-C09,nhip,+1,Tôi thường làm xong việc sớm hơn hạn để còn thời gian rà soát lại.
-C10,nangluong,+1,"Tôi thích những việc phải gặp gỡ, thuyết phục và giữ mối quan hệ."
-C11,giatri,+1,"Tôi để ý tới màu sắc, bố cục, câu chữ nhiều hơn mức người khác nghĩ là cần."
-C12,vitri,-1,"Tôi thấy hợp với vai trò lo hậu cần, thiết bị, giấy tờ hơn là dẫn chương trình."
-C13,nhip,-1,Tôi làm việc hiệu quả nhất khi có áp lực thời gian sát nút.
-C14,nangluong,-1,Tôi thích được giao một phần việc rõ ràng để tự hoàn thành hơn là họp liên tục.
-C15,giatri,-1,"Tôi hay là người đặt câu hỏi ""con số này lấy từ đâu"" trong nhóm."
-C16,vitri,+1,Tôi sẵn sàng làm người đại diện nhóm đi làm việc với thầy cô hoặc đối tác.
-C17,nhip,+1,Tôi có thói quen ghi lại việc cần làm thay vì giữ hết trong đầu.
-C18,nangluong,+1,Tôi thường là người chủ động bắt chuyện với thành viên mới trong nhóm.
-C19,giatri,+1,Tôi thấy thoả mãn khi tạo ra một sản phẩm người khác nhìn vào là hiểu ngay.
-C20,vitri,-1,Tôi thích nhìn một quy trình rối và sắp xếp lại cho gọn gàng.
-C21,nhip,-1,Tôi thoải mái bắt tay vào việc trước rồi vừa làm vừa điều chỉnh.
-C22,nangluong,-1,Tôi có thể ngồi một mình nhiều giờ với một tài liệu dài mà không thấy chán.
-C23,giatri,-1,"Tôi thích đọc báo cáo, khảo sát hoặc nghiên cứu hơn là xem nội dung giải trí."
-C24,vitri,+1,"Trong nhóm, tôi thường là người đứng ra chốt và thông báo quyết định."
+C01,nhip,+1,"Khi tham gia một chương trình, tôi muốn chia công việc thành các mốc rõ ràng trước khi bắt đầu."
+C02,nangluong,+1,Tôi có thêm năng lượng khi được trao đổi và phối hợp thường xuyên với nhiều người.
+C03,giatri,+1,"Tôi thích biến một thông tin khô thành câu chữ, hình ảnh hoặc cách trình bày thu hút hơn."
+C04,vitri,-1,"Tôi thấy hài lòng khi phần việc phía sau vận hành ổn định, dù mình không xuất hiện trước mọi người."
+C05,nhip,-1,"Khi kế hoạch thay đổi đột ngột, tôi có thể nhanh chóng chọn lại việc cần ưu tiên."
+C06,nangluong,-1,Tôi làm tốt các việc cần tập trung liên tục trong một khoảng thời gian dài.
+C07,giatri,-1,"Trước khi tin một kết luận, tôi thường kiểm tra nguồn, dữ liệu hoặc tiêu chí được dùng."
+C08,vitri,+1,"Tôi thoải mái đại diện cho nhóm để trình bày, kết nối hoặc trao đổi với người khác."
+C09,nhip,+1,"Trước khi gửi một sản phẩm hoặc đưa một hoạt động vào vận hành, tôi muốn rà soát bằng checklist."
+C10,nangluong,+1,"Tôi chủ động bắt chuyện và duy trì liên hệ với thành viên mới, sinh viên hoặc đối tác."
+C11,giatri,+1,"Khi nhận một chủ đề, tôi thường nghĩ ra nhiều cách mới để truyền tải hoặc tổ chức nó."
+C12,vitri,-1,"Tôi hợp với việc quản lý dữ liệu, timeline hoặc công cụ hỗ trợ để cả đội làm việc thuận lợi."
+C13,nhip,-1,Tôi thoải mái bắt đầu từ một định hướng ban đầu rồi điều chỉnh dần qua phản hồi.
+C14,nangluong,-1,"Tôi thích nhận một đầu việc rõ ràng, tự hoàn thiện phần lớn rồi mới trao đổi với nhóm."
+C15,giatri,-1,"Tôi thường phát hiện điểm chưa hợp lý trong số liệu, quy trình hoặc sản phẩm kỹ thuật."
+C16,vitri,+1,"Trong một hoạt động, tôi sẵn sàng làm người hướng dẫn, điều phối tại chỗ hoặc liên hệ chính."
+C17,nhip,+1,"Khi có nhiều đầu việc cùng lúc, tôi thường ghi lại deadline và theo dõi tiến độ từng việc."
+C18,nangluong,+1,"Tôi thích những công việc cần trực tiếp lắng nghe, hỗ trợ và đồng hành cùng người khác."
+C19,giatri,+1,Tôi quan tâm đến việc thông điệp được thể hiện sao cho người xem dễ hiểu và muốn tương tác.
+C20,vitri,-1,"Tôi thích xây dựng quy trình, tài liệu hoặc sản phẩm số để người khác sử dụng lâu dài."
+C21,nhip,-1,"Khi phát sinh sự cố, tôi vẫn có thể hành động dù chưa có đủ mọi thông tin."
+C22,nangluong,-1,"Tôi có thể dành nhiều thời gian làm độc lập với nội dung, thiết kế, dữ liệu hoặc công nghệ."
+C23,giatri,-1,Tôi hứng thú với việc phân tích nguyên nhân và tìm bằng chứng cho một vấn đề.
+C24,vitri,+1,"Trong thảo luận nhóm, tôi sẵn sàng đề xuất phương án và thông báo quyết định chung."

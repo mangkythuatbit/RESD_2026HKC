@@ -1,6 +1,13 @@
 # Tiến độ R.E.S.D
 
-## 2026-09-17 (bản mới nhất) — 17 trang, CSV tự nạp từ host, gỡ so sánh trang chủ
+## 2026-09-24 (bản mới nhất) — PT-TN là một ban thống nhất, nhận diện bốn viên đá
+
+- Đã xác nhận Ban Phong trào - Tình nguyện **không chia thành hai mảng PT/TN**. Hai trang con cũ được gỡ; website còn **15 trang** gồm 4 trang ban và 7 trang mảng.
+- Bài test còn **8 lựa chọn chuyên môn**: 7 mảng và Ban PT-TN. Hai hồ sơ PT/TN cũ được gộp thành hồ sơ `PTTN` bằng trung bình từng trục để giữ nguyên hệ chỉ số.
+- Điều hướng, tìm nhanh, nút bốc ngẫu nhiên, CSV mẫu và tài liệu đã được đồng bộ theo cấu trúc mới.
+- Nội dung hiển thị gọi nhận diện R.E.S.D là **bốn viên đá**; không gọi bốn ban là các hành tinh.
+
+## 2026-09-17 — 17 trang, CSV tự nạp từ host, gỡ so sánh trang chủ
 
 > Bản ghi này mô tả **trạng thái hiện hành** của dự án và thay thế các con số đã cũ (ví dụ "8 trang") ở mục ghi ngày 2026-09-17 phía dưới. Mục cũ được giữ nguyên làm lịch sử, không sửa lại.
 
@@ -142,8 +149,8 @@ Nhãn `Nội dung mẫu · chờ duyệt` trước đây gắn cố định vào
 - Website tĩnh: HTML, Bootstrap 5.3.8 qua jsDelivr CDN, CSS và JavaScript thuần; không cần build.
 - Cấu trúc: `index.html`, `css/style.css`, `js/main.js`, `assets/images/`, `docs/`.
 - Navbar thu gọn dưới 992px, hỗ trợ đóng bằng Escape và khi chọn liên kết.
-- Hero nền không gian, hành tinh và bốn đá quý được dựng bằng CSS; hỗ trợ giảm chuyển động.
-- Nút "Khám phá hành tinh" dẫn đến hình hành tinh trong Hero và kích hoạt ánh sáng ngắn.
+- Hero nền không gian và bốn viên đá được dựng bằng CSS; hỗ trợ giảm chuyển động.
+- Nút "Khám phá bốn viên đá" dẫn đến khối nhận diện trong Hero và kích hoạt ánh sáng ngắn.
 - Các mục điều hướng đến section chưa có được vô hiệu hóa, chưa tạo section còn lại.
 - Slogan và lời giới thiệu trong Hero là bản nháp cần duyệt. Chưa có booklet trong workspace để đối chiếu nhận diện chính thức.
 - Chưa thêm đăng ký, form, iframe, backend hoặc database; không sử dụng lịch tuyển.

@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Riêng cho Trang chủ: tương tác với hành tinh R.E.S.D trong Hero.
+ * Riêng cho Trang chủ: tương tác với khối nhận diện R.E.S.D trong Hero.
  * Các hành vi dùng chung nằm ở js/site.js.
  */
 (function () {

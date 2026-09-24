@@ -236,7 +236,7 @@
     const note = wrap.querySelector("[data-passport-note]");
     if (note) {
       note.textContent = count >= total
-        ? "Đủ dấu. Bạn đã đi hết vũ trụ R.E.S.D — giờ là lúc chọn hành tinh của mình."
+        ? "Đủ dấu. Bạn đã đi hết vũ trụ R.E.S.D — giờ là lúc chọn viên đá phù hợp với mình."
         : "Còn " + (total - count) + " trạm chưa ghé. Mỗi trang bạn mở sẽ tự đóng thêm một dấu.";
     }
   }
@@ -258,21 +258,19 @@
     { t: "Liên hệ", s: "Fanpage, email, câu hỏi thường gặp", u: "lien-he.html" },
 
     { t: "Ban Tổ chức - Xây dựng", s: "Sapphire · TC-XD · Nhân sự, Đối ngoại, Kỹ thuật", u: "ban-to-chuc-xay-dung.html" },
-    { t: "Mảng Nhân sự (NS)", s: "TC-XD · Con người, văn hoá, gắn kết đội ngũ", u: "ban-to-chuc-xay-dung-ns.html" },
-    { t: "Mảng Đối ngoại (ĐN)", s: "TC-XD · Tài trợ, đối tác, hồ sơ hợp tác", u: "ban-to-chuc-xay-dung-dn.html" },
-    { t: "Mảng Kỹ thuật (KT)", s: "TC-XD · Sản phẩm số, website, kỹ thuật chương trình", u: "ban-to-chuc-xay-dung-kt.html" },
+    { t: "Mảng Nhân sự (NS)", s: "TC-XD · Con người, văn hoá, gắn kết đội ngũ", u: "ban-to-chuc-xay-dung-ns.html", random: true },
+    { t: "Mảng Đối ngoại (ĐN)", s: "TC-XD · Tài trợ, đối tác, hồ sơ hợp tác", u: "ban-to-chuc-xay-dung-dn.html", random: true },
+    { t: "Mảng Kỹ thuật (KT)", s: "TC-XD · Sản phẩm số, website, kỹ thuật chương trình", u: "ban-to-chuc-xay-dung-kt.html", random: true },
 
-    { t: "Ban Phong trào - Tình nguyện", s: "Diamond · PT-TN · Phong trào, Tình nguyện", u: "ban-phong-trao-tinh-nguyen.html" },
-    { t: "Mảng Phong trào (PT)", s: "PT-TN · Sân chơi, hội thao, sự kiện sinh viên", u: "ban-phong-trao-tinh-nguyen-pt.html" },
-    { t: "Mảng Tình nguyện (TN)", s: "PT-TN · Chiến dịch, cộng đồng, an sinh", u: "ban-phong-trao-tinh-nguyen-tn.html" },
+    { t: "Ban Phong trào - Tình nguyện", s: "Diamond · PT-TN · Ban thống nhất, không chia mảng", u: "ban-phong-trao-tinh-nguyen.html", random: true },
 
-    { t: "Ban Truyền thông", s: "Ruby · TT · Content, Design & Media", u: "ban-truyen-thong.html" },
-    { t: "Mảng Content", s: "TT · Bài viết, kịch bản, giọng nói thương hiệu", u: "ban-truyen-thong-content.html" },
-    { t: "Mảng DEP", s: "TT · Thiết kế, ảnh, video, ấn phẩm", u: "ban-truyen-thong-dep.html" },
+    { t: "Ban Truyền thông", s: "Ruby · TT · IDEA, DEP", u: "ban-truyen-thong.html" },
+    { t: "Mảng IDEA", s: "TT · Bài viết, kịch bản, giọng nói thương hiệu", u: "ban-truyen-thong-content.html", random: true },
+    { t: "Mảng DEP", s: "TT · Thiết kế, ảnh, video, ấn phẩm", u: "ban-truyen-thong-dep.html", random: true },
 
     { t: "Ban Học tập - NCKH", s: "Emerald · HT-NCKH · Học tập, Nghiên cứu khoa học", u: "ban-hoc-tap-nckh.html" },
-    { t: "Mảng Học tập (HT)", s: "HT-NCKH · Workshop, tài liệu, học thuật", u: "ban-hoc-tap-nckh-ht.html" },
-    { t: "Mảng NCKH", s: "HT-NCKH · Đề tài, cuộc thi nghiên cứu, cố vấn", u: "ban-hoc-tap-nckh-nckh.html" },
+    { t: "Mảng Học tập (HT)", s: "HT-NCKH · Workshop, tài liệu, học thuật", u: "ban-hoc-tap-nckh-ht.html", random: true },
+    { t: "Mảng NCKH", s: "HT-NCKH · Đề tài, cuộc thi nghiên cứu, cố vấn", u: "ban-hoc-tap-nckh-nckh.html", random: true },
   ];
 
   const palette = document.querySelector("[data-palette]");
@@ -339,11 +337,11 @@
     });
   }
 
-  /* --- Bốc ngẫu nhiên một mảng ------------------------------------------
-     Dùng lại chính bảng INDEX ở trên (9 mục "Mảng ..."). Chức năng tĩnh
+  /* --- Bốc ngẫu nhiên một lựa chọn --------------------------------------
+     Dùng lại chính bảng INDEX ở trên (7 mảng + Ban PT-TN). Chức năng tĩnh
      thuần client-side, dành cho người chưa biết bắt đầu đọc từ đâu. */
   document.querySelectorAll("[data-random-mang]").forEach((btn) => {
-    const options = INDEX.filter((item) => item.t.startsWith("Mảng "));
+    const options = INDEX.filter((item) => item.random);
     btn.addEventListener("click", () => {
       if (!options.length) return;
       const pick = options[Math.floor(Math.random() * options.length)];

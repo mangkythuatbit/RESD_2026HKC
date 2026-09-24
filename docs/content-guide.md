@@ -7,7 +7,7 @@ Dành cho Ban chuyên môn và ban Truyền thông. Không cần biết lập tr
 ## Quy tắc vàng
 
 > **Đừng sửa thẳng các file `.html`.**
-> Cả 17 trang được sinh ra từ `tools/build_pages.py`. Sửa `.html` sẽ mất trắng ở lần chạy script tiếp theo.
+> Cả 15 trang được sinh ra từ `tools/build_pages.py`. Sửa `.html` sẽ mất trắng ở lần chạy script tiếp theo.
 
 Quy trình đúng, mỗi lần cập nhật nội dung ban/mảng:
 
@@ -17,7 +17,7 @@ python3 tools/build_pages.py
 
 Chạy xong, mở `index.html` kiểm tra lại là được.
 
-**Ngoại lệ duy nhất**: bộ câu hỏi trắc nghiệm và hồ sơ % của 9 mảng dùng cho bài kiểm tra định hướng — xem Việc 6 bên dưới, không sửa qua `tools/build_pages.py`.
+**Ngoại lệ duy nhất**: bộ câu hỏi trắc nghiệm và hồ sơ % của 8 lựa chọn chuyên môn dùng cho bài kiểm tra định hướng — xem Việc 6 bên dưới, không sửa qua `tools/build_pages.py`.
 
 ---
 
@@ -123,14 +123,14 @@ Nên nén ảnh xuống dưới 300 KB trước khi thêm, vì website tải tr�
 
 ---
 
-## Việc 6 — Cập nhật bộ câu hỏi trắc nghiệm / hồ sơ % của 9 mảng
+## Việc 6 — Cập nhật bộ câu hỏi trắc nghiệm / hồ sơ % của 8 lựa chọn
 
 Đây là phần **duy nhất không đi qua `tools/build_pages.py`**. Bài kiểm tra định hướng đọc dữ liệu từ hai file CSV trong thư mục `assets/data/`, ngay trên host — không cần chạy script, không cần đụng tới code.
 
 | File | Nội dung | Cột bắt buộc |
 | --- | --- | --- |
 | `cau-hoi-mau.csv` | 24 câu hỏi trắc nghiệm | `ma_cau, truc, huong, noi_dung_cau_hoi` |
-| `ho-so-mang-mau.csv` | Hồ sơ % của 9 mảng theo 4 trục | `ma_ban, ten_ban, ma_mang, ten_mang, nhip_lam_viec, nguon_nang_luong, cach_tao_gia_tri, vi_tri_trong_doi, mo_ta_ngan` |
+| `ho-so-mang-mau.csv` | Hồ sơ % của 8 lựa chọn theo 4 trục | `ma_ban, ten_ban, ma_mang, ten_mang, nhip_lam_viec, nguon_nang_luong, cach_tao_gia_tri, vi_tri_trong_doi, mo_ta_ngan` |
 
 **Cách cập nhật**:
 1. Mở file bằng Excel hoặc Google Sheets, sửa nội dung (thêm/sửa câu hỏi, đổi % của mảng...), rồi lưu lại **đúng định dạng CSV, mã hoá UTF-8** (giữ nguyên tên cột ở dòng đầu).
@@ -139,11 +139,11 @@ Nên nén ảnh xuống dưới 300 KB trước khi thêm, vì website tải tr�
 
 Ghi chú về cột:
 - `truc` (bộ câu hỏi) nhận một trong bốn giá trị: `nhip`, `nangluong`, `giatri`, `vitri`. `huong` là `+1` hoặc `-1` (chiều của câu hỏi so với trục).
-- 4 cột trục trong hồ sơ mảng nhận giá trị từ `-100` đến `100` (%). `ma_mang` phải khớp mã sẵn có: NS, ĐN, KT, PT, TN, CONTENT, DEP, HT, NCKH.
+- 4 cột trục trong hồ sơ lựa chọn nhận giá trị từ `-100` đến `100` (%). `ma_mang` phải khớp mã sẵn có: NS, ĐN, KT, PTTN, IDEA, DEP, HT, NCKH. Mã `PTTN` đại diện trực tiếp cho Ban Phong trào - Tình nguyện vì ban này không chia mảng.
 
 **Vì sao không có nút "tải file lên" trên website**: việc đổi bộ câu hỏi là thao tác quản trị nội bộ, không nên hiện ra cho sinh viên vào làm bài thấy. Nếu file trên host bị lỗi định dạng hoặc không đọc được, trang sẽ tự lặng lẽ dùng bộ mặc định có sẵn trong `js/test-dinh-huong.js` — bài test vẫn chạy bình thường, không có gì hiển thị lỗi cho người làm bài.
 
-Nút **"Tải kết quả (CSV)"** ở màn hình kết quả (dành cho người làm bài, không phải Ban chuyên môn) xuất ra một file cùng kiểu cột, gồm câu hỏi, câu trả lời đã chọn và % phù hợp từng ban/mảng — mở được ngay bằng Excel.
+Nút **"Tải kết quả (CSV)"** ở màn hình kết quả (dành cho người làm bài, không phải Ban chuyên môn) xuất ra một file cùng kiểu cột, gồm câu hỏi, câu trả lời đã chọn và độ tương đồng tham khảo của từng ban/mảng — mở được ngay bằng Excel.
 
 ---
 

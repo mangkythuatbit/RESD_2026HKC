@@ -1,10 +1,9 @@
 ﻿ma_ban,ten_ban,ma_mang,ten_mang,nhip_lam_viec,nguon_nang_luong,cach_tao_gia_tri,vi_tri_trong_doi,mo_ta_ngan
 TCXD,Tổ chức - Xây dựng,NS,Nhân sự,85,85,-30,-45,Bạn quan tâm tới người trong đội nhiều như quan tâm tới đầu việc.
-TCXD,Tổ chức - Xây dựng,DN,Đối ngoại,50,90,10,80,"Bạn dám mở lời trước, giữ được quan hệ và nói thay cho tập thể."
+TCXD,Tổ chức - Xây dựng,ĐN,Đối ngoại,50,90,10,80,"Bạn dám mở lời trước, giữ được quan hệ và nói thay cho tập thể."
 TCXD,Tổ chức - Xây dựng,KT,Kỹ thuật,80,-20,-60,-90,"Bạn thấy vui khi hệ thống chạy đúng, dù khán giả không biết bạn là ai."
-PTTN,Phong trào - Tình nguyện,PT,Phong trào,-50,80,50,70,Bạn giữ được năng lượng cho cả đám đông và xoay xở tốt khi kịch bản vỡ.
-PTTN,Phong trào - Tình nguyện,TN,Tình nguyện,25,90,0,35,Bạn bền bỉ với việc cần nhiều tấm lòng và một kế hoạch cẩn thận.
-TT,Truyền thông,CONTENT,Nội dung,10,0,90,20,Bạn viết được thứ người khác đọc hết chứ không lướt qua.
+PTTN,Phong trào - Tình nguyện,PTTN,Phong trào - Tình nguyện,-12.5,85,25,52.5,"Bạn có năng lượng làm việc cùng người khác, biết ứng biến và muốn tạo ra hoạt động có ích cho sinh viên, cộng đồng."
+TT,Truyền thông,IDEA,Nội dung,10,0,90,20,Bạn viết được thứ người khác đọc hết chứ không lướt qua.
 TT,Truyền thông,DEP,Thiết kế - Hình ảnh,-10,-40,90,-30,Bạn nghĩ bằng hình trước khi nghĩ bằng chữ.
 HTNCKH,Học tập - Nghiên cứu khoa học,HT,Học tập,60,40,-40,30,Bạn thích biến thứ mình hiểu thành thứ người khác học được.
 HTNCKH,Học tập - Nghiên cứu khoa học,NCKH,Nghiên cứu khoa học,70,-50,-90,-40,Bạn kiên nhẫn với dữ liệu và không ngại một câu hỏi phải mất vài tháng để trả lời.

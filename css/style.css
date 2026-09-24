@@ -114,6 +114,28 @@ p { max-width: 68ch; }
 }
 .brand-mark { position: absolute; left: 0; top: 0; color: var(--resd-cyan); font-size: 1.9rem; }
 .brand-caption { display: block; margin-top: -2px; font-size: .54rem; letter-spacing: .22em; color: var(--resd-muted); }
+.site-header .header-brand {
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding-left: 0; line-height: 1;
+}
+.header-brand .header-bit { display: inline-flex; align-items: center; gap: .42rem; }
+.header-faculty-logo { display: block; width: auto; height: 30px; object-fit: contain; }
+.header-bit-copy { display: grid; }
+.header-bit-copy small {
+  color: var(--resd-muted); font-size: .44rem; font-weight: 700;
+  line-height: 1.25; letter-spacing: .08em;
+}
+.header-bit-copy small span { display: block; white-space: nowrap; }
+.header-brand .brand-divider { color: var(--resd-muted); font-weight: 400; }
+.header-brand .brand-resd { color: var(--resd-cyan); font-size: 1.22rem; letter-spacing: .1em; }
+
+@media (max-width: 575.98px) {
+  .site-header .header-brand { gap: .32rem; }
+  .header-brand .header-bit { gap: .28rem; }
+  .header-faculty-logo { height: 20px; }
+  .header-bit-copy small { font-size: .36rem; letter-spacing: .04em; }
+  .header-brand .brand-resd { font-size: .9rem; }
+}
 
 .navbar .nav-link { font-size: .94rem; font-weight: 500; padding: 10px 8px; }
 .navbar .nav-link:hover { color: var(--resd-cyan); }
@@ -739,20 +761,18 @@ details.panel > summary:focus-visible { outline: 2px solid var(--resd-cyan); out
   background: linear-gradient(180deg, transparent, #040c17);
 }
 .site-footer .footer-brand {
-  display: grid; grid-template-columns: 30px minmax(0, 1fr);
-  grid-template-areas: "mark title" "mark caption";
-  column-gap: 10px; align-items: center; padding-left: 0;
-  line-height: 1.1;
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding-left: 0; line-height: 1;
 }
-.site-footer .footer-brand .brand-mark {
-  position: static; grid-area: mark; font-size: 1.55rem;
+.footer-faculty { display: inline-flex; align-items: center; gap: .35rem; }
+.footer-faculty-logo { display: block; width: auto; height: 28px; object-fit: contain; }
+.footer-faculty-copy {
+  display: grid; color: var(--resd-muted);
+  font-size: .4rem; font-weight: 700; line-height: 1.25; letter-spacing: .06em;
 }
-.site-footer .footer-brand .brand-title {
-  grid-area: title; font-size: 1.05rem; font-weight: 800; letter-spacing: .1em;
-}
-.site-footer .footer-brand .brand-caption {
-  grid-area: caption; margin: 3px 0 0; font-size: .56rem; letter-spacing: .16em;
-}
+.footer-faculty-copy span { display: block; white-space: nowrap; }
+.footer-divider { color: var(--resd-dim); font-weight: 400; }
+.footer-resd { color: var(--resd-cyan); font-size: 1rem; font-weight: 800; letter-spacing: .08em; }
 .site-footer h4 { margin: 0 0 14px; font-size: .88rem; font-weight: 700; letter-spacing: .1em; color: var(--resd-muted); }
 .site-footer ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
 .site-footer a { color: var(--resd-muted); font-size: .96rem; text-decoration: none; }

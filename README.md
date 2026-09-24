@@ -1,6 +1,6 @@
 # Cổng thông tin R.E.S.D — Đoàn - Hội khoa Công nghệ thông tin kinh doanh, UEH
 
-Website tĩnh giới thiệu chương trình R.E.S.D: 4 ban chuyên môn, 9 mảng (mỗi mảng một trang riêng), bài kiểm tra định hướng cá nhân và đường dẫn tới form đăng ký cùng booklet.
+Website tĩnh giới thiệu chương trình R.E.S.D: 4 ban chuyên môn, 7 mảng trực thuộc và 8 lựa chọn chuyên môn (Ban PT-TN là một lựa chọn cấp ban), bài kiểm tra định hướng cá nhân và đường dẫn tới form đăng ký cùng booklet.
 
 HTML5 + Bootstrap 5.3 qua CDN + CSS/JavaScript thuần. Không cần cài đặt, không cần build.
 
@@ -19,16 +19,14 @@ Mở `index.html` bằng trình duyệt, hoặc dùng Live Server trong VS Code.
 
 ```text
 index.html                             Trang chủ cổng thông tin
-gioi-thieu.html                        Ý tưởng, giá trị nhận được, so sánh 4 ban, nút "bốc ngẫu nhiên mảng"
+gioi-thieu.html                        Ý tưởng, giá trị nhận được, so sánh 4 ban, nút "bốc ngẫu nhiên lựa chọn"
 ban-to-chuc-xay-dung.html              Sapphire · TC-XD (tổng quan)
   ban-to-chuc-xay-dung-ns.html           Mảng Nhân sự
   ban-to-chuc-xay-dung-dn.html           Mảng Đối ngoại
   ban-to-chuc-xay-dung-kt.html           Mảng Kỹ thuật
-ban-phong-trao-tinh-nguyen.html        Diamond · PT-TN (tổng quan)
-  ban-phong-trao-tinh-nguyen-pt.html     Mảng Phong trào
-  ban-phong-trao-tinh-nguyen-tn.html     Mảng Tình nguyện
+ban-phong-trao-tinh-nguyen.html        Diamond · PT-TN (ban thống nhất, không chia mảng)
 ban-truyen-thong.html                  Ruby · TT (tổng quan)
-  ban-truyen-thong-content.html          Mảng Nội dung (Content)
+  ban-truyen-thong-content.html          Mảng IDEA (Nội dung)
   ban-truyen-thong-dep.html              Mảng Thiết kế - Hình ảnh (DEP)
 ban-hoc-tap-nckh.html                  Emerald · HT-NCKH (tổng quan)
   ban-hoc-tap-nckh-ht.html                Mảng Học tập
@@ -38,12 +36,12 @@ lien-he.html                           Kênh liên hệ + FAQ
 
 css/style.css                          Toàn bộ giao diện, các khối đánh số
 js/config.js                           ★ Liên kết ngoài và mốc thời gian
-js/site.js                             Hành vi dùng chung mọi trang (navbar 3 cấp, hộ chiếu, bảng lệnh, bốc ngẫu nhiên mảng)
+js/site.js                             Hành vi dùng chung mọi trang (navbar 3 cấp, hộ chiếu, bảng lệnh, bốc ngẫu nhiên lựa chọn)
 js/main.js                             Hiệu ứng riêng của Trang chủ
 js/test-dinh-huong.js                  Bài kiểm tra: đọc CSV từ host, chấm điểm, kết quả, canvas PNG, xuất CSV
-tools/build_pages.py                   ★ Bộ sinh 17 trang, chứa toàn bộ nội dung chữ của ban/mảng
+tools/build_pages.py                   ★ Bộ sinh 15 trang, chứa toàn bộ nội dung chữ của ban/mảng
 assets/data/cau-hoi-mau.csv            ★ 24 câu hỏi trắc nghiệm — sửa trực tiếp, không qua script
-assets/data/ho-so-mang-mau.csv         ★ Hồ sơ % của 9 mảng — sửa trực tiếp, không qua script
+assets/data/ho-so-mang-mau.csv         ★ Hồ sơ % của 8 lựa chọn — sửa trực tiếp, không qua script
 assets/images/                         Ảnh đã được duyệt
 docs/project-brief.md                  Phạm vi và định hướng
 docs/progress.md                       Tiến độ
@@ -71,7 +69,7 @@ Mốc đếm ngược nằm ở `event.date`, đang đặt `2026-09-23T08:00:00+
 
 ### 2. Sửa nội dung chữ của ban/mảng — `tools/build_pages.py`
 
-⚠️ **Đừng sửa thẳng file `.html`.** Cả 17 trang được sinh ra từ script này; nội dung nằm trong biến `BANS`. Sửa xong chạy lại:
+⚠️ **Đừng sửa thẳng file `.html`.** Cả 15 trang được sinh ra từ script này; nội dung nằm trong biến `BANS`. Sửa xong chạy lại:
 
 ```bash
 python3 tools/build_pages.py
@@ -83,21 +81,21 @@ Chi tiết cách thêm nhân sự và thay lời nhắn nhủ: xem `docs/content
 
 ### 3. Sửa bộ câu hỏi trắc nghiệm / hồ sơ % mảng — `assets/data/*.csv`
 
-**Không đi qua `tools/build_pages.py`.** Sửa trực tiếp `assets/data/cau-hoi-mau.csv` (24 câu) và `assets/data/ho-so-mang-mau.csv` (hồ sơ % của 9 mảng) rồi ghi đè lên host — trang tự đọc lại khi tải. Chi tiết cột và quy trình: xem `docs/content-guide.md`, mục "Cập nhật bộ câu hỏi trắc nghiệm".
+**Không đi qua `tools/build_pages.py`.** Sửa trực tiếp `assets/data/cau-hoi-mau.csv` (24 câu) và `assets/data/ho-so-mang-mau.csv` (hồ sơ % của 8 lựa chọn) rồi ghi đè lên host — trang tự đọc lại khi tải. Chi tiết cột và quy trình: xem `docs/content-guide.md`, mục "Cập nhật bộ câu hỏi trắc nghiệm".
 
 Chủ đích thiết kế: việc nạp file này **không có giao diện công khai** trên website (không có nút "tải file lên" cho khách vào xem thấy) — đây là thao tác quản trị nội bộ, làm thẳng trên host. Nếu file lỗi hoặc không đọc được, trang lặng lẽ dùng bộ mặc định nhúng sẵn trong `js/test-dinh-huong.js`.
 
 ## Tính năng đáng chú ý
 
 - **Navbar 3 cấp** — Bootstrap chỉ hỗ trợ 2 cấp, cấp 3 được tự xử lý trong `js/site.js`: mở ngang từ 992px, thu thành accordion ở mobile.
-- **9 mảng, 9 trang riêng** — mỗi mảng có URL độc lập (`tools/build_pages.py` → `build_mang()`), trang ban chỉ còn thẻ tổng quan dẫn sang từng mảng.
-- **Bài kiểm tra định hướng** — 4 trục, 24 câu Likert, cho ra mã 4 chữ và 1 trong 16 nhóm, kèm xếp hạng 9 mảng và 4 ban. Phím `1`-`5` chọn đáp án, `←` `→` chuyển câu. Bộ câu hỏi/hồ sơ mảng tự nạp từ `assets/data/*.csv` trên host (im lặng dùng mặc định nếu không đọc được).
+- **7 mảng, 7 trang riêng** — các mảng của TC-XD, TT và HT-NCKH có URL độc lập; PT-TN là một ban thống nhất nên dùng trực tiếp trang ban.
+- **Bài kiểm tra định hướng** — 4 trục, 24 câu Likert, cho ra mã 4 chữ và 1 trong 16 nhóm, kèm xếp hạng 8 lựa chọn chuyên môn và 4 ban. Phím `1`-`5` chọn đáp án, `←` `→` chuyển câu. Bộ câu hỏi/hồ sơ lựa chọn tự nạp từ `assets/data/*.csv` trên host (im lặng dùng mặc định nếu không đọc được).
 - **Ảnh kết quả** — render bằng canvas 1080×1350, tải về dạng `resd-dinh-huong-<MÃ>.png`.
-- **Xuất kết quả CSV** — nút "Tải kết quả (CSV)" ở màn hình kết quả, xuất câu hỏi + câu trả lời + % phù hợp từng ban/mảng, mở được bằng Excel.
+- **Xuất kết quả CSV** — nút "Tải kết quả (CSV)" ở màn hình kết quả, xuất câu hỏi + câu trả lời + độ tương đồng tham khảo của từng ban/mảng, mở được bằng Excel.
 - **Chương trình nổi bật dạng khung ảnh khổ dọc** — tên luôn hiện, di chuột/chạm mới lộ mô tả (`programs_grid()`); chưa có ảnh thật thì hiện chữ cái đầu làm chỗ giữ chỗ.
-- **Bốc ngẫu nhiên một mảng** — nút ở `gioi-thieu.html`, đưa thẳng người đọc tới một trong 9 trang mảng.
+- **Bốc ngẫu nhiên một lựa chọn** — nút ở `gioi-thieu.html`, đưa người đọc tới một trong 7 trang mảng hoặc trang Ban PT-TN.
 - **Hộ chiếu vũ trụ** — 8 trạm tự đóng dấu khi ghé thăm đủ 8 nhóm trang (4 ban + trang chủ, giới thiệu, test, liên hệ).
-- **Bảng lệnh tìm nhanh** — `Ctrl/⌘ + K`, 17 mục, tìm được không dấu ("nhan su" → Nhân sự, "thiet ke" → DEP).
+- **Bảng lệnh tìm nhanh** — `Ctrl/⌘ + K`, 16 mục (gồm mục so sánh bốn ban), tìm được không dấu ("nhan su" → Nhân sự, "thiet ke" → DEP).
 - **In / lưu PDF** — toàn site có `@media print`.
 
 Dữ liệu lưu cục bộ trên máy người dùng, không gửi đi đâu. Key: `resd.passport.v1`, `resd.test.v1`.
@@ -105,7 +103,7 @@ Dữ liệu lưu cục bộ trên máy người dùng, không gửi đi đâu. K
 ## Kiểm tra thủ công trước khi công bố
 
 **Bố cục**
-- Xem ở 320px, 375px, 768px, 992px, 1440px; kiểm tràn ngang, chữ và hành tinh.
+- Xem ở 320px, 375px, 768px, 992px, 1440px; kiểm tràn ngang, chữ và bốn viên đá.
 - Trên mobile: mở/đóng menu, mở dropdown ban, mở tiếp menu cấp 3, chọn một mảng và kiểm nó dẫn đúng sang trang mảng riêng (không phải anchor).
 - Nhấn Escape để đóng menu.
 
@@ -126,7 +124,7 @@ Dữ liệu lưu cục bộ trên máy người dùng, không gửi đi đâu. K
 **Liên kết**
 - Bấm thử mọi nút dùng link từ config khi còn rỗng: phải hiện thông báo ngắn, không nhảy trang lỗi.
 - Bấm nút Fanpage: mở tab mới.
-- Bấm nút "Bốc ngẫu nhiên một mảng" vài lần ở `gioi-thieu.html`: phải đưa tới các trang mảng khác nhau trong 9 mảng.
+- Bấm nút "Bốc ngẫu nhiên một lựa chọn" vài lần ở `gioi-thieu.html`: phải đưa tới các lựa chọn khác nhau trong 8 lựa chọn.
 
 **In**
 - `Ctrl/⌘ + P` trên trang mảng và trang kết quả test, kiểm bản in đọc được.

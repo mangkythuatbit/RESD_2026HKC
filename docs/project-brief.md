@@ -1,7 +1,7 @@
 # Project Brief - Cổng thông tin R.E.S.D
 
 ## Mục tiêu
-Cổng thông tin tĩnh giới thiệu chương trình R.E.S.D của Đoàn - Hội khoa Công nghệ thông tin kinh doanh, UEH: ý tưởng chương trình, 4 ban chuyên môn và 9 mảng (mỗi mảng một trang riêng), bài kiểm tra định hướng cá nhân, và đường dẫn tới form đăng ký cùng booklet.
+Cổng thông tin tĩnh giới thiệu chương trình R.E.S.D của Đoàn - Hội khoa Công nghệ thông tin kinh doanh, UEH: ý tưởng chương trình, 4 ban chuyên môn, 7 mảng trực thuộc và 8 lựa chọn chuyên môn, bài kiểm tra định hướng cá nhân, và đường dẫn tới form đăng ký cùng booklet. Ban Phong trào - Tình nguyện là một ban thống nhất, không chia thành hai mảng PT/TN.
 
 Trang phục vụ mục 3.2 của kế hoạch: "Giới thiệu Website Đoàn - Hội khoa và Trải nghiệm bài kiểm tra định hướng", dự kiến 23/09/2026, công bố trực tuyến trên Fanpage.
 
@@ -17,7 +17,7 @@ Website tĩnh: HTML5, Bootstrap 5 qua CDN, CSS và JavaScript thuần. Không ba
 
 Iframe và Google Form **được phép** (xem mục Thay đổi quyết định). `fetch()` cũng được phép, dùng đúng một việc: tự đọc hai file CSV câu hỏi / hồ sơ mảng từ `assets/data/` (xem mục Bài kiểm tra định hướng).
 
-## Cấu trúc trang (17 trang)
+## Cấu trúc trang (15 trang)
 
 ```
 index.html                             Trang chủ cổng thông tin
@@ -26,11 +26,9 @@ ban-to-chuc-xay-dung.html              Sapphire · TC-XD (tổng quan, dẫn san
   ban-to-chuc-xay-dung-ns.html           Mảng Nhân sự
   ban-to-chuc-xay-dung-dn.html           Mảng Đối ngoại
   ban-to-chuc-xay-dung-kt.html           Mảng Kỹ thuật
-ban-phong-trao-tinh-nguyen.html        Diamond · PT-TN (tổng quan, dẫn sang 2 mảng)
-  ban-phong-trao-tinh-nguyen-pt.html     Mảng Phong trào
-  ban-phong-trao-tinh-nguyen-tn.html     Mảng Tình nguyện
+ban-phong-trao-tinh-nguyen.html        Diamond · PT-TN (ban thống nhất, không chia mảng)
 ban-truyen-thong.html                  Ruby · TT (tổng quan, dẫn sang 2 mảng)
-  ban-truyen-thong-content.html          Mảng Nội dung (Content)
+  ban-truyen-thong-content.html          Mảng IDEA (Nội dung)
   ban-truyen-thong-dep.html              Mảng Thiết kế - Hình ảnh (DEP)
 ban-hoc-tap-nckh.html                  Emerald · HT-NCKH (tổng quan, dẫn sang 2 mảng)
   ban-hoc-tap-nckh-ht.html                Mảng Học tập
@@ -39,23 +37,23 @@ test-dinh-huong.html                   Bài kiểm tra định hướng + form n
 lien-he.html                           Kênh liên hệ + FAQ
 ```
 
-Mỗi trang ban (tổng quan) bắt buộc có: sứ mệnh, nhiệm vụ tổng quát, và thẻ dẫn sang từng trang mảng. Mỗi trang mảng có đủ 5 khối: **sứ mệnh/lời dẫn, nhiệm vụ, chương trình nổi bật, lời nhắn nhủ của thành viên, yêu cầu - kỹ năng**, cộng thêm khu nhân sự.
+Mỗi trang ban bắt buộc có sứ mệnh và nhiệm vụ tổng quát. Ba ban có mảng thêm thẻ dẫn sang từng trang mảng; riêng PT-TN trình bày trực tiếp nội dung toàn ban. Mỗi trang mảng có đủ 5 khối: **sứ mệnh/lời dẫn, nhiệm vụ, chương trình nổi bật, lời nhắn nhủ của thành viên, yêu cầu - kỹ năng**, cộng thêm khu nhân sự.
 
-Trước đây mảng từng là section/anchor bên trong trang ban (`#ns`, `#dn`...). Bản hiện tại đã tách mỗi mảng thành một trang riêng có URL độc lập (ví dụ TC-XD có 3 mảng → 1 trang tổng quan + 3 trang mảng = 4 trang), vì nội dung mỗi mảng đủ dài để đứng thành trang riêng và để liên kết chia sẻ trỏ thẳng đúng mảng. Menu cấp 3 trên navbar trỏ thẳng tới trang mảng.
+Trước đây mảng từng là section/anchor bên trong trang ban (`#ns`, `#dn`...). Bản hiện tại đã tách bảy mảng thực tế thành trang riêng có URL độc lập (ví dụ TC-XD có 3 mảng → 1 trang tổng quan + 3 trang mảng = 4 trang), vì nội dung mỗi mảng đủ dài để đứng thành trang riêng và để liên kết chia sẻ trỏ thẳng đúng mảng. PT-TN không có trang con vì không chia mảng. Menu cấp 3 trên navbar chỉ hiện cho ba ban có mảng.
 
 ## Bài kiểm tra định hướng
-Mô hình 4 trục kiểu MBTI, 24 câu Likert 5 mức, cho ra mã 4 chữ và 1 trong 16 nhóm, kèm xếp hạng độ phù hợp với 9 mảng và 4 ban. Kết quả render được thành ảnh 1080×1350 để chia sẻ, và tải được dưới dạng **file CSV** (đầy đủ câu hỏi, câu trả lời, % phù hợp từng ban/mảng — định dạng kiểu "phiếu điểm" MBTI/DISC, mở được bằng Excel).
+Mô hình 4 trục kiểu MBTI, 24 câu Likert 5 mức, cho ra mã 4 chữ và 1 trong 16 nhóm, kèm xếp hạng độ tương đồng tham khảo với 8 lựa chọn chuyên môn (7 mảng + Ban PT-TN) và 4 ban. Kết quả render được thành ảnh 1080×1350 để chia sẻ, và tải được dưới dạng **file CSV** (đầy đủ câu hỏi, câu trả lời, độ tương đồng tham khảo từng ban/mảng — định dạng kiểu "phiếu điểm" MBTI/DISC, mở được bằng Excel).
 
-**Bộ câu hỏi và hồ sơ % của 9 mảng nằm trong hai file CSV** ở `assets/data/`:
+**Bộ câu hỏi và hồ sơ % của 8 lựa chọn nằm trong hai file CSV** ở `assets/data/`:
 - `cau-hoi-mau.csv` — 24 câu, cột `ma_cau, truc, huong, noi_dung_cau_hoi`.
-- `ho-so-mang-mau.csv` — 9 dòng (một dòng một mảng), cột % theo 4 trục.
+- `ho-so-mang-mau.csv` — 8 dòng (một dòng một lựa chọn), cột % theo 4 trục.
 
 Trang tự `fetch()` hai file này khi tải trang test. Nếu đọc được và hợp lệ thì dùng ngay; nếu không (lỗi mạng, mở qua `file://`, chưa có file, sai định dạng) thì lặng lẽ dùng bộ mặc định đã nhúng sẵn trong `js/test-dinh-huong.js` — người làm bài không thấy bất kỳ thông báo lỗi hay công cụ nạp file nào. **Ban chuyên môn cập nhật bộ câu hỏi/hồ sơ mảng bằng cách sửa thẳng hai file CSV này trên host**, không qua giao diện web công khai (xem `docs/content-guide.md`).
 
 **Giới hạn phải nói rõ với người dùng**: đây là công cụ gợi mở để chọn ban, **không phải công cụ tâm lý đã kiểm định**, và **không ảnh hưởng tới kết quả xét tuyển**. Hai điều này đã ghi trong FAQ ở `lien-he.html` và trên chính trang test.
 
 ## Nhận diện
-Chủ đề không gian: nền tối xanh, sao, hành tinh, quỹ đạo, tên lửa và bốn viên đá quý ứng với bốn ban.
+Chủ đề không gian: nền tối xanh, sao, quỹ đạo, tên lửa và bốn viên đá quý ứng với bốn ban. Trong nội dung hiển thị, bốn ban chỉ được gọi là **bốn viên đá**, không gọi là hành tinh.
 
 | Ban | Đá quý | Màu |
 | --- | --- | --- |
@@ -72,8 +70,8 @@ Responsive ưu tiên mobile. Tôn trọng `prefers-reduced-motion`. Có `@media 
 
 ## Chức năng tĩnh bổ sung
 - **Hộ chiếu vũ trụ** — 8 trạm (4 ban + trang chủ, giới thiệu, test, liên hệ) tự đóng dấu khi ghé thăm.
-- **Bảng lệnh tìm nhanh** `Ctrl/⌘ + K` — 17 mục (4 trang chính, 4 ban, 9 mảng), tìm được không dấu.
-- **Bốc ngẫu nhiên một mảng** — nút ở `gioi-thieu.html`, đưa thẳng người đọc chưa biết bắt đầu từ đâu tới một trang mảng ngẫu nhiên trong 9 mảng.
+- **Bảng lệnh tìm nhanh** `Ctrl/⌘ + K` — 16 mục (4 trang chính, mục so sánh, 4 ban và 7 mảng), tìm được không dấu.
+- **Bốc ngẫu nhiên một lựa chọn** — nút ở `gioi-thieu.html`, đưa người đọc chưa biết bắt đầu từ đâu tới một trong 7 trang mảng hoặc trang Ban PT-TN.
 - Đếm ngược tới mốc sự kiện, thanh tiến độ đọc, nút về đầu trang, hiệu ứng `.reveal`.
 
 ## Nguồn nội dung
@@ -87,14 +85,14 @@ PDF giới thiệu Đoàn - Hội khoa (đối chiếu ở phiên tách trang) �
 
 **Thêm Google Fonts** (2026-09-17). Font hệ thống hay lỗi dấu tiếng Việt ở các trọng số đậm. Be Vietnam Pro có bộ dấu đầy đủ. Space Grotesk chỉ dùng cho số và mã latin nên không cần bộ dấu.
 
-**Tách 9 mảng thành 9 trang riêng** (phiên sau). Mảng ban đầu là section/anchor trong trang ban; nay mỗi mảng có URL riêng để liên kết chia sẻ trỏ đúng và nội dung không bị dồn quá dài trên một trang.
+**Tách các mảng thành trang riêng** (phiên sau). Mảng ban đầu là section/anchor trong trang ban; các mảng thực tế có URL riêng để liên kết chia sẻ trỏ đúng và nội dung không bị dồn quá dài trên một trang. Sau đó đã xác nhận PT-TN là một ban thống nhất, nên hai trang PT/TN được gỡ và hồ sơ bài test được gộp thành một lựa chọn PTTN.
 
 **Gỡ phần "khác gì web khoa" ở trang chủ, thêm bộ CSV cho bài test** (phiên sau). Trang chủ trước có hẳn một khối so sánh trực diện với web khoa — đã bỏ, để sự khác biệt tự hiện qua nội dung. Bài test được bổ sung khả năng đọc bộ câu hỏi/hồ sơ mảng từ CSV.
 
 **Ẩn công cụ nạp CSV khỏi giao diện public, chuyển sang tự đọc từ host** (phiên sau nữa). Bản đầu của tính năng CSV có một khối "Dành cho Ban chuyên môn" hiển thị công khai trên trang test, cho phép bất kỳ ai ghé trang cũng thấy nút tải lên file câu hỏi. Việc quản trị nội dung không nên lộ ra giao diện của người dùng cuối, nên khối này đã bị gỡ; thay vào đó trang tự `fetch()` hai file CSV từ `assets/data/` mỗi khi tải, Ban chuyên môn chỉ cần thay nội dung hai file đó thẳng trên host.
 
 ## Trạng thái hiện tại
-17 trang đã dựng xong, đã qua kiểm tra cấu trúc HTML (thẻ đóng/mở, không trùng id, liên kết nội bộ), `node --check` sạch trên các file JS, và render thử bằng trình duyệt không lỗi JavaScript nghiêm trọng. Chi tiết trong `docs/progress.md`.
+15 trang đã dựng xong. Sau mỗi thay đổi cần kiểm tra cấu trúc HTML, liên kết nội bộ và cú pháp JavaScript theo hướng dẫn trong `AGENTS.md`. Chi tiết các lần kiểm tra nằm trong `docs/progress.md`.
 
 ## Còn chờ xác nhận
 - **Mốc 23/09/2026** đang ghi kèm chú thích "dự kiến, chờ xác nhận từ Ban chuyên môn".
