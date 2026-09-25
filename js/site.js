@@ -236,8 +236,8 @@
     const note = wrap.querySelector("[data-passport-note]");
     if (note) {
       note.textContent = count >= total
-        ? "Đủ dấu. Bạn đã đi hết vũ trụ R.E.S.D — giờ là lúc chọn viên đá phù hợp với mình."
-        : "Còn " + (total - count) + " trạm chưa ghé. Mỗi trang bạn mở sẽ tự đóng thêm một dấu.";
+        ? "Đủ dấu. Bạn đã đi hết vũ trụ R.E.S.D, giờ là lúc chọn viên đá phù hợp với mình."
+        : "Còn " + (total - count) + " trạm chưa ghé. Mỗi trang bạn mở sẽ được tự đóng dấu.";
     }
   }
   renderPassport();

@@ -154,8 +154,15 @@ p { max-width: 68ch; }
 .navbar .nav-link { font-size: .94rem; font-weight: 500; padding: 10px 8px; white-space: nowrap; }
 .navbar .nav-link:hover { color: var(--resd-cyan); }
 .navbar .nav-link.active { color: var(--resd-cyan); font-weight: 700; }
-.navbar-toggler { border-color: var(--resd-line-strong); padding: 6px 10px; }
-
+.navbar-toggler { padding: 6px 10px; }
+.navbar-toggler,
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
 .dropdown-menu {
   --bs-dropdown-bg: #0b1e34;
   --bs-dropdown-border-color: #a0c5e533;
@@ -221,7 +228,7 @@ p { max-width: 68ch; }
 
 /* 4. Hero trang chủ ------------------------------------------------------- */
 .hero {
-  position: relative; overflow: hidden; padding: 64px 0 32px;
+  position: relative; overflow: hidden; padding: 25px 0 32px;
   background:
     radial-gradient(ellipse at 79% 42%, #164c6740, transparent 48%),
     radial-gradient(ellipse at 18% 100%, #16355666, transparent 55%);
@@ -245,7 +252,7 @@ p { max-width: 68ch; }
   font-weight: 600; line-height: 1.35; letter-spacing: -.03em;
 }
 .hero-slogan span { color: var(--resd-cyan); }
-.hero-description { max-width: 46ch; margin: 20px 0 26px; color: var(--resd-muted); font-size: 1.08rem; }
+.hero-description { max-width: 46ch; margin: 20px 0 26px; color: var(--resd-muted); font-size: 1.08rem; text-align: justify; }
 
 .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
 
@@ -383,7 +390,7 @@ a.gem:hover i, a.gem:focus-visible i { transform: scale(1.14); filter: brightnes
   background: linear-gradient(160deg, #0d2038, #091729);
 }
 .panel h3 { margin: 0 0 10px; font-size: 1.16rem; font-weight: 700; letter-spacing: -.01em; }
-.panel p { margin: 0; color: var(--resd-muted); font-size: 1rem; }
+.panel p { margin: 0; color: var(--resd-muted); font-size: 1rem; text-align: justify;}
 .panel p + p { margin-top: 10px; }
 
 .planet-card {
@@ -392,6 +399,7 @@ a.gem:hover i, a.gem:focus-visible i { transform: scale(1.14); filter: brightnes
   background: linear-gradient(165deg, #0e2239, #081526);
   color: inherit; text-decoration: none; overflow: hidden;
   transition: border-color .2s, transform .2s;
+  justify-content: space-between;
 }
 .planet-card::after {
   content: ""; position: absolute; right: -70px; top: -70px;
@@ -402,13 +410,14 @@ a.gem:hover i, a.gem:focus-visible i { transform: scale(1.14); filter: brightnes
 .planet-card:hover, .planet-card:focus-visible { border-color: var(--gem); transform: translateY(-4px); }
 .planet-card .gem-name { color: var(--gem); font-size: .72rem; font-weight: 700; letter-spacing: .16em; }
 .planet-card h3 { margin: 0; font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; }
-.planet-card p { margin: 0; color: var(--resd-muted); font-size: .98rem; }
+.planet-card p { margin: 0; color: var(--resd-muted); font-size: .98rem; text-align:justify; }
 .planet-card .mang-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 6px; }
 .planet-card .mang-tags span {
   padding: 4px 10px; border: 1px solid var(--resd-line-strong); border-radius: 999px;
   font-size: .7rem; color: var(--resd-muted);
 }
-.planet-card .go { color: var(--gem); font-size: .82rem; font-weight: 700; }
+.planet-card .go { color: var(--gem); font-size: .82rem; font-weight: 700;  margin-top: auto; /* Tuyệt chiêu ép nút luôn nằm sát đáy bất kể chữ dài ngắn */
+    white-space: nowrap; /* Đảm bảo chữ của nút không bao giờ bị rớt dòng */ }
 
 .mang-card {
   position: relative; display: flex; flex-direction: column; gap: 10px;
@@ -553,7 +562,7 @@ a.gem:hover i, a.gem:focus-visible i { transform: scale(1.14); filter: brightnes
   color: var(--gem); font-family: var(--font-code); font-size: .7rem; font-weight: 700;
 }
 .journey h4 { margin: 0 0 4px; font-size: 1.08rem; font-weight: 700; }
-.journey p { margin: 0; color: var(--resd-muted); font-size: .98rem; }
+.journey p { margin: 0; color: var(--resd-muted); font-size: .98rem; text-align:justify; }
 
 /* 9. Đếm ngược ------------------------------------------------------------ */
 .countdown {

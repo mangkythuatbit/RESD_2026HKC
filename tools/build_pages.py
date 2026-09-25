@@ -505,7 +505,7 @@ def navbar(active):
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle{ban_active}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ban chuyên môn</a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><h6 class="dropdown-header">Bốn viên đá, tám lựa chọn</h6></li>
+              <li><h6 class="dropdown-header">Bốn viên đá, bốn ban chuyên môn</h6></li>
               {"".join(groups)}
             </ul>
           </li>
@@ -538,43 +538,52 @@ def footer():
         f'<li><a href="{b["slug"]}.html">{e(b["gem"])} · {e(b["name"])}</a></li>' for b in BANS
     )
     return f"""  <footer class="site-footer">
-    <div class="container">
-      <div class="row gy-4">
-        <div class="col-lg-4">
-          <a class="navbar-brand brand footer-brand" href="index.html" aria-label="Đoàn - Hội khoa Công nghệ thông tin kinh doanh | R.E.S.D — Trang chủ"><span class="footer-faculty"><img class="footer-faculty-logo" src="assets/images/logo-khoa-trang.png" alt="" width="989" height="335"><span class="footer-faculty-copy"><span>ĐOÀN - HỘI</span><span>KHOA CÔNG NGHỆ THÔNG TIN KINH DOANH</span></span></span><span class="footer-divider" aria-hidden="true">|</span><span class="footer-resd">R.E.S.D</span></a>
-          <p class="mt-3">Cổng thông tin chương trình R.E.S.D của Đoàn - Hội khoa Công nghệ thông tin kinh doanh, Đại học Kinh tế TP.HCM.</p>
-        </div>
-        <div class="col-6 col-lg-3">
-          <h4>Bốn viên đá</h4>
-          <ul>{ban_links}</ul>
-        </div>
-        <div class="col-6 col-lg-2">
-          <h4>Hành trình</h4>
-          <ul>
-            <li><a href="gioi-thieu.html">R.E.S.D là gì</a></li>
-            <li><a href="gioi-thieu.html#so-sanh">So sánh bốn ban</a></li>
-            <li><a href="test-dinh-huong.html">Test định hướng</a></li>
-            <li><a href="lien-he.html">Câu hỏi thường gặp</a></li>
-          </ul>
-        </div>
-        <div class="col-lg-3">
-          <h4>Kết nối</h4>
-          <ul>
-            <li><a data-config-link="fanpageUrl">Fanpage Đoàn - Hội BIT</a></li>
-            <li><a data-config-link="bookletUrl">Booklet R.E.S.D</a></li>
-            <li><a data-config-link="formOpenUrl">Đơn đăng ký</a></li>
-            <li><a href="lien-he.html">Liên hệ trực tiếp</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>R.E.S.D · Đoàn - Hội khoa Công nghệ thông tin kinh doanh, UEH</span>
-        <span>Website tĩnh, không thu thập dữ liệu người dùng.</span>
-      </div>
-    </div>
-  </footer>
-  <button class="to-top" type="button" aria-label="Lên đầu trang">↑</button>"""
+    <div class="container"> 
+  <div class="row gy-4"> 
+    <!-- Cột 1: Chiếm đúng 5 phần trên màn hình lớn -->
+    <div class="col-12 col-lg-5"> 
+      <a class="navbar-brand brand footer-brand" href="index.html" aria-label="Đoàn - Hội khoa Công nghệ thông tin kinh doanh | R.E.S.D — Trang chủ">
+        <span class="footer-faculty">
+          <img class="footer-faculty-logo" src="assets/images/logo-khoa-trang.png" alt="" width="989" height="335">
+          <span class="footer-faculty-copy"><span>ĐOÀN - HỘI</span><span>KHOA CÔNG NGHỆ THÔNG TIN KINH DOANH</span></span>
+        </span>
+        <span class="footer-divider" aria-hidden="true">|</span>
+        <span class="footer-resd">R.E.S.D</span>
+      </a> 
+      <p class="mt-3">Cổng thông tin chương trình Tìm kiếm Cộng tác viên R.E.S.D của Đoàn - Hội khoa Công nghệ thông tin kinh doanh, Đại học Kinh tế TP.HCM.</p> 
+    </div> 
 
+    <!-- 3 Cột sau: Dùng col-lg để tự động chia đều 7 phần còn lại -->
+    <div class="col-6 col-lg"> 
+      <h4>Bốn viên đá</h4> 
+      <ul>{ban_links}</ul> 
+    </div> 
+
+    <div class="col-6 col-lg"> 
+      <h4>Hành trình</h4> 
+      <ul> 
+        <li><a href="gioi-thieu.html">R.E.S.D là gì</a></li> 
+        <li><a href="gioi-thieu.html#so-sanh">So sánh bốn ban</a></li> 
+        <li><a href="test-dinh-huong.html">Test định hướng</a></li> 
+        <li><a href="lien-he.html">Câu hỏi thường gặp</a></li> 
+      </ul> 
+    </div> 
+
+    <div class="col-6 col-lg"> 
+      <h4>Kết nối</h4> 
+      <ul> 
+        <li><a data-config-link="fanpageUrl">Fanpage BIT.UEH</a></li> 
+        <li><a data-config-link="bookletUrl">Booklet R.E.S.D</a></li> 
+        <li><a data-config-link="formOpenUrl">Đơn đăng ký</a></li> 
+        <li><a href="lien-he.html">Liên hệ trực tiếp</a></li> 
+      </ul> 
+    </div> 
+  </div> 
+  
+  <div class="footer-bottom"> 
+    <span> Cổng thông tin chương trình Tìm kiếm Cộng tác viên R.E.S.D · Đoàn - Hội khoa Công nghệ thông tin kinh doanh, UEH</span> 
+  </div> 
+</div>"""
 
 def page(title, desc, active, stamp, body, css_vars="", extra_js=()):
     return "\n".join([
@@ -879,12 +888,14 @@ def build_ban(ban):
 def build_home():
     cards = "".join(
         f'''<a class="planet-card reveal" href="{b['slug']}.html" style="--gem:{b['color']}">
-          <span class="gem-name">{e(b['gem'])}</span>
-          <h3>{e(b['name'])}</h3>
-          <p>{e(b['tagline'].split('.')[0])}.</p>
-          <div class="mang-tags">{"".join(f"<span>{e(m['code'])}</span>" for m in b['mangs']) or "<span>Ban thống nhất</span>"}</div>
-          <span class="go">Khám phá viên đá này</span>
-        </a>''' for b in BANS
+            <div class="card-content">
+                <span class="gem-name">{e(b['gem'])}</span>
+                <h3>{e(b['name'])}</h3>
+                <p>{e(b['tagline'].split('.')[0].rsplit(' ', 1)[0])}&nbsp;{e(b['tagline'].split('.')[0].split()[-1])}.</p>
+            </div>
+            <span class="go">Khám phá viên đá này</span>
+        </a>''' 
+        for b in BANS
     )
 
     body = f"""    <section class="hero" id="home" aria-labelledby="hero-title">
@@ -894,9 +905,9 @@ def build_home():
             <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> CỔNG THÔNG TIN CHƯƠNG TRÌNH</p>
             <h1 id="hero-title">R.E.S.D<span class="title-star" aria-hidden="true">✦</span></h1>
             <p class="hero-slogan">Mỗi sắc màu.<br>Một hành trình <span>toả sáng.</span></p>
-            <p class="hero-description">Đây là cổng thông tin dành riêng cho chương trình R.E.S.D: bốn ban chuyên môn, một bài kiểm tra định hướng và đường dẫn tới đơn đăng ký. Đi theo thứ tự, bạn sẽ biết mình thuộc về đâu.</p>
+            <p class="hero-description">Mừng bạn đến với Chương trình Tìm kiếm Cộng tác viên R.E.S.D thuộc Đoàn - Hội khoa Công nghệ thông tin kinh doanh. Chỉ với vài phút, bạn sẽ tự tin bước trên hành trình bứt phá. Đừng để tiềm năng dừng lại ở những đắn đo.</p>
             <div class="hero-actions">
-              <a class="btn-gem" href="test-dinh-huong.html">Bắt đầu: test định hướng</a>
+              <a class="btn-gem" href="test-dinh-huong.html">Làm bài kiểm tra định hướng</a>
             </div>
             <p class="hero-note">Bốn viên đá quý. Chung một tinh thần BIT.</p>
           </div>
@@ -933,14 +944,18 @@ def build_home():
                 <div><b data-unit="s">–</b><span>giây</span></div>
               </div>
               <p data-countdown-done hidden>Đã hết thời gian nhận đơn. Bạn vẫn có thể làm bài kiểm tra bất cứ lúc nào.</p>
-              <p class="disclaimer">Vòng CV: 16/09–30/09/2026 · Phỏng vấn: 04/10–11/10/2026 · Công bố kết quả: 18/10/2026.</p>
+              <ul class="disclaimer">
+                <li>Vòng CV: 16/09–30/09/2026</li>
+                <li>Phỏng vấn: 04/10–11/10/2026</li>
+                <li>Công bố kết quả: 18/10/2026</li>
+              </ul>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="panel reveal h-100">
-              <h3>Một điểm đến, một việc duy nhất</h3>
-              <p>Cổng thông tin này được dựng riêng cho R.E.S.D: đi từ chỗ chưa biết gì về bốn ban chuyên môn tới chỗ nộp được một lá đơn đúng ban hoặc mảng, gói gọn trong vài bước.</p>
-              <p>Cổng thông tin tập trung vào bốn viên đá đại diện cho bốn ban, tám lựa chọn chuyên môn, bài kiểm tra định hướng và biểu mẫu đăng ký — những thông tin cần thiết để bạn tìm ra nơi phù hợp và bắt đầu hành trình R.E.S.D.</p>
+              <h3>Bạn đã sẵn sàng bắt sóng thế hệ mới chưa?</h3>
+              <p>Cổng thông tin được thiết kế để tối ưu hóa hành trình ứng tuyển của bạn. Chỉ qua vài bước định hướng, bạn sẽ dễ dàng xác định thế mạnh cá nhân và hoàn tất đơn đăng ký.</p>
+              <p>Bốn viên đá phản chiếu 4 hành trình khác biệt, nhưng cùng hội tụ tại một tầm nhìn chung với BIT. Hãy bắt đầu hành trình bứt phá của bạn ngay hôm nay.</p>
             </div>
           </div>
         </div>
@@ -948,45 +963,49 @@ def build_home():
     </section>
 
     <section class="section">
-      <div class="container">
-        {section_head("Lộ trình", "Bốn bước, theo đúng thứ tự này")}
-        <div class="row gy-4">
-          <div class="col-lg-7">
-            <ol class="journey reveal">
-              <li><span class="dot">1</span><h4>Hiểu R.E.S.D là gì</h4><p>Đọc phần giới thiệu để biết chương trình này giải quyết chuyện gì và bạn sẽ nhận lại được gì. <a href="gioi-thieu.html">Đọc phần giới thiệu</a></p></li>
-              <li><span class="dot">2</span><h4>Định vị bản thân</h4><p>Làm bài kiểm tra 24 câu về thói quen làm việc, thế mạnh và cách bạn tạo giá trị. Kết quả gợi ý ban hoặc mảng phù hợp. <a href="test-dinh-huong.html">Làm bài kiểm tra</a></p></li>
-              <li><span class="dot">3</span><h4>Đọc kỹ lựa chọn được gợi ý</h4><p>Mỗi lựa chọn có trang riêng với nhiệm vụ, chương trình và bộ kỹ năng. Đọc xong hãy tự hỏi mình có muốn làm những việc đó hằng tuần không.</p></li>
-              <li><span class="dot">4</span><h4>Điền đơn đăng ký</h4><p>Biểu mẫu nằm ngay cuối trang kết quả, cùng đường dẫn tới booklet đầy đủ.</p></li>
-            </ol>
+  <div class="container">
+    {section_head("Lộ trình", "Bốn bước, theo đúng thứ tự này")}
+    <div class="row gy-4">
+      
+      <!-- Cột trái: Giảm xuống col-lg-6 -->
+      <div class="col-lg-6">
+        <ol class="journey reveal">
+          <li><span class="dot">1</span><h4>Hiểu R.E.S.D là gì</h4><p>Đọc phần giới thiệu để biết chương trình này giải quyết chuyện gì và bạn sẽ nhận lại được gì. <a href="gioi-thieu.html">Đọc phần giới thiệu</a></p></li>
+          <li><span class="dot">2</span><h4>Định vị bản thân</h4><p>Làm bài kiểm tra 24 câu về thói quen làm việc, thế mạnh và cách bạn tạo giá trị. Kết quả gợi ý ban hoặc mảng phù hợp. <a href="test-dinh-huong.html">Làm bài kiểm tra</a></p></li>
+          <li><span class="dot">3</span><h4>Đọc kỹ lựa chọn được gợi ý</h4><p>Mỗi lựa chọn có trang riêng với nhiệm vụ, chương trình và bộ kỹ năng. Đọc xong hãy tự hỏi mình có muốn làm những việc đó hằng tuần không.</p></li>
+          <li><span class="dot">4</span><h4>Điền đơn đăng ký</h4><p>Biểu mẫu ngay đầu trang cùng đường tới booklet đầy đủ.</p></li>
+        </ol>
+      </div>
+
+      <!-- Cột phải: Rộng hơn bản cũ 1 số (từ col-lg-5 thành col-lg-6) -->
+      <div class="col-lg-6">
+        <div class="passport reveal" data-passport>
+          <div class="passport-ring">
+            <svg width="156" height="156" viewBox="0 0 156 156" aria-hidden="true">
+              <circle class="track" cx="78" cy="78" r="66"></circle>
+              <circle class="bar" cx="78" cy="78" r="66" stroke-dasharray="414" stroke-dashoffset="414"></circle>
+            </svg>
+            <div class="value"><b data-passport-count>0/8</b><span>trạm đã ghé</span></div>
           </div>
-          <div class="col-lg-5">
-            <div class="passport reveal" data-passport>
-              <div class="passport-ring">
-                <svg width="156" height="156" viewBox="0 0 156 156" aria-hidden="true">
-                  <circle class="track" cx="78" cy="78" r="66"></circle>
-                  <circle class="bar" cx="78" cy="78" r="66" stroke-dasharray="414" stroke-dashoffset="414"></circle>
-                </svg>
-                <div class="value"><b data-passport-count>0/8</b><span>trạm đã ghé</span></div>
-              </div>
-              <div class="passport-body">
-                <h3>Hộ chiếu vũ trụ</h3>
-                <p data-passport-note>Mỗi trang bạn mở sẽ tự đóng thêm một dấu.</p>
-                <ul class="stamps" data-passport-stamps></ul>
-                <div class="passport-actions">
-                  <button class="btn-ghost" type="button" data-passport-reset>Xoá hộ chiếu</button>
-                </div>
-                <p class="mt-3" style="font-size:.78rem;color:var(--resd-dim)">Hộ chiếu lưu trong trình duyệt của bạn, không gửi đi đâu và không ai xem được.</p>
-              </div>
+          <div class="passport-body">
+            <h3>Hộ chiếu vũ trụ</h3>
+            <p data-passport-note>Mỗi trang bạn mở sẽ được tự đóng dấu.</p>
+            <ul class="stamps" data-passport-stamps></ul>
+            <div class="passport-actions">
+              <button class="btn-ghost" type="button" data-passport-reset>Xoá hộ chiếu</button>
             </div>
           </div>
         </div>
       </div>
-    </section>
+
+    </div>
+  </div>
+</section>
 
     <section class="section">
       <div class="container">
         {section_head("Bốn viên đá", "Chọn nơi bạn muốn bắt đầu",
-                      "Mỗi viên đá đại diện cho một ban với màu sắc và cách làm việc riêng. Bấm vào để xem trang đầy đủ.")}
+                      "Mỗi viên đá đại diện cho một ban với màu sắc và cách làm việc riêng.")}
         <div class="card-grid grid-4">{cards}</div>
       </div>
     </section>
@@ -1064,11 +1083,10 @@ def build_intro():
       <div class="container">
         {section_head("Ý tưởng", "Bốn viên đá quý, một vũ trụ")}
         <div class="row gy-4">
-          <div class="col-lg-7 reveal">
-            <p>R.E.S.D mượn hình ảnh vũ trụ để nói một chuyện rất đời thường: mỗi người hợp với một chỗ khác nhau. Bốn ban chuyên môn của Đoàn - Hội BIT được đặt thành bốn viên đá quý, mỗi viên một màu, một tính cách, một kiểu công việc.</p>
-            <p>Điều chương trình muốn tránh là tình trạng sinh viên đăng ký vì thấy bạn bè đăng ký, rồi ba tháng sau nhận ra mình không hợp. Cho nên toàn bộ cổng thông tin này được thiết kế quanh một câu hỏi: bạn hợp với ban hoặc mảng nào, và vì sao.</p>
+          <div class="col-lg-5 reveal">
+            <p>R.E.S.D mượn hình ảnh vũ trụ để ví von mỗi người hợp với một chỗ khác nhau. Bốn ban chuyên môn của Đoàn - Hội BIT được đặt thành bốn viên đá quý, mỗi viên một màu, một tính cách, một kiểu công việc. Toàn bộ cổng thông tin này được thiết kế quanh một câu hỏi: bạn hợp với ban hoặc mảng nào, và vì sao.</p>
           </div>
-          <div class="col-lg-5">
+          <div class="col-lg-7">
             <div class="panel reveal">
               <h3>Bạn nhận được gì</h3>
               {gem_list([
@@ -1080,8 +1098,8 @@ def build_intro():
             </div>
           </div>
         </div>
-        <div class="hero-actions mt-4 reveal">
-          <button class="btn-ghost" type="button" data-random-mang>🎲 Bốc ngẫu nhiên một lựa chọn để đọc thử</button>
+        <div class="hero-actions reveal">
+          <button class="btn-ghost" type="button" data-random-mang>Bốc ngẫu nhiên một lựa chọn để đọc thử</button>
         </div>
       </div>
     </section>
