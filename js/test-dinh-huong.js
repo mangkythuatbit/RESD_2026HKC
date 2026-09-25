@@ -551,6 +551,15 @@
     const paint = () => {
       const font = (size, weight) => (weight || 400) + " " + size + 'px "Be Vietnam Pro", "Segoe UI", Arial, sans-serif';
       const mono = (size, weight) => (weight || 700) + " " + size + 'px "Space Grotesk", "Segoe UI", Consolas, monospace';
+      const fitFont = (text, maxWidth, startSize, minSize, weight) => {
+        let size = startSize;
+        ctx.font = font(size, weight);
+        while (size > minSize && ctx.measureText(text).width > maxWidth) {
+          size -= 2;
+          ctx.font = font(size, weight);
+        }
+        return size;
+      };
 
       // Nền
       const bg = ctx.createLinearGradient(0, 0, W, H);
@@ -603,7 +612,7 @@
 
       // Tên nhóm
       ctx.fillStyle = "#eef7ff";
-      ctx.font = font(58, 800);
+      fitFont(type.name, W - 192, 58, 42, 800);
       ctx.fillText(type.name, 96, 442);
 
       // Mô tả
@@ -612,7 +621,7 @@
       wrap(ctx, type.line, 96, 500, W - 200, 46);
 
       // Bốn trục
-      let y = 640;
+      let y = 610;
       ctx.font = font(24, 600);
       AXES.forEach((ax, i) => {
         const v = r.u[i];
@@ -644,12 +653,20 @@
       ctx.fillText("BAN ĐƯỢC GỢI Ý", 96, y + 40);
 
       ctx.fillStyle = topBan.color;
-      ctx.font = font(52, 800);
-      ctx.fillText(topBan.gem + " · " + topBan.name, 96, y + 106);
+      const banLabel = topBan.gem + " · " + topBan.name;
+      fitFont(banLabel, W - 192, 52, 36, 800);
+      ctx.fillText(banLabel, 96, y + 106);
 
       ctx.fillStyle = "#a8bacf";
-      ctx.font = font(28, 400);
-      ctx.fillText((topMang.direct ? "Ban" : "Mảng") + " gợi ý: " + topMang.code + " · " + topMang.name + "  —  " + topMang.score + "% tương đồng", 96, y + 158);
+      ctx.font = font(26, 400);
+      wrap(
+        ctx,
+        (topMang.direct ? "Ban" : "Mảng") + " gợi ý: " + topMang.code + " · " + topMang.name + " — " + topMang.score + "% tương đồng",
+        96,
+        y + 154,
+        W - 192,
+        38
+      );
 
       // Chân thẻ
       ctx.strokeStyle = "#a0c5e533";

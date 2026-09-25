@@ -116,9 +116,9 @@ p { max-width: 68ch; }
 .brand-caption { display: block; margin-top: -2px; font-size: .54rem; letter-spacing: .22em; color: var(--resd-muted); }
 .site-header .header-brand {
   display: inline-flex; align-items: center; gap: .55rem;
-  padding-left: 0; line-height: 1;
+  flex: 0 0 auto; padding-left: 0; line-height: 1;
 }
-.header-brand .header-bit { display: inline-flex; align-items: center; gap: .42rem; }
+.header-brand .header-bit { display: inline-flex; flex: 0 0 auto; align-items: center; gap: .42rem; }
 .header-faculty-logo { display: block; width: auto; height: 30px; object-fit: contain; }
 .header-bit-copy { display: grid; }
 .header-bit-copy small {
@@ -126,18 +126,32 @@ p { max-width: 68ch; }
   line-height: 1.25; letter-spacing: .08em;
 }
 .header-bit-copy small span { display: block; white-space: nowrap; }
-.header-brand .brand-divider { color: var(--resd-muted); font-weight: 400; }
-.header-brand .brand-resd { color: var(--resd-cyan); font-size: 1.22rem; letter-spacing: .1em; }
+.header-brand .brand-divider { flex: 0 0 auto; color: var(--resd-muted); font-weight: 400; }
+.header-brand .brand-resd { flex: 0 0 auto; color: var(--resd-cyan); font-size: 1.22rem; letter-spacing: .1em; }
+.header-actions { display: flex; align-items: center; gap: 10px; margin-left: 12px; order: 2; }
+.header-register {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 15px; border: 1px solid var(--resd-cyan); border-radius: 8px;
+  background: var(--resd-cyan); color: #06222f;
+  font-size: .86rem; font-weight: 700; line-height: 1.1; text-decoration: none; white-space: nowrap;
+  transition: background .18s, box-shadow .18s, color .18s;
+}
+.header-register:hover { background: #a8f5f7; color: #041721; box-shadow: 0 0 22px #7ae9ed38; }
+.header-register[aria-disabled="true"] { opacity: .65; }
 
 @media (max-width: 575.98px) {
-  .site-header .header-brand { gap: .32rem; }
+  .site-header .container { padding-left: 14px; padding-right: 14px; }
+  .site-header .header-brand { flex: 0 0 auto; gap: .32rem; margin-right: 0; }
   .header-brand .header-bit { gap: .28rem; }
   .header-faculty-logo { height: 20px; }
-  .header-bit-copy small { font-size: .36rem; letter-spacing: .04em; }
+  .header-bit-copy { display: none; }
   .header-brand .brand-resd { font-size: .9rem; }
+  .header-actions { flex: 0 0 auto; gap: 5px; margin-left: auto; }
+  .header-register { padding: 8px; font-size: .68rem; }
+  .navbar-toggler { padding: 5px 7px; }
 }
 
-.navbar .nav-link { font-size: .94rem; font-weight: 500; padding: 10px 8px; }
+.navbar .nav-link { font-size: .94rem; font-weight: 500; padding: 10px 8px; white-space: nowrap; }
 .navbar .nav-link:hover { color: var(--resd-cyan); }
 .navbar .nav-link.active { color: var(--resd-cyan); font-weight: 700; }
 .navbar-toggler { border-color: var(--resd-line-strong); padding: 6px 10px; }
@@ -163,7 +177,7 @@ p { max-width: 68ch; }
 .nav-l3 > .dropdown-item::after { content: "›"; font-size: 1.15rem; line-height: 1; opacity: .6; }
 .nav-l3 > .dropdown-menu { margin: 0; }
 
-@media (min-width: 992px) {
+@media (min-width: 1400px) {
   .dropdown-menu { min-width: 256px; padding: 8px; }
   .nav-l3 > .dropdown-menu { position: absolute; top: -6px; left: 100%; display: none; min-width: 230px; }
   .nav-l3:hover > .dropdown-menu,
@@ -171,13 +185,15 @@ p { max-width: 68ch; }
   .nav-l3.is-open > .dropdown-menu { display: block; }
 }
 
-@media (max-width: 991.98px) {
-  .navbar-collapse { max-height: 74vh; overflow-y: auto; padding: 10px 0 20px; }
+@media (max-width: 1399.98px) {
+  .site-header .header-brand { order: 0; }
+  .navbar-collapse { order: 3; flex-basis: 100%; max-height: 74vh; overflow-y: auto; padding: 10px 0 20px; }
   .dropdown-menu { border: 0; background: transparent; box-shadow: none; padding-left: 12px; }
   .nav-l3 > .dropdown-item::after { content: "+"; font-size: .95rem; }
   .nav-l3.is-open > .dropdown-item::after { content: "–"; }
   .nav-l3 > .dropdown-menu { display: none; border-left: 1px solid var(--resd-line); }
   .nav-l3.is-open > .dropdown-menu { display: block; }
+  .nav-tool { width: 100%; justify-content: center; margin-top: 12px; }
 }
 
 .gem-dot {
@@ -190,7 +206,7 @@ p { max-width: 68ch; }
   display: inline-flex; align-items: center; gap: 8px;
   padding: 8px 13px; border: 1px solid var(--resd-line-strong); border-radius: 8px;
   background: transparent; color: var(--resd-muted);
-  font-family: inherit; font-size: .84rem;
+  font-family: inherit; font-size: .84rem; white-space: nowrap;
 }
 .nav-tool:hover { border-color: var(--resd-cyan); color: var(--resd-cyan); }
 .nav-tool kbd {
@@ -764,6 +780,21 @@ details.panel > summary:focus-visible { outline: 2px solid var(--resd-cyan); out
   display: inline-flex; align-items: center; gap: .45rem;
   padding-left: 0; line-height: 1;
 }
+
+@media (min-width: 1400px) {
+  .site-header .header-brand { gap: .5rem; margin-right: 1.2rem; }
+  .header-faculty-logo { height: 30px; }
+  .header-bit-copy small { font-size: .43rem; letter-spacing: .07em; }
+  .header-brand .brand-resd { font-size: 1.18rem; }
+  .navbar-collapse { min-width: 0; }
+  .navbar-nav { width: 100%; justify-content: space-between; gap: .35rem !important; }
+  .navbar .nav-link { padding: 9px 6px; font-size: .9rem; }
+  .nav-tool { gap: 5px; padding: 8px 11px; font-size: .8rem; }
+  .nav-tool kbd { display: none; }
+  .header-actions { gap: 8px; margin-left: 1rem; }
+  .header-register { padding: 10px 14px; font-size: .84rem; }
+}
+
 .footer-faculty { display: inline-flex; align-items: center; gap: .35rem; }
 .footer-faculty-logo { display: block; width: auto; height: 28px; object-fit: contain; }
 .footer-faculty-copy {
@@ -809,7 +840,6 @@ details.panel > summary:focus-visible { outline: 2px solid var(--resd-cyan); out
   .planet-scene { max-width: 430px; }
   .planet-wordmark { font-size: 1.9rem; }
   .hero-bottom { margin-top: 14px; }
-  .nav-tool { width: 100%; justify-content: center; margin-top: 12px; }
 }
 
 @media (max-width: 575.98px) {

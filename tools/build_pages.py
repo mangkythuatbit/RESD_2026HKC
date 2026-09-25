@@ -339,8 +339,7 @@ BANS = [
         "soft": "#6ce8ae22",
         "name": "Ban Học tập - Nghiên cứu khoa học",
         "short": "HT-NCKH",
-        "tagline": "Sinh viên vào đại học để học. Emerald bảo đảm phần đó không bị bỏ lại "
-                   "phía sau các hoạt động phong trào.",
+        "tagline": "Emerald biến việc học thành năng lực và sự tò mò thành những đề tài nghiên cứu có giá trị.",
         "mission": [
             "Emerald biến kiến thức rời rạc thành thứ dùng được: tài liệu ôn tập, workshop kỹ năng, "
             "và những buổi chia sẻ từ người đã đi trước.",
@@ -497,11 +496,10 @@ def navbar(active):
     ban_active = " active" if active in BAN_BY_ID else ""
     return f"""  <header class="site-header">
     <div class="read-bar" aria-hidden="true"></div>
-    <nav class="navbar navbar-expand-lg container" aria-label="Điều hướng chính">
-      <a class="navbar-brand brand header-brand" href="index.html" aria-label="Đoàn - Hội khoa Công nghệ thông tin kinh doanh | R.E.S.D — Trang chủ"><span class="header-bit"><img class="header-faculty-logo" src="assets/images/logo-khoa-trang.png" alt="" width="989" height="335"><span class="header-bit-copy"><small><span>ĐOÀN - HỘI KHOA CÔNG NGHỆ</span><span>THÔNG TIN KINH DOANH</span></small></span></span><span class="brand-divider" aria-hidden="true">|</span><span class="brand-resd">R.E.S.D</span></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Mở menu điều hướng"><span class="navbar-toggler-icon"></span></button>
+    <nav class="navbar navbar-expand-xxl container" aria-label="Điều hướng chính">
+      <a class="navbar-brand brand header-brand" href="index.html" aria-label="Đoàn - Hội khoa Công nghệ thông tin kinh doanh | R.E.S.D — Trang chủ"><span class="header-bit"><img class="header-faculty-logo" src="assets/images/logo-khoa-trang.png" alt="" width="989" height="335"><span class="header-bit-copy"><small><span>ĐOÀN - HỘI</span><span>KHOA CÔNG NGHỆ THÔNG TIN KINH DOANH</span></small></span></span><span class="brand-divider" aria-hidden="true">|</span><span class="brand-resd">R.E.S.D</span></a>
       <div class="collapse navbar-collapse" id="main-nav">
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+        <ul class="navbar-nav ms-auto align-items-xxl-center gap-xxl-2">
           {link("index.html", "Trang chủ", "home")}
           {link("gioi-thieu.html", "R.E.S.D là gì", "gioi-thieu")}
           <li class="nav-item dropdown">
@@ -515,6 +513,10 @@ def navbar(active):
           {link("lien-he.html", "Liên hệ", "lien-he")}
           <li class="nav-item"><button class="nav-tool" type="button" data-palette-open aria-label="Tìm kiếm nhanh trên toàn bộ cổng thông tin">Tìm nhanh <kbd>Ctrl</kbd><kbd>K</kbd></button></li>
         </ul>
+      </div>
+      <div class="header-actions">
+        <a class="header-register" data-config-link="formOpenUrl">Đơn đăng ký</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Mở menu điều hướng"><span class="navbar-toggler-icon"></span></button>
       </div>
     </nav>
   </header>"""
@@ -539,7 +541,7 @@ def footer():
     <div class="container">
       <div class="row gy-4">
         <div class="col-lg-4">
-          <a class="navbar-brand brand footer-brand" href="index.html" aria-label="Đoàn - Hội khoa Công nghệ thông tin kinh doanh | R.E.S.D — Trang chủ"><span class="footer-faculty"><img class="footer-faculty-logo" src="assets/images/logo-khoa-trang.png" alt="" width="989" height="335"><span class="footer-faculty-copy"><span>ĐOÀN - HỘI KHOA CÔNG NGHỆ</span><span>THÔNG TIN KINH DOANH</span></span></span><span class="footer-divider" aria-hidden="true">|</span><span class="footer-resd">R.E.S.D</span></a>
+          <a class="navbar-brand brand footer-brand" href="index.html" aria-label="Đoàn - Hội khoa Công nghệ thông tin kinh doanh | R.E.S.D — Trang chủ"><span class="footer-faculty"><img class="footer-faculty-logo" src="assets/images/logo-khoa-trang.png" alt="" width="989" height="335"><span class="footer-faculty-copy"><span>ĐOÀN - HỘI</span><span>KHOA CÔNG NGHỆ THÔNG TIN KINH DOANH</span></span></span><span class="footer-divider" aria-hidden="true">|</span><span class="footer-resd">R.E.S.D</span></a>
           <p class="mt-3">Cổng thông tin chương trình R.E.S.D của Đoàn - Hội khoa Công nghệ thông tin kinh doanh, Đại học Kinh tế TP.HCM.</p>
         </div>
         <div class="col-6 col-lg-3">
@@ -892,10 +894,9 @@ def build_home():
             <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> CỔNG THÔNG TIN CHƯƠNG TRÌNH</p>
             <h1 id="hero-title">R.E.S.D<span class="title-star" aria-hidden="true">✦</span></h1>
             <p class="hero-slogan">Mỗi sắc màu.<br>Một hành trình <span>toả sáng.</span></p>
-            <p class="hero-description">Đây là cổng thông tin dành riêng cho chương trình R.E.S.D: bốn ban chuyên môn, tám lựa chọn, một bài kiểm tra định hướng và đường dẫn tới đơn đăng ký. Đi theo thứ tự, bạn sẽ biết mình thuộc về đâu.</p>
+            <p class="hero-description">Đây là cổng thông tin dành riêng cho chương trình R.E.S.D: bốn ban chuyên môn, một bài kiểm tra định hướng và đường dẫn tới đơn đăng ký. Đi theo thứ tự, bạn sẽ biết mình thuộc về đâu.</p>
             <div class="hero-actions">
               <a class="btn-gem" href="test-dinh-huong.html">Bắt đầu: test định hướng</a>
-              <a class="btn-ghost explore-target" href="#resd-planet" id="explore-button">Khám phá bốn viên đá <span aria-hidden="true">↗</span></a>
             </div>
             <p class="hero-note">Bốn viên đá quý. Chung một tinh thần BIT.</p>
           </div>
@@ -939,7 +940,7 @@ def build_home():
             <div class="panel reveal h-100">
               <h3>Một điểm đến, một việc duy nhất</h3>
               <p>Cổng thông tin này được dựng riêng cho R.E.S.D: đi từ chỗ chưa biết gì về bốn ban chuyên môn tới chỗ nộp được một lá đơn đúng ban hoặc mảng, gói gọn trong vài bước.</p>
-              <p>Không có bản tin, không có lịch họp, không có thư viện ảnh — chỉ có bốn viên đá, tám lựa chọn, một bài kiểm tra định hướng và một biểu mẫu đăng ký.</p>
+              <p>Cổng thông tin tập trung vào bốn viên đá đại diện cho bốn ban, tám lựa chọn chuyên môn, bài kiểm tra định hướng và biểu mẫu đăng ký — những thông tin cần thiết để bạn tìm ra nơi phù hợp và bắt đầu hành trình R.E.S.D.</p>
             </div>
           </div>
         </div>
@@ -1054,7 +1055,6 @@ def build_intro():
         <p class="tagline">Một chương trình để sinh viên BIT bước vào Đoàn - Hội khoa qua đúng cánh cửa của mình.</p>
         <ul class="hero-stats">
           <li><b>4</b>ban chuyên môn</li>
-          <li><b>8</b>lựa chọn chuyên môn</li>
           <li><b>24</b>câu định hướng</li>
         </ul>
       </div>
@@ -1136,8 +1136,7 @@ def build_test():
         <ul class="hero-stats">
           <li><b>24</b>câu hỏi</li>
           <li><b>~6</b>phút</li>
-          <li><b>4</b>trục tính cách</li>
-          <li><b>8</b>lựa chọn được đối chiếu</li>
+          <li><b>4</b>trục xu hướng</li>
         </ul>
       </div>
     </section>
@@ -1294,12 +1293,12 @@ def build_contact():
         <div class="card-grid grid-3">
           <article class="panel reveal">
             <h3>Fanpage Đoàn - Hội BIT</h3>
-            <p>Kênh chính thức. Nhắn tin trực tiếp để hỏi về đợt tuyển, mảng chuyên môn hoặc lịch phỏng vấn.</p>
+            <p>Kênh chính thức. Nhắn tin trực tiếp để hỏi về đợt tuyển, ban chuyên môn hoặc lịch phỏng vấn.</p>
             <p class="mt-3"><a class="btn-ghost" data-config-link="fanpageUrl">Mở fanpage</a></p>
           </article>
           <article class="panel reveal">
             <h3>Booklet R.E.S.D</h3>
-            <p>Tài liệu đầy đủ về chương trình, nhận diện và các ban. Cổng này là bản rút gọn để đọc nhanh trên điện thoại.</p>
+            <p>Tài liệu đầy đủ về chương trình, nhận diện và các ban.</p>
             <p class="mt-3"><a class="btn-ghost" data-config-link="bookletUrl">Mở booklet</a></p>
           </article>
           <article class="panel reveal">
