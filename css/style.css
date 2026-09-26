@@ -6,16 +6,24 @@
 
 /* 1. Token ---------------------------------------------------------------- */
 :root {
-  --resd-void: #040b16;
-  --resd-bg: #071323;
-  --resd-surface: #0c1d33;
-  --resd-line: #a0c5e526;
-  --resd-line-strong: #a0c5e547;
-  --resd-text: #eef7ff;
-  --resd-muted: #c0d0e2;
-  --resd-dim: #9aacc1;
-  --resd-cyan: #7ae9ed;
+  /* Bộ màu nền chuyển sang tông sáng, hồng/cam đào */
+  --resd-void: #ffe1e8; 
+  --resd-bg: #fff0f3;
+  --resd-surface: #ffffff;
+  
+  /* Chỉnh lại viền cho phù hợp với nền sáng */
+  --resd-line: #ffb3c640;
+  --resd-line-strong: #ffb3c680;
+  
+  /* Màu chữ chuyển sang tông đậm (đỏ đô/hồng đất) để dễ đọc trên nền sáng */
+  --resd-text: #4a1525;
+  --resd-muted: #85485b;
+  --resd-dim: #b57a8b;
+  
+  /* Màu nhấn chính: chuyển từ xanh cyan sang hồng tươi của logo BIT/RESD */
+  --resd-cyan: #ff477e; 
 
+  /* Giữ nguyên màu 4 viên đá theo yêu cầu */
   --gem-sapphire: #6fa8ff;
   --gem-diamond: #b9f6ff;
   --gem-emerald: #6ce8ae;
@@ -23,7 +31,7 @@
 
   /* Màu chủ đạo của trang hiện tại. */
   --gem: var(--resd-cyan);
-  --gem-soft: #7ae9ed22;
+  --gem-soft: #ff477e22;
 
   --font-body: "Be Vietnam Pro", "Segoe UI", Arial, sans-serif;
   --font-code: "Space Grotesk", "Segoe UI", Consolas, monospace;
